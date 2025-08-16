@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - Built on PostgreSQL + Nushell | Vilara</title>
+    <meta name="description" content="Discover Vilara's technical architecture: PostgreSQL database, Nushell scripting, natural language processing, and AI-powered automation.">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" type="image/png" href="assets/images/vilara_logo.png">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <a href="/" class="logo">
+                    <img src="assets/images/vilara_logo.png" alt="Vilara Logo">
+                    <span class="logo-text">Vilara</span>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="/#paths">Solutions</a></li>
+                    <li><a href="/demo.html">Demo</a></li>
+                    <li><a href="/pricing.html">Pricing</a></li>
+                    <li><a href="/how-it-works.html" class="active">How It Works</a></li>
+                    <li><a href="/migration.html">Migration</a></li>
+                    <li><a href="/contact.html" class="btn btn-primary">Get Started</a></li>
+                </ul>
+                <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>How Vilara Works</h1>
+                <p class="hero-subtitle">Built on world-class open source foundations</p>
+                <p class="hero-description">
+                    Vilara combines PostgreSQL's reliability with Nushell's innovation, 
+                    wrapped in an AI-powered natural language interface. 
+                    Industrial-strength technology, consumer-grade simplicity.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Overview -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Technical Architecture</h2>
+                <p>Enterprise-grade foundation, startup-level agility</p>
+            </div>
+            
+            <div style="background: var(--bg-light); padding: 3rem; border-radius: 1rem; margin: 2rem 0;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; text-align: center;">
+                    <div>
+                        <div style="background: #336791; color: white; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem;">🐘</div>
+                        <h3 style="margin-bottom: 0.5rem;">PostgreSQL</h3>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Battle-tested database, ACID compliance, advanced querying</p>
+                    </div>
+                    
+                    <div>
+                        <div style="background: #f1f1f1; color: #333; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem;">🐚</div>
+                        <h3 style="margin-bottom: 0.5rem;">Nushell</h3>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Modern shell for data processing, structured operations</p>
+                    </div>
+                    
+                    <div>
+                        <div style="background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end)); color: white; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem;">🤖</div>
+                        <h3 style="margin-bottom: 0.5rem;">AI Layer</h3>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Natural language processing, intelligent automation</p>
+                    </div>
+                    
+                    <div>
+                        <div style="background: #2563eb; color: white; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem;">☁️</div>
+                        <h3 style="margin-bottom: 0.5rem;">Web Interface</h3>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Modern web app, mobile responsive, real-time updates</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How Natural Language Works -->
+    <section class="customer-paths">
+        <div class="container">
+            <div class="section-header">
+                <h2>Natural Language Processing</h2>
+                <p>From English to SQL in milliseconds</p>
+            </div>
+            
+            <div style="max-width: 900px; margin: 0 auto;">
+                <div style="background: white; border-radius: 1rem; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <div style="display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 1rem; align-items: center; text-align: center;">
+                        <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 0.5rem;">
+                            <h4 style="color: var(--primary-gradient-start); margin-bottom: 0.5rem;">1. User Input</h4>
+                            <p style="font-style: italic; color: var(--text-light);">"Show me all overdue invoices from Texas customers"</p>
+                        </div>
+                        
+                        <div style="font-size: 1.5rem; color: var(--primary-gradient-start);">→</div>
+                        
+                        <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 0.5rem;">
+                            <h4 style="color: var(--primary-gradient-start); margin-bottom: 0.5rem;">2. AI Parse</h4>
+                            <p style="color: var(--text-light);">Intent recognition, entity extraction, context analysis</p>
+                        </div>
+                        
+                        <div style="font-size: 1.5rem; color: var(--primary-gradient-start);">→</div>
+                        
+                        <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 0.5rem;">
+                            <h4 style="color: var(--primary-gradient-start); margin-bottom: 0.5rem;">3. SQL Generation</h4>
+                            <p style="color: var(--text-light);">Optimized query generation, security validation</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-light);">
+                        <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: center; text-align: center;">
+                            <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 0.5rem;">
+                                <h4 style="color: var(--primary-gradient-start); margin-bottom: 0.5rem;">4. Database Query</h4>
+                                <p style="color: var(--text-light);">PostgreSQL execution, result formatting</p>
+                            </div>
+                            
+                            <div style="font-size: 1.5rem; color: var(--primary-gradient-start);">→</div>
+                            
+                            <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 0.5rem;">
+                                <h4 style="color: var(--primary-gradient-start); margin-bottom: 0.5rem;">5. Intelligent Response</h4>
+                                <p style="color: var(--text-light);">Formatted results, insights, suggested actions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Capabilities -->
+    <section class="features" style="background: var(--bg-light);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Core Capabilities</h2>
+                <p>What makes Vilara 95% faster than traditional ERPs</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Queries</h3>
+                    <p>Natural language to results in under 1 second. No menus, no forms, just ask.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Process Automation</h3>
+                    <p>Create workflows with plain English. "When inventory drops below 100, order 500 more."</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <h3>Dynamic Reports</h3>
+                    <p>Generate any report instantly. No IT requests, no waiting weeks for development.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">🔗</div>
+                    <h3>Smart Integration</h3>
+                    <p>Connect to any system with natural language mapping. No complex ETL tools.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Predictive Insights</h3>
+                    <p>AI analyzes patterns and suggests optimizations. Proactive, not reactive.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Self-Healing</h3>
+                    <p>Automatic error detection and resolution. Minimal downtime, maximum reliability.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Architecture -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Data Architecture</h2>
+                <p>Your data, your control, no vendor lock-in</p>
+            </div>
+            
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div style="background: white; border-radius: 1rem; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary-gradient-start);">PostgreSQL at the Core</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                        <div>
+                            <h4 style="margin-bottom: 1rem;">🔐 Security</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 0.25rem 0;">• Row-level security</li>
+                                <li style="padding: 0.25rem 0;">• Encryption at rest</li>
+                                <li style="padding: 0.25rem 0;">• Role-based access</li>
+                                <li style="padding: 0.25rem 0;">• Audit logging</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 style="margin-bottom: 1rem;">⚡ Performance</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 0.25rem 0;">• Advanced indexing</li>
+                                <li style="padding: 0.25rem 0;">• Query optimization</li>
+                                <li style="padding: 0.25rem 0;">• Parallel processing</li>
+                                <li style="padding: 0.25rem 0;">• Intelligent caching</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 style="margin-bottom: 1rem;">🔄 Reliability</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 0.25rem 0;">• ACID compliance</li>
+                                <li style="padding: 0.25rem 0;">• Automatic backups</li>
+                                <li style="padding: 0.25rem 0;">• Point-in-time recovery</li>
+                                <li style="padding: 0.25rem 0;">• High availability</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 style="margin-bottom: 1rem;">🌍 Scalability</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 0.25rem 0;">• Horizontal scaling</li>
+                                <li style="padding: 0.25rem 0;">• Partitioning</li>
+                                <li style="padding: 0.25rem 0;">• Load balancing</li>
+                                <li style="padding: 0.25rem 0;">• Cloud native</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end)); color: white; padding: 2rem; border-radius: 1rem;">
+                    <h3 style="margin-bottom: 1rem;">You Own Everything</h3>
+                    <p style="margin-bottom: 1.5rem;">Your data stays in your PostgreSQL database. Export anytime, migrate anywhere, no vendor lock-in.</p>
+                    <a href="/contact.html" class="btn btn-secondary" style="background: white; color: var(--primary-gradient-start);">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Development Approach -->
+    <section class="customer-paths" style="background: var(--bg-light);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Modern Development Approach</h2>
+                <p>How we deliver features 10x faster than traditional ERPs</p>
+            </div>
+            
+            <div class="paths-grid">
+                <div class="path-card">
+                    <div class="path-icon">🚀</div>
+                    <h3>AI-Augmented Development</h3>
+                    <p>Our development team uses AI tools to build features faster while maintaining quality</p>
+                    <ul>
+                        <li>Automated testing</li>
+                        <li>Code generation</li>
+                        <li>Quality assurance</li>
+                        <li>Rapid prototyping</li>
+                    </ul>
+                </div>
+                
+                <div class="path-card">
+                    <div class="path-icon">🔧</div>
+                    <h3>Composable Architecture</h3>
+                    <p>Modular design allows rapid feature addition and customization</p>
+                    <ul>
+                        <li>Plugin system</li>
+                        <li>API-first design</li>
+                        <li>Microservices</li>
+                        <li>Event-driven</li>
+                    </ul>
+                </div>
+                
+                <div class="path-card">
+                    <div class="path-icon">⚡</div>
+                    <h3>Continuous Delivery</h3>
+                    <p>New features and improvements deployed weekly, not yearly</p>
+                    <ul>
+                        <li>Automated deployment</li>
+                        <li>Zero-downtime updates</li>
+                        <li>Feature flags</li>
+                        <li>Rollback capability</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security & Compliance -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Security & Compliance</h2>
+                <p>Enterprise-grade security built in from day one</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: var(--primary-gradient-start); margin-bottom: 1rem;">🔐 Data Protection</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 0.5rem 0;">• AES-256 encryption</li>
+                        <li style="padding: 0.5rem 0;">• TLS 1.3 in transit</li>
+                        <li style="padding: 0.5rem 0;">• Zero-knowledge architecture</li>
+                        <li style="padding: 0.5rem 0;">• Regular security audits</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: var(--primary-gradient-start); margin-bottom: 1rem;">✅ Compliance Ready</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 0.5rem 0;">• SOX compliance features</li>
+                        <li style="padding: 0.5rem 0;">• GDPR data handling</li>
+                        <li style="padding: 0.5rem 0;">• HIPAA compatibility</li>
+                        <li style="padding: 0.5rem 0;">• SOC 2 Type II</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: var(--primary-gradient-start); margin-bottom: 1rem;">👥 Access Control</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 0.5rem 0;">• Role-based permissions</li>
+                        <li style="padding: 0.5rem 0;">• Multi-factor authentication</li>
+                        <li style="padding: 0.5rem 0;">• SSO integration</li>
+                        <li style="padding: 0.5rem 0;">• Session management</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="hero" style="padding: 60px 0;">
+        <div class="container">
+            <div class="hero-content">
+                <h2 style="font-size: 2rem; margin-bottom: 1rem;">Ready to Experience the Future of ERP?</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                    See how PostgreSQL + Nushell + AI creates the fastest ERP ever built.
+                </p>
+                <div>
+                    <a href="/demo.html" class="btn btn-primary" style="margin-right: 1rem;">Try Interactive Demo</a>
+                    <a href="/contact.html" class="btn btn-secondary">Schedule Technical Overview</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="/how-it-works.html">How It Works</a></li>
+                        <li><a href="/demo.html">Interactive Demo</a></li>
+                        <li><a href="/pricing.html">Pricing</a></li>
+                        <li><a href="/migration.html">Migration Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Solutions</h3>
+                    <ul>
+                        <li><a href="/solutions/augmentation.html">ERP Augmentation</a></li>
+                        <li><a href="/solutions/replacement.html">ERP Replacement</a></li>
+                        <li><a href="/solutions/first-time.html">First-Time ERP</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="/about.html">About Us</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                        <li><a href="/blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li>Email: info@vilara.ai</li>
+                        <li>Phone: 1-800-VILARA-1</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Vilara. All rights reserved. | Built with ❤️ on PostgreSQL + Nushell</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

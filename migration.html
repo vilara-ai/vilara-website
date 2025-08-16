@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migration Guide - From QuickBooks, NetSuite, SAP to Vilara | Vilara</title>
+    <meta name="description" content="Complete migration guide for transitioning from QuickBooks, NetSuite, SAP, or any ERP system to Vilara. Automated tools, expert support, zero data loss.">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" type="image/png" href="assets/images/vilara_logo.png">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <a href="/" class="logo">
+                    <img src="assets/images/vilara_logo.png" alt="Vilara Logo">
+                    <span class="logo-text">Vilara</span>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="/#paths">Solutions</a></li>
+                    <li><a href="/demo.html">Demo</a></li>
+                    <li><a href="/pricing.html">Pricing</a></li>
+                    <li><a href="/how-it-works.html">How It Works</a></li>
+                    <li><a href="/migration.html" class="active">Migration</a></li>
+                    <li><a href="/contact.html" class="btn btn-primary">Get Started</a></li>
+                </ul>
+                <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Migration Made Simple</h1>
+                <p class="hero-subtitle">From any ERP to Vilara in days, not months</p>
+                <p class="hero-description">
+                    Complete migration tools and expert support for QuickBooks, NetSuite, SAP, Oracle, 
+                    and any other ERP system. Automated data transfer, zero downtime, 100% data integrity.
+                </p>
+                <div style="margin-top: 2rem;">
+                    <a href="/contact.html" class="btn btn-primary">Get Migration Plan</a>
+                    <a href="#migration-calculator" class="btn btn-secondary">Calculate Timeline</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Supported Systems -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Migrate From Any System</h2>
+                <p>Automated migration tools for popular ERPs, custom solutions for everything else</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                    <h3>QuickBooks</h3>
+                    <p style="color: var(--text-light);">Desktop & Online</p>
+                    <div style="color: var(--success); font-weight: 600; margin-top: 1rem;">✓ Automated</div>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🌐</div>
+                    <h3>NetSuite</h3>
+                    <p style="color: var(--text-light);">All modules</p>
+                    <div style="color: var(--success); font-weight: 600; margin-top: 1rem;">✓ Automated</div>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🏢</div>
+                    <h3>SAP</h3>
+                    <p style="color: var(--text-light);">Business One & S/4HANA</p>
+                    <div style="color: var(--warning); font-weight: 600; margin-top: 1rem;">◐ Assisted</div>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🔷</div>
+                    <h3>Oracle</h3>
+                    <p style="color: var(--text-light);">Cloud & On-Premise</p>
+                    <div style="color: var(--warning); font-weight: 600; margin-top: 1rem;">◐ Assisted</div>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📋</div>
+                    <h3>Sage</h3>
+                    <p style="color: var(--text-light);">50, 100, X3</p>
+                    <div style="color: var(--success); font-weight: 600; margin-top: 1rem;">✓ Automated</div>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">❓</div>
+                    <h3>Custom/Other</h3>
+                    <p style="color: var(--text-light);">Any system</p>
+                    <div style="color: var(--primary-gradient-start); font-weight: 600; margin-top: 1rem;">⚡ Expert</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; background: var(--bg-light); padding: 2rem; border-radius: 1rem;">
+                <p style="font-size: 1.1rem; color: var(--text-dark); margin-bottom: 1rem;">
+                    <strong>Don't see your system?</strong> We migrate from any ERP, database, or spreadsheet system.
+                </p>
+                <a href="/contact.html" class="btn btn-primary">Discuss Your Migration</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Migration Process -->
+    <section class="customer-paths">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Migration Process</h2>
+                <p>Proven methodology used by hundreds of successful migrations</p>
+            </div>
+            
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <!-- Phase 1 -->
+                    <div style="background: white; border-radius: 1rem; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative;">
+                        <div style="position: absolute; top: -15px; left: 20px; background: var(--primary-gradient-start); color: white; padding: 0.5rem 1rem; border-radius: 1rem; font-weight: 600;">Phase 1</div>
+                        <h3 style="margin: 1rem 0; color: var(--primary-gradient-start);">Discovery & Planning</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.5rem 0;">🔍 Current system audit</li>
+                            <li style="padding: 0.5rem 0;">📊 Data mapping analysis</li>
+                            <li style="padding: 0.5rem 0;">🎯 Migration strategy</li>
+                            <li style="padding: 0.5rem 0;">📅 Timeline & milestones</li>
+                        </ul>
+                        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-light); color: var(--text-light);">
+                            <strong>Duration:</strong> 3-5 days
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 2 -->
+                    <div style="background: white; border-radius: 1rem; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative;">
+                        <div style="position: absolute; top: -15px; left: 20px; background: var(--primary-gradient-start); color: white; padding: 0.5rem 1rem; border-radius: 1rem; font-weight: 600;">Phase 2</div>
+                        <h3 style="margin: 1rem 0; color: var(--primary-gradient-start);">Environment Setup</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.5rem 0;">🏗️ Vilara environment setup</li>
+                            <li style="padding: 0.5rem 0;">🔧 Custom field mapping</li>
+                            <li style="padding: 0.5rem 0;">⚙️ Workflow configuration</li>
+                            <li style="padding: 0.5rem 0;">🔗 Integration setup</li>
+                        </ul>
+                        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-light); color: var(--text-light);">
+                            <strong>Duration:</strong> 1-2 weeks
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 3 -->
+                    <div style="background: white; border-radius: 1rem; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative;">
+                        <div style="position: absolute; top: -15px; left: 20px; background: var(--primary-gradient-start); color: white; padding: 0.5rem 1rem; border-radius: 1rem; font-weight: 600;">Phase 3</div>
+                        <h3 style="margin: 1rem 0; color: var(--primary-gradient-start);">Data Migration</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.5rem 0;">📤 Data extraction</li>
+                            <li style="padding: 0.5rem 0;">🔄 Data transformation</li>
+                            <li style="padding: 0.5rem 0;">📥 Data loading</li>
+                            <li style="padding: 0.5rem 0;">✅ Validation & testing</li>
+                        </ul>
+                        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-light); color: var(--text-light);">
+                            <strong>Duration:</strong> 3-5 days
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 4 -->
+                    <div style="background: white; border-radius: 1rem; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative;">
+                        <div style="position: absolute; top: -15px; left: 20px; background: var(--primary-gradient-start); color: white; padding: 0.5rem 1rem; border-radius: 1rem; font-weight: 600;">Phase 4</div>
+                        <h3 style="margin: 1rem 0; color: var(--primary-gradient-start);">Testing & Training</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.5rem 0;">🧪 User acceptance testing</li>
+                            <li style="padding: 0.5rem 0;">👥 Team training</li>
+                            <li style="padding: 0.5rem 0;">📝 Process documentation</li>
+                            <li style="padding: 0.5rem 0;">🔧 Final adjustments</li>
+                        </ul>
+                        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-light); color: var(--text-light);">
+                            <strong>Duration:</strong> 1 week
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 5 -->
+                    <div style="background: white; border-radius: 1rem; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative;">
+                        <div style="position: absolute; top: -15px; left: 20px; background: var(--success); color: white; padding: 0.5rem 1rem; border-radius: 1rem; font-weight: 600;">Go Live</div>
+                        <h3 style="margin: 1rem 0; color: var(--success);">Production Launch</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.5rem 0;">🚀 System cutover</li>
+                            <li style="padding: 0.5rem 0;">📊 Live monitoring</li>
+                            <li style="padding: 0.5rem 0;">🆘 Immediate support</li>
+                            <li style="padding: 0.5rem 0;">📈 Performance optimization</li>
+                        </ul>
+                        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-light); color: var(--text-light);">
+                            <strong>Duration:</strong> 1-2 days
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 6 -->
+                    <div style="background: white; border-radius: 1rem; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative;">
+                        <div style="position: absolute; top: -15px; left: 20px; background: var(--success); color: white; padding: 0.5rem 1rem; border-radius: 1rem; font-weight: 600;">Post-Launch</div>
+                        <h3 style="margin: 1rem 0; color: var(--success);">Ongoing Support</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.5rem 0;">🎯 Success monitoring</li>
+                            <li style="padding: 0.5rem 0;">🔧 Fine-tuning</li>
+                            <li style="padding: 0.5rem 0;">📚 Additional training</li>
+                            <li style="padding: 0.5rem 0;">🚀 Feature expansion</li>
+                        </ul>
+                        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-light); color: var(--text-light);">
+                            <strong>Duration:</strong> 30 days
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Migration Calculator -->
+    <section id="migration-calculator" class="roi-calculator">
+        <div class="container">
+            <div class="section-header">
+                <h2>Migration Timeline Calculator</h2>
+                <p>Get an estimate of your migration timeline and complexity</p>
+            </div>
+            
+            <div class="calculator-container">
+                <div class="calculator-inputs">
+                    <div class="input-group">
+                        <label for="current-system">Current ERP System</label>
+                        <select id="current-system" style="padding: 0.75rem; border: 1px solid var(--border-light); border-radius: 0.5rem; font-size: 1rem;">
+                            <option value="quickbooks">QuickBooks</option>
+                            <option value="netsuite">NetSuite</option>
+                            <option value="sap">SAP</option>
+                            <option value="oracle">Oracle</option>
+                            <option value="sage">Sage</option>
+                            <option value="spreadsheets">Spreadsheets</option>
+                            <option value="custom">Custom/Other</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="data-complexity">Data Complexity</label>
+                        <select id="data-complexity" style="padding: 0.75rem; border: 1px solid var(--border-light); border-radius: 0.5rem; font-size: 1rem;">
+                            <option value="simple">Simple (Standard data)</option>
+                            <option value="moderate">Moderate (Some customization)</option>
+                            <option value="complex">Complex (Heavy customization)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="migration-type">Migration Approach</label>
+                        <select id="migration-type" style="padding: 0.75rem; border: 1px solid var(--border-light); border-radius: 0.5rem; font-size: 1rem;">
+                            <option value="full">Full Replacement</option>
+                            <option value="gradual">Gradual Migration</option>
+                            <option value="augmentation">Start with Augmentation</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="migration-results" class="roi-results">
+                    <h3>Your Migration Estimate</h3>
+                    <div class="roi-metric">
+                        <span>Estimated Timeline:</span>
+                        <span class="roi-value" id="migration-timeline">4-6 weeks</span>
+                    </div>
+                    <div class="roi-metric">
+                        <span>Migration Complexity:</span>
+                        <span class="roi-value" id="migration-complexity">Moderate</span>
+                    </div>
+                    <div class="roi-metric">
+                        <span>Automation Level:</span>
+                        <span class="roi-value" id="automation-level">High</span>
+                    </div>
+                    <div class="roi-metric">
+                        <span>Support Level:</span>
+                        <span class="roi-value" id="support-level">Standard</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Safety -->
+    <section class="features" style="background: var(--bg-light);">
+        <div class="container">
+            <div class="section-header">
+                <h2>100% Data Safety Guarantee</h2>
+                <p>Your data is protected throughout the entire migration process</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Encrypted Transfer</h3>
+                    <p>All data transfers use enterprise-grade encryption in transit and at rest</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">💾</div>
+                    <h3>Complete Backups</h3>
+                    <p>Full system backups before, during, and after migration process</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Parallel Operations</h3>
+                    <p>Keep your old system running until you're 100% confident in Vilara</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">✅</div>
+                    <h3>Data Validation</h3>
+                    <p>Automated verification ensures 100% data integrity and completeness</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">↩️</div>
+                    <h3>Rollback Plan</h3>
+                    <p>Complete rollback procedures if needed (though we've never needed them)</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Insurance Coverage</h3>
+                    <p>Professional liability insurance covers any data-related issues</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Migration Success Stories -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Migration Success Stories</h2>
+                <p>Real results from companies that made the switch</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                        <div style="background: var(--primary-gradient-start); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem; font-weight: 700;">M</div>
+                        <div>
+                            <h4>Manufacturing Co.</h4>
+                            <p style="color: var(--text-light); font-size: 0.9rem;">From QuickBooks</p>
+                        </div>
+                    </div>
+                    <p style="font-style: italic; margin-bottom: 1rem;">"Migration took only 3 weeks. We're now processing orders 10x faster and our inventory management is automated."</p>
+                    <div style="color: var(--success); font-weight: 600;">✓ 3 weeks migration</div>
+                    <div style="color: var(--success); font-weight: 600;">✓ Zero downtime</div>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                        <div style="background: var(--primary-gradient-start); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem; font-weight: 700;">T</div>
+                        <div>
+                            <h4>Tech Startup</h4>
+                            <p style="color: var(--text-light); font-size: 0.9rem;">From NetSuite</p>
+                        </div>
+                    </div>
+                    <p style="font-style: italic; margin-bottom: 1rem;">"Saved $200K annually in licenses alone. The natural language interface means no training needed for new hires."</p>
+                    <div style="color: var(--success); font-weight: 600;">✓ 5 weeks migration</div>
+                    <div style="color: var(--success); font-weight: 600;">✓ $200K annual savings</div>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                        <div style="background: var(--primary-gradient-start); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem; font-weight: 700;">D</div>
+                        <div>
+                            <h4>Distribution Co.</h4>
+                            <p style="color: var(--text-light); font-size: 0.9rem;">From SAP</p>
+                        </div>
+                    </div>
+                    <p style="font-style: italic; margin-bottom: 1rem;">"Complex SAP migration completed in 8 weeks. Team productivity increased 95% immediately after go-live."</p>
+                    <div style="color: var(--success); font-weight: 600;">✓ 8 weeks migration</div>
+                    <div style="color: var(--success); font-weight: 600;">✓ 95% productivity gain</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="hero" style="padding: 60px 0;">
+        <div class="container">
+            <div class="hero-content">
+                <h2 style="font-size: 2rem; margin-bottom: 1rem;">Ready to Start Your Migration?</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                    Get a detailed migration plan and timeline for your specific system.
+                </p>
+                <div>
+                    <a href="/contact.html" class="btn btn-primary" style="margin-right: 1rem;">Get Migration Assessment</a>
+                    <a href="/demo.html" class="btn btn-secondary">See Vilara Demo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="/how-it-works.html">How It Works</a></li>
+                        <li><a href="/demo.html">Interactive Demo</a></li>
+                        <li><a href="/pricing.html">Pricing</a></li>
+                        <li><a href="/migration.html">Migration Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Solutions</h3>
+                    <ul>
+                        <li><a href="/solutions/augmentation.html">ERP Augmentation</a></li>
+                        <li><a href="/solutions/replacement.html">ERP Replacement</a></li>
+                        <li><a href="/solutions/first-time.html">First-Time ERP</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="/about.html">About Us</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                        <li><a href="/blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li>Email: info@vilara.ai</li>
+                        <li>Phone: 1-800-VILARA-1</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Vilara. All rights reserved. | Built with ❤️ on PostgreSQL + Nushell</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Migration calculator
+        function updateMigrationEstimate() {
+            const system = document.getElementById('current-system').value;
+            const complexity = document.getElementById('data-complexity').value;
+            const type = document.getElementById('migration-type').value;
+            
+            let timeline = "4-6 weeks";
+            let complexityLevel = "Moderate";
+            let automation = "High";
+            let support = "Standard";
+            
+            // Adjust based on system
+            if (system === 'quickbooks' || system === 'spreadsheets') {
+                timeline = "2-3 weeks";
+                automation = "Fully Automated";
+            } else if (system === 'sap' || system === 'oracle') {
+                timeline = "6-12 weeks";
+                support = "Expert";
+            } else if (system === 'custom') {
+                timeline = "8-16 weeks";
+                complexityLevel = "High";
+                support = "Expert";
+                automation = "Assisted";
+            }
+            
+            // Adjust based on complexity
+            if (complexity === 'complex') {
+                timeline = timeline.split('-').map(w => w.includes('weeks') ? 
+                    (parseInt(w) + 2) + ' weeks' : w).join('-');
+                complexityLevel = "High";
+                support = "Expert";
+            } else if (complexity === 'simple') {
+                timeline = timeline.split('-').map(w => w.includes('weeks') ? 
+                    Math.max(1, parseInt(w) - 1) + ' weeks' : w).join('-');
+                complexityLevel = "Low";
+            }
+            
+            // Adjust based on type
+            if (type === 'augmentation') {
+                timeline = "1-2 weeks";
+                complexityLevel = "Low";
+            } else if (type === 'gradual') {
+                timeline = "4-24 weeks";
+                complexityLevel = "Phased";
+            }
+            
+            document.getElementById('migration-timeline').textContent = timeline;
+            document.getElementById('migration-complexity').textContent = complexityLevel;
+            document.getElementById('automation-level').textContent = automation;
+            document.getElementById('support-level').textContent = support;
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const selects = document.querySelectorAll('#migration-calculator select');
+            selects.forEach(select => {
+                select.addEventListener('change', updateMigrationEstimate);
+            });
+            updateMigrationEstimate();
+        });
+    </script>
+</body>
+</html>

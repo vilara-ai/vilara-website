@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Get Started | Vilara</title>
+    <meta name="description" content="Start with Vilara: Free for small teams, personalized consultation for larger companies. Choose your path to modern ERP.">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" type="image/png" href="assets/images/vilara_logo.png">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <a href="/" class="logo">
+                    <img src="assets/images/vilara_logo.png" alt="Vilara Logo">
+                    <span class="logo-text">Vilara</span>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="/#paths">Solutions</a></li>
+                    <li><a href="/demo.html">Demo</a></li>
+                    <li><a href="/pricing.html">Pricing</a></li>
+                    <li><a href="/how-it-works.html">How It Works</a></li>
+                    <li><a href="/migration.html">Migration</a></li>
+                    <li><a href="/contact.html" class="btn btn-primary active">Get Started</a></li>
+                </ul>
+                <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Get Started with Vilara</h1>
+                <p class="hero-subtitle">Choose the path that's right for your company size</p>
+                <p class="hero-description">
+                    Small team? Start free instantly. Larger company? Get personalized guidance. 
+                    Either way, we're here to help you succeed.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Options -->
+    <section class="customer-paths">
+        <div class="container">
+            <div class="section-header">
+                <h2>Choose Your Path</h2>
+                <p>The right approach depends on your company size</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 3rem; max-width: 900px; margin: 0 auto;">
+                <div id="free" class="path-card" data-form="free" style="border: 2px solid var(--success);">
+                    <div style="background: var(--success); color: white; text-align: center; padding: 0.5rem; margin: -2rem -2rem 2rem; border-radius: 1rem 1rem 0 0;">
+                        <strong>MOST POPULAR</strong>
+                    </div>
+                    <div class="path-icon">🚀</div>
+                    <h3>Start Free</h3>
+                    <p style="font-weight: 600; color: var(--text-dark);">Perfect for companies under 25 employees</p>
+                    <ul>
+                        <li>Instant access - no demo needed</li>
+                        <li>Core features free forever for small teams</li>
+                        <li>Core ERP modules included</li>
+                        <li>Natural language interface</li>
+                        <li>Community support</li>
+                        <li>Upgrade when you grow</li>
+                    </ul>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="showForm('free')">Start Free Today</button>
+                </div>
+                
+                <div id="consultation" class="path-card" data-form="consultation">
+                    <div class="path-icon">🎯</div>
+                    <h3>Schedule Consultation</h3>
+                    <p style="font-weight: 600; color: var(--text-dark);">Perfect for companies with 25+ employees</p>
+                    <ul>
+                        <li>Personalized implementation roadmap</li>
+                        <li>Live demo with your data scenarios</li>
+                        <li>Migration strategy & timeline</li>
+                        <li>Custom ROI analysis</li>
+                        <li>Expert Q&A session</li>
+                        <li>Dedicated success manager</li>
+                    </ul>
+                    <button class="btn btn-secondary" style="width: 100%; margin-top: 1rem;" onclick="showForm('consultation')">Schedule Consultation</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Forms -->
+    <section class="roi-calculator">
+        <div class="container">
+            <div class="calculator-container">
+                <!-- Free Form -->
+                <div id="free-form" class="contact-form" style="display: none;">
+                    <h2 style="text-align: center; margin-bottom: 2rem; color: var(--success);">Start Free Today</h2>
+                    <p style="text-align: center; margin-bottom: 2rem; color: var(--text-light);">Get instant access to Vilara - perfect for teams under 25 employees</p>
+                    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                        <input type="hidden" name="form_type" value="free">
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="input-group">
+                                <label for="free-name">Full Name *</label>
+                                <input type="text" id="free-name" name="name" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="free-email">Email Address *</label>
+                                <input type="email" id="free-email" name="email" required>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="input-group">
+                                <label for="free-company">Company Name *</label>
+                                <input type="text" id="free-company" name="company" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="free-employees">Number of Employees *</label>
+                                <select id="free-employees" name="employees" required>
+                                    <option value="">Select company size</option>
+                                    <option value="1-5">1-5</option>
+                                    <option value="6-10">6-10</option>
+                                    <option value="11-15">11-15</option>
+                                    <option value="16-20">16-20</option>
+                                    <option value="21-25">21-25</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="input-group">
+                                <label for="free-industry">Industry</label>
+                                <select id="free-industry" name="industry">
+                                    <option value="">Select industry</option>
+                                    <option value="Manufacturing">Manufacturing</option>
+                                    <option value="Distribution">Distribution</option>
+                                    <option value="Retail">Retail</option>
+                                    <option value="Services">Services</option>
+                                    <option value="Technology">Technology</option>
+                                    <option value="Healthcare">Healthcare</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="free-current-system">Current System</label>
+                                <select id="free-current-system" name="current_system">
+                                    <option value="">What do you use now?</option>
+                                    <option value="Spreadsheets">Spreadsheets</option>
+                                    <option value="QuickBooks">QuickBooks</option>
+                                    <option value="Basic accounting software">Basic accounting software</option>
+                                    <option value="Multiple disconnected tools">Multiple disconnected tools</option>
+                                    <option value="Nothing formal">Nothing formal</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group" style="margin-bottom: 1.5rem;">
+                            <label for="free-goals">What do you want to accomplish? *</label>
+                            <textarea id="free-goals" name="goals" rows="3" placeholder="What business processes do you want to streamline or automate?" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%; background: var(--success);">Get Free Access</button>
+                        <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">No credit card required • Instant setup • Free forever</p>
+                    </form>
+                </div>
+
+                <!-- Consultation Form -->
+                <div id="consultation-form" class="contact-form" style="display: none;">
+                    <h2 style="text-align: center; margin-bottom: 2rem; color: var(--primary-gradient-start);">Schedule Your Consultation</h2>
+                    <p style="text-align: center; margin-bottom: 2rem; color: var(--text-light);">Get personalized guidance for companies with 25+ employees</p>
+                    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                        <input type="hidden" name="form_type" value="consultation">
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="input-group">
+                                <label for="consultation-name">Full Name *</label>
+                                <input type="text" id="consultation-name" name="name" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="consultation-email">Email Address *</label>
+                                <input type="email" id="consultation-email" name="email" required>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="input-group">
+                                <label for="consultation-company">Company Name *</label>
+                                <input type="text" id="consultation-company" name="company" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="consultation-role">Your Role</label>
+                                <input type="text" id="consultation-role" name="role" placeholder="e.g., CFO, IT Director, Operations Manager">
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="input-group">
+                                <label for="consultation-employees">Number of Employees *</label>
+                                <select id="consultation-employees" name="employees" required>
+                                    <option value="">Select company size</option>
+                                    <option value="25-50">25-50</option>
+                                    <option value="51-100">51-100</option>
+                                    <option value="101-250">101-250</option>
+                                    <option value="251-500">251-500</option>
+                                    <option value="500+">500+</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="consultation-current-system">Current ERP System *</label>
+                                <select id="consultation-current-system" name="current_system" required>
+                                    <option value="">Select your current system</option>
+                                    <option value="QuickBooks">QuickBooks</option>
+                                    <option value="NetSuite">NetSuite</option>
+                                    <option value="SAP">SAP</option>
+                                    <option value="Oracle">Oracle</option>
+                                    <option value="Sage">Sage</option>
+                                    <option value="Multiple systems">Multiple disconnected systems</option>
+                                    <option value="Legacy custom system">Legacy custom system</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group" style="margin-bottom: 1.5rem;">
+                            <label for="consultation-goals">What are your main goals? *</label>
+                            <textarea id="consultation-goals" name="goals" rows="4" placeholder="Tell us about your current challenges and what you hope to achieve with a modern ERP system..." required></textarea>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="input-group">
+                                <label for="consultation-timeline">Timeline for Decision</label>
+                                <select id="consultation-timeline" name="timeline">
+                                    <option value="Immediate">Immediate (within 30 days)</option>
+                                    <option value="3 months">Within 3 months</option>
+                                    <option value="6 months">Within 6 months</option>
+                                    <option value="1 year">Within 1 year</option>
+                                    <option value="Exploring">Just exploring options</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="consultation-approach">Interest Level</label>
+                                <select id="consultation-approach" name="approach">
+                                    <option value="Augmentation">Augment current ERP</option>
+                                    <option value="Replacement">Replace current ERP</option>
+                                    <option value="Both">Explore both options</option>
+                                    <option value="Unsure">Not sure - need guidance</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Schedule Consultation</button>
+                        <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">30-minute call • Personalized demo • Custom roadmap</p>
+                    </form>
+                </div>
+
+
+                <!-- Default Contact Form -->
+                <div id="general-form" class="contact-form">
+                    <h2 style="text-align: center; margin-bottom: 2rem; color: var(--primary-gradient-start);">Get In Touch</h2>
+                    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                        <input type="hidden" name="form_type" value="general">
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="input-group">
+                                <label for="general-name">Full Name *</label>
+                                <input type="text" id="general-name" name="name" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="general-email">Email Address *</label>
+                                <input type="email" id="general-email" name="email" required>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="input-group">
+                                <label for="general-company">Company Name</label>
+                                <input type="text" id="general-company" name="company">
+                            </div>
+                            <div class="input-group">
+                                <label for="general-phone">Phone Number</label>
+                                <input type="tel" id="general-phone" name="phone">
+                            </div>
+                        </div>
+                        
+                        <div class="input-group" style="margin-bottom: 1.5rem;">
+                            <label for="general-subject">Subject *</label>
+                            <select id="general-subject" name="subject" required>
+                                <option value="">Select a topic</option>
+                                <option value="General Inquiry">General Inquiry</option>
+                                <option value="Technical Questions">Technical Questions</option>
+                                <option value="Partnership">Partnership Opportunities</option>
+                                <option value="Support">Customer Support</option>
+                                <option value="Press/Media">Press/Media Inquiry</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group" style="margin-bottom: 1.5rem;">
+                            <label for="general-message">Message *</label>
+                            <textarea id="general-message" name="message" rows="5" placeholder="How can we help you?" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Direct Contact Info -->
+    <section class="features" style="background: var(--bg-light);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Other Ways to Reach Us</h2>
+                <p>Prefer to contact us directly? Here are additional options</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 800px; margin: 0 auto;">
+                <div style="background: white; padding: 2rem; border-radius: 1rem; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <div style="background: var(--primary-gradient-start); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">📧</div>
+                    <h3>Email Us</h3>
+                    <p style="color: var(--text-light); margin-bottom: 1rem;">Get a response within 4 hours</p>
+                    <a href="mailto:info@vilara.ai" style="color: var(--primary-gradient-start); font-weight: 600;">info@vilara.ai</a>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 1rem; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <div style="background: var(--primary-gradient-start); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">📞</div>
+                    <h3>Call Us</h3>
+                    <p style="color: var(--text-light); margin-bottom: 1rem;">Speak with an ERP expert</p>
+                    <a href="tel:1-800-845-2721" style="color: var(--primary-gradient-start); font-weight: 600;">1-800-VILARA-1</a>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 1rem; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <div style="background: var(--primary-gradient-start); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">💬</div>
+                    <h3>Live Chat</h3>
+                    <p style="color: var(--text-light); margin-bottom: 1rem;">Instant answers to your questions</p>
+                    <button class="btn btn-secondary" onclick="openChat()" style="font-size: 0.9rem;">Start Chat</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Quick answers to common questions</p>
+            </div>
+            
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div style="background: white; border-radius: 1rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary-gradient-start);">Is the free version really free?</h3>
+                    <p style="color: var(--text-light);">Yes, completely free forever for companies under 10 employees that don't need all the features. No credit card required, no time limits. Includes core ERP modules and community support.</p>
+                </div>
+                
+                <div style="background: white; border-radius: 1rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary-gradient-start);">What happens when we grow past 10 employees or want the full 'blow my mind' features?</h3>
+                    <p style="color: var(--text-light);">You can upgrade to the Professional plan anytime, just let us know when you're ready and we'll make sure you have a smooth transition to nirvana.</p>
+                </div>
+                
+                <div style="background: white; border-radius: 1rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary-gradient-start);">How long does a consultation take?</h3>
+                    <p style="color: var(--text-light);">Consultations are typically 30 minutes and include a personalized demo, ROI analysis, and implementation roadmap tailored to your specific needs.</p>
+                </div>
+                
+                <div style="background: white; border-radius: 1rem; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary-gradient-start);">How quickly can we get started?</h3>
+                    <p style="color: var(--text-light);">Small teams can start immediately with the free version. Larger companies can begin after consultation, typically within 1-2 weeks with full implementation support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="/how-it-works.html">How It Works</a></li>
+                        <li><a href="/demo.html">Interactive Demo</a></li>
+                        <li><a href="/pricing.html">Pricing</a></li>
+                        <li><a href="/migration.html">Migration Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Solutions</h3>
+                    <ul>
+                        <li><a href="/solutions/augmentation.html">ERP Augmentation</a></li>
+                        <li><a href="/solutions/replacement.html">ERP Replacement</a></li>
+                        <li><a href="/solutions/first-time.html">First-Time ERP</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="/about.html">About Us</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                        <li><a href="/blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li>Email: info@vilara.ai</li>
+                        <li>Phone: 1-800-VILARA-1</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Vilara. All rights reserved. | Built with ❤️ on PostgreSQL + Nushell</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Form switching functionality
+        function showForm(formType) {
+            // Hide all forms
+            const forms = document.querySelectorAll('.contact-form');
+            forms.forEach(form => form.style.display = 'none');
+            
+            // Show selected form
+            document.getElementById(formType + '-form').style.display = 'block';
+            
+            // Update path cards
+            const cards = document.querySelectorAll('.path-card');
+            cards.forEach(card => card.classList.remove('active'));
+            document.querySelector(`[data-form="${formType}"]`).classList.add('active');
+            
+            // Scroll to form
+            document.querySelector('.roi-calculator').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Auto-show form based on URL hash
+        document.addEventListener('DOMContentLoaded', function() {
+            const hash = window.location.hash;
+            if (hash === '#free') {
+                showForm('free');
+            } else if (hash === '#consultation') {
+                showForm('consultation');
+            }
+        });
+        
+        function openChat() {
+            // Placeholder for chat integration
+            alert('Live chat feature coming soon! Please use email or phone for immediate assistance.');
+        }
+        
+        // Add active state styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .path-card.active {
+                border-color: var(--primary-gradient-start);
+                box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+                transform: translateY(-5px);
+            }
+            
+            .contact-form {
+                background: white;
+                border-radius: 1rem;
+                padding: 2rem;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }
+            
+            .input-group select,
+            .input-group textarea {
+                padding: 0.75rem;
+                border: 1px solid var(--border-light);
+                border-radius: 0.5rem;
+                font-size: 1rem;
+                width: 100%;
+                font-family: inherit;
+            }
+            
+            .input-group select:focus,
+            .input-group textarea:focus {
+                outline: none;
+                border-color: var(--primary-gradient-start);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
