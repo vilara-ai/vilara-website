@@ -1,0 +1,12 @@
+{
+  "name": "vilara-website",
+  "version": "1.0.0",
+  "description": "Vilara.ai - The AI-augmented ERP system",
+  "scripts": {
+    "dev": "live-server",
+    "deploy": "vercel --prod"
+  },
+  "keywords": ["ERP", "AI", "Business", "Automation"],
+  "author": "Vilara",
+  "license": "UNLICENSED"
+}

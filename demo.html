@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vilara - The ERP Time Challenge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .presentation-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 40px;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Opening Slide Styles */
+        .logo-container {
+            position: relative;
+            margin-bottom: 40px;
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.6)); }
+            50% { filter: drop-shadow(0 0 40px rgba(102, 126, 234, 0.9)); }
+        }
+        
+        .logo-text {
+            font-size: 80px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+        }
+        
+        .tagline {
+            font-size: 32px;
+            color: #ffffff;
+            margin-bottom: 30px;
+            animation: slideUp 1s ease-out 0.5s backwards;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .timer-icon {
+            width: 120px;
+            height: 120px;
+            border: 4px solid #667eea;
+            border-radius: 50%;
+            position: relative;
+            animation: rotate 2s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .timer-hand {
+            position: absolute;
+            width: 2px;
+            height: 40px;
+            background: #667eea;
+            left: 50%;
+            top: 50%;
+            transform-origin: bottom;
+            transform: translateX(-50%) translateY(-100%);
+        }
+        
+        /* Split Screen Comparison Styles */
+        .split-container {
+            display: flex;
+            width: 100%;
+            height: 80%;
+            gap: 40px;
+            position: relative;
+        }
+        
+        .split-side {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .split-side.traditional {
+            border-top: 4px solid #ff5252;
+        }
+        
+        .split-side.vilara {
+            border-top: 4px solid #667eea;
+        }
+        
+        .system-label {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .traditional .system-label {
+            color: #ff5252;
+        }
+        
+        .vilara .system-label {
+            color: #667eea;
+        }
+        
+        .task-display {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            position: relative;
+            min-height: 0;
+        }
+        
+        .screen-mockup {
+            width: 100%;
+            max-width: 400px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .menu-navigation {
+            background: #2a2a2a;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #888;
+            min-height: 60px;
+        }
+        
+        .click-indicator {
+            display: inline-block;
+            background: #ff5252;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin: 2px;
+            animation: blink 0.5s ease-in-out;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Vilara Chat UI Styles */
+        .vilara-ui-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            padding: 25px;
+            margin: 0 auto 15px auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            max-height: 500px;
+            flex-shrink: 0;
+        }
+        
+        .vilara-logo-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .vilara-logo-text {
+            color: #667eea;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .vilara-subtitle {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        .chat-window {
+            flex: 1;
+            overflow-y: auto;
+            border: 2px solid #f3f4f6;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #fafafa;
+            min-height: 200px;
+            max-height: 300px;
+        }
+        
+        .chat-message {
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            max-width: 95%;
+            opacity: 0;
+            transform: translateY(10px);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+        
+        .chat-message.show {
+            animation: messageSlide 0.4s ease-out forwards;
+        }
+        
+        @keyframes messageSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .typing-text {
+            color: white;
+            font-size: 14px;
+            display: inline;
+        }
+        
+        @keyframes blinkCursor {
+            from, to { border-color: transparent; }
+            50% { border-color: rgba(255, 255, 255, 0.7); }
+        }
+        
+        .chat-message.user {
+            background: #667eea;
+            color: white !important;
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .chat-message.user .typing-text {
+            color: white !important;
+        }
+        
+        .chat-message.vilara-response {
+            background: #10b981;
+            color: white;
+            margin-right: auto;
+        }
+        
+        .clickable-action:hover {
+            background: #059669 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+        }
+        
+        .chat-message.thinking {
+            background: #f59e0b;
+            color: white;
+            margin-right: auto;
+            font-style: italic;
+        }
+        
+        .vilara-input-form {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .vilara-input {
+            flex: 1;
+            padding: 12px 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            outline: none;
+            color: #333 !important;
+            background: white !important;
+        }
+        
+        .vilara-input:focus {
+            border-color: #667eea;
+        }
+        
+        .vilara-send-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .watch-demo-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 15px auto;
+            display: block;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            animation: watchButtonPulse 2s ease-in-out infinite;
+        }
+        
+        .watch-demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        @keyframes watchButtonPulse {
+            0% {
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 4px 25px rgba(102, 126, 234, 0.6), 0 0 0 10px rgba(102, 126, 234, 0);
+                transform: scale(1.05);
+            }
+            100% {
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+                transform: scale(1);
+            }
+        }
+        
+        .command-line {
+            background: #0a0e27;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            color: #667eea;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .command-text {
+            animation: typing 2s steps(40, end);
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid #667eea;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        .metrics-container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: auto;
+            margin-bottom: 0;
+            text-align: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .metric-item {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        
+        .metric-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            color: #ffffff;
+            margin-top: 3px;
+            opacity: 0.9;
+        }
+        
+        .traditional .metric-value {
+            color: #ff5252;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Task Title */
+        .task-title {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 36px;
+            font-weight: 600;
+            color: #ffffff;
+            text-align: center;
+            z-index: 10;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        /* Savings Visualization */
+        .savings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 20px;
+            margin-bottom: 100px;
+        }
+        
+        .savings-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideInUp 0.8s ease-out backwards;
+        }
+        
+        .savings-card:nth-child(1) { animation-delay: 0.2s; }
+        .savings-card:nth-child(2) { animation-delay: 0.4s; }
+        .savings-card:nth-child(3) { animation-delay: 0.6s; }
+        
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .company-size {
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .task-count {
+            font-size: 14px;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .hours-saved {
+            font-size: 48px;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+            margin-bottom: 10px;
+        }
+        
+        .dollar-saved {
+            font-size: 36px;
+            color: #4caf50;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .weeks-equivalent {
+            font-size: 18px;
+            color: #e0e0e0;
+        }
+        
+        /* Process Change Slide */
+        .process-comparison {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 40px;
+            gap: 40px;
+        }
+        
+        .process-column {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .process-header {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+        
+        .traditional-process .process-header {
+            color: #ff5252;
+        }
+        
+        .vilara-process .process-header {
+            color: #00bcd4;
+        }
+        
+        .process-flow {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            min-height: 300px;
+        }
+        
+        .process-step {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-size: 16px;
+            position: relative;
+            color: #ffffff;
+        }
+        
+        .process-step::after {
+            content: '↓';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            color: #666;
+        }
+        
+        .process-step:last-child::after {
+            display: none;
+        }
+        
+        .process-cost {
+            font-size: 32px;
+            font-weight: 700;
+            margin-top: 30px;
+        }
+        
+        .traditional-process .process-cost {
+            color: #ff5252;
+        }
+        
+        .vilara-process .process-cost {
+            color: #4caf50;
+        }
+        
+        .process-time {
+            font-size: 20px;
+            color: #ffffff;
+            margin-top: 10px;
+        }
+        
+        /* Closing Slide */
+        .benefits-list {
+            list-style: none;
+            font-size: 28px;
+            margin: 20px 0 40px 0;
+        }
+        
+        .benefit-item {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            animation: slideInLeft 0.8s ease-out backwards;
+        }
+        
+        .benefit-item:nth-child(1) { animation-delay: 0.2s; }
+        .benefit-item:nth-child(2) { animation-delay: 0.4s; }
+        .benefit-item:nth-child(3) { animation-delay: 0.6s; }
+        .benefit-item:nth-child(4) { animation-delay: 0.8s; }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .checkmark {
+            color: #4caf50;
+            margin-right: 20px;
+            font-size: 32px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            padding: 20px 60px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            animation: pulse 2s ease-in-out infinite;
+            margin-top: 40px;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3); }
+            50% { box-shadow: 0 10px 60px rgba(102, 126, 234, 0.5); }
+        }
+        
+        /* Navigation Controls */
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+        }
+        
+        .nav-button {
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            background: rgba(0, 0, 0, 0.6);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .nav-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .slide-counter {
+            color: #ffffff;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        /* Chart Styles */
+        .chart-container {
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            margin: 40px auto;
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px 20px 80px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 80px;
+            height: 300px;
+            width: 100%;
+            padding: 20px 40px;
+            border-left: 2px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+        
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            position: relative;
+        }
+        
+        .bar {
+            width: 80px;
+            background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 100%);
+            border-radius: 5px 5px 0 0;
+            transition: height 1s ease-out;
+            position: relative;
+            margin: 0 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            min-height: 5px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        
+        .bar-value {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            white-space: nowrap;
+        }
+        
+        .bar-label {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: #ffffff;
+            text-align: center;
+            font-weight: 500;
+            white-space: nowrap;
+            width: 120px;
+        }
+        
+        /* Animated Icons */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+        
+        .icon-item {
+            text-align: center;
+            animation: fadeInScale 0.8s ease-out backwards;
+        }
+        
+        .icon-item:nth-child(1) { animation-delay: 0.1s; }
+        .icon-item:nth-child(2) { animation-delay: 0.2s; }
+        .icon-item:nth-child(3) { animation-delay: 0.3s; }
+        .icon-item:nth-child(4) { animation-delay: 0.4s; }
+        
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid #ffffff;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+        
+        .icon-label {
+            font-size: 14px;
+            color: #ffffff;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Opening Hook -->
+        <div class="slide active" id="slide1">
+            <div class="logo-container">
+                <img src="Vilara_logo_transparent.png" alt="Vilara" style="height: 120px; width: auto;">
+            </div>
+            <h2 class="tagline">The ERP Time Challenge</h2>
+            <div class="timer-icon">
+                <div class="timer-hand"></div>
+            </div>
+            <p style="margin-top: 40px; font-size: 20px; color: #ffffff; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);">
+                Let's see how Vilara compares to a traditional ERP in real-world business tasks.
+            </p>
+        </div>
+        
+        <!-- Slide 2: Task 1 - Invoice Run -->
+        <div class="slide" id="slide2">
+            <h2 class="task-title">Task 1: Invoice Run</h2>
+            <div class="split-container">
+                <div class="split-side traditional">
+                    <div class="system-label">Traditional ERP</div>
+                    <div class="task-display">
+                        <div class="task-label" style="background: rgba(255, 255, 255, 0.1); padding: 8px 12px; border-radius: 6px; margin-bottom: 15px; font-size: 14px; color: #ffffff; text-align: center;">Invoice all approved orders</div>
+                        <div class="screen-mockup">
+                            <div class="menu-navigation">
+                                <span class="click-indicator">Click 1</span> Finance Menu →
+                                <span class="click-indicator">Click 2</span> Billing →
+                                <span class="click-indicator">Click 3</span> Invoice Management →
+                                <span class="click-indicator">Click 4</span> Batch Processing →
+                                <span class="click-indicator">Click 5</span> Select Orders...
+                            </div>
+                            <div style="margin-top: 20px; color: #888; font-size: 14px;">
+                                + 18 more clicks through filters, confirmations, and processing screens...
+                            </div>
+                        </div>
+                        <div class="metrics-container">
+                            <div class="metric-item">
+                                <div class="metric-value">5</div>
+                                <div class="metric-label">Screens</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">23</div>
+                                <div class="metric-label">Clicks</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">3:00</div>
+                                <div class="metric-label">Minutes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="split-side vilara">
+                    <div class="task-display">
+                        <div class="vilara-ui-container">
+                            <div class="vilara-logo-section">
+                                <img src="Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
+                                <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
+                            </div>
+                            <button class="watch-demo-btn" id="watchBtn1">🎬 Now watch Vilara do it</button>
+                            <div class="chat-window" id="chat1">
+                                <div class="chat-message user" data-message="Invoice all approved orders"><span class="typing-text"></span></div>
+                                <div class="chat-message thinking">🤔 Processing your request...</div>
+                                <div class="chat-message vilara-response">✅ Created 23 invoices for approved orders</div>
+                                <div class="chat-message vilara-response">💾 Saved to system and synced with QuickBooks</div>
+                                <div class="chat-message vilara-response clickable-action" data-action="email-invoices" style="cursor: pointer; border: 1px solid rgba(255,255,255,0.3);">📋 Ready to email to customers - click to send</div>
+                            </div>
+                            <div class="vilara-input-form">
+                                <input type="text" class="vilara-input" id="input1" placeholder="What would you like to do?">
+                                <button class="vilara-send-btn" id="sendBtn1">Send</button>
+                            </div>
+                        </div>
+                        <div class="metrics-container">
+                            <div class="metric-item">
+                                <div class="metric-value">1</div>
+                                <div class="metric-label">Command</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">0</div>
+                                <div class="metric-label">Clicks</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">0:03</div>
+                                <div class="metric-label">Seconds</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 3: Task 2 - Purchase Order Approval -->
+        <div class="slide" id="slide3">
+            <h2 class="task-title">Task 2: Purchase Order Approval</h2>
+            <div class="split-container">
+                <div class="split-side traditional">
+                    <div class="system-label">Traditional ERP</div>
+                    <div class="task-display">
+                        <div class="task-label" style="background: rgba(255, 255, 255, 0.1); padding: 8px 12px; border-radius: 6px; margin-bottom: 15px; font-size: 14px; color: #ffffff; text-align: center;">Approve all POs from Acme Corp under $5,000</div>
+                        <div class="screen-mockup">
+                            <div class="menu-navigation">
+                                <span class="click-indicator">Step 1</span> Navigate to PO module<br>
+                                <span class="click-indicator">Step 2</span> Filter by vendor<br>
+                                <span class="click-indicator">Step 3</span> Sort by amount<br>
+                                <span class="click-indicator">Step 4</span> Select each PO<br>
+                                <span class="click-indicator">Step 5</span> Review details<br>
+                                <span class="click-indicator">Step 6</span> Click approve...
+                            </div>
+                            <div style="margin-top: 20px; color: #888; font-size: 14px;">
+                                Repeat for each PO individually...
+                            </div>
+                        </div>
+                        <div class="metrics-container">
+                            <div class="metric-item">
+                                <div class="metric-value">12</div>
+                                <div class="metric-label">Steps</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">2:15</div>
+                                <div class="metric-label">Minutes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="split-side vilara">
+                    <div class="task-display">
+                        <div class="vilara-ui-container">
+                            <div class="vilara-logo-section">
+                                <img src="Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
+                                <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
+                            </div>
+                            <button class="watch-demo-btn" id="watchBtn2">🎬 Now watch Vilara do it</button>
+                            <div class="chat-window" id="chat2">
+                                <div class="chat-message user" data-message="Approve all POs from Acme Corp under $5,000"><span class="typing-text"></span></div>
+                                <div class="chat-message thinking">🤔 Reviewing purchase orders...</div>
+                                <div class="chat-message vilara-response">✅ Found 8 POs from Acme Corp under $5,000</div>
+                                <div class="chat-message vilara-response">✅ All 8 POs approved in system</div>
+                                <div class="chat-message vilara-response clickable-action" data-action="notify-acme" style="cursor: pointer; border: 1px solid rgba(255,255,255,0.3);">📋 Ready to notify Acme Corp - click to send confirmation</div>
+                            </div>
+                            <div class="vilara-input-form">
+                                <input type="text" class="vilara-input" id="input2" placeholder="What would you like to do?">
+                                <button class="vilara-send-btn" id="sendBtn2">Send</button>
+                            </div>
+                        </div>
+                        <div class="metrics-container">
+                            <div class="metric-item">
+                                <div class="metric-value">1</div>
+                                <div class="metric-label">Command</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">0:02</div>
+                                <div class="metric-label">Seconds</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 4: Task 3 - Sales Report -->
+        <div class="slide" id="slide4">
+            <h2 class="task-title">Task 3: Sales Report</h2>
+            <div class="split-container">
+                <div class="split-side traditional">
+                    <div class="system-label">Traditional ERP</div>
+                    <div class="task-display">
+                        <div class="task-label" style="background: rgba(255, 255, 255, 0.1); padding: 8px 12px; border-radius: 6px; margin-bottom: 15px; font-size: 14px; color: #ffffff; text-align: center;">Show sales report for last quarter by region</div>
+                        <div class="screen-mockup">
+                            <div class="menu-navigation">
+                                <span class="click-indicator">1</span> Reports Menu<br>
+                                <span class="click-indicator">2</span> Sales Reports<br>
+                                <span class="click-indicator">3</span> Custom Report<br>
+                                <span class="click-indicator">4</span> Select Date Range<br>
+                                <span class="click-indicator">5</span> Add Filters<br>
+                                <span class="click-indicator">6</span> Group by Region<br>
+                                <span class="click-indicator">7</span> Select Columns<br>
+                                <span class="click-indicator">8</span> Generate<br>
+                                <span class="click-indicator">9</span> Wait for processing...
+                            </div>
+                        </div>
+                        <div class="metrics-container">
+                            <div class="metric-item">
+                                <div class="metric-value">9</div>
+                                <div class="metric-label">Steps</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">1:40</div>
+                                <div class="metric-label">Minutes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="split-side vilara">
+                    <div class="task-display">
+                        <div class="vilara-ui-container">
+                            <div class="vilara-logo-section">
+                                <img src="Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
+                                <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
+                            </div>
+                            <button class="watch-demo-btn" id="watchBtn3">🎬 Now watch Vilara do it</button>
+                            <div class="chat-window" id="chat3">
+                                <div class="chat-message user" data-message="Show sales report for last quarter by region"><span class="typing-text"></span></div>
+                                <div class="chat-message thinking">🤔 Generating report...</div>
+                                <div class="chat-message vilara-response">📊 Q4 Sales Report Generated</div>
+                                <div class="chat-message vilara-response">💰 Total Revenue: $2.4M</div>
+                                <div class="chat-message vilara-response">📈 Top Region: West ($890K)</div>
+                                <div class="chat-message vilara-response">💾 Report saved to dashboard</div>
+                                <div class="chat-message vilara-response clickable-action" data-action="email-report" style="cursor: pointer; border: 1px solid rgba(255,255,255,0.3);">📋 Ready to share - click to email stakeholders</div>
+                            </div>
+                            <div class="vilara-input-form">
+                                <input type="text" class="vilara-input" id="input3" placeholder="What would you like to do?">
+                                <button class="vilara-send-btn" id="sendBtn3">Send</button>
+                            </div>
+                        </div>
+                        <div class="metrics-container">
+                            <div class="metric-item">
+                                <div class="metric-value">1</div>
+                                <div class="metric-label">Command</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">0:02</div>
+                                <div class="metric-label">Seconds</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 5: Task 4 - Customer Onboarding -->
+        <div class="slide" id="slide5">
+            <h2 class="task-title">Task 4: Customer Onboarding</h2>
+            <div class="split-container">
+                <div class="split-side traditional">
+                    <div class="system-label">Traditional ERP</div>
+                    <div class="task-display">
+                        <div class="task-label" style="background: rgba(255, 255, 255, 0.1); padding: 8px 12px; border-radius: 6px; margin-bottom: 15px; font-size: 14px; color: #ffffff; text-align: center;">Add customer Delta Industries with contact Sarah Lee, email sarah@delta.com, net 30 terms</div>
+                        <div class="screen-mockup">
+                            <div class="menu-navigation">
+                                <span class="click-indicator">1</span> Customer Management<br>
+                                <span class="click-indicator">2</span> New Customer<br>
+                                <span class="click-indicator">3-8</span> Fill Company Info<br>
+                                <span class="click-indicator">9-12</span> Add Contact Details<br>
+                                <span class="click-indicator">13-15</span> Set Payment Terms<br>
+                                → Save & Confirm
+                            </div>
+                        </div>
+                        <div class="metrics-container">
+                            <div class="metric-item">
+                                <div class="metric-value">15</div>
+                                <div class="metric-label">Steps</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">2:30</div>
+                                <div class="metric-label">Minutes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="split-side vilara">
+                    <div class="task-display">
+                        <div class="vilara-ui-container">
+                            <div class="vilara-logo-section">
+                                <img src="Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
+                                <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
+                            </div>
+                            <button class="watch-demo-btn" id="watchBtn4">🎬 Now watch Vilara do it</button>
+                            <div class="chat-window" id="chat4">
+                                <div class="chat-message user" data-message="Add customer Delta Industries with contact Sarah Lee, email sarah@delta.com, net 30 terms"><span class="typing-text"></span></div>
+                                <div class="chat-message thinking">🤔 Creating customer profile...</div>
+                                <div class="chat-message vilara-response">✅ Customer Delta Industries added</div>
+                                <div class="chat-message vilara-response">👤 Contact: Sarah Lee</div>
+                                <div class="chat-message vilara-response">💳 Payment terms: Net 30</div>
+                                <div class="chat-message vilara-response clickable-action" data-action="send-welcome" style="cursor: pointer; border: 1px solid rgba(255,255,255,0.3);">📋 Ready to send welcome email - click to confirm</div>
+                            </div>
+                            <div class="vilara-input-form">
+                                <input type="text" class="vilara-input" id="input4" placeholder="What would you like to do?">
+                                <button class="vilara-send-btn" id="sendBtn4">Send</button>
+                            </div>
+                        </div>
+                        <div class="metrics-container">
+                            <div class="metric-item">
+                                <div class="metric-value">1</div>
+                                <div class="metric-label">Command</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">0:03</div>
+                                <div class="metric-label">Seconds</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 6: Annual Time & Cost Savings -->
+        <div class="slide" id="slide6" style="padding-top: 100px;">
+            <h2 class="task-title">Annual Time & Cost Savings</h2>
+            <div class="chart-container">
+                <div class="bar-chart">
+                    <div class="bar-group">
+                        <div class="bar traditional-bar" id="traditionalBar" style="height: 10px;">
+                            <span class="bar-value">6 min</span>
+                        </div>
+                        <div class="bar-label">Average ERP Task<br>(time required)</div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar vilara-bar" id="vilaraBar" style="height: 10px; background: linear-gradient(180deg, #4caf50 0%, #388e3c 100%);">
+                            <span class="bar-value" style="color: #4caf50; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">0.17 min</span>
+                        </div>
+                        <div class="bar-label">Vilara<br>(time required)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="savings-grid">
+                <div class="savings-card">
+                    <div class="company-size">10-Person Company</div>
+                    <div class="task-count">(Avg. of 24,500 ERP tasks per year)</div>
+                    <div class="hours-saved">2,330 hrs</div>
+                    <div class="dollar-saved">$116,500</div>
+                </div>
+                <div class="savings-card">
+                    <div class="company-size">100-Person Company</div>
+                    <div class="task-count">(Avg. of 245,000 ERP tasks per year)</div>
+                    <div class="hours-saved">23,275 hrs</div>
+                    <div class="dollar-saved">$1,163,750</div>
+                </div>
+                <div class="savings-card">
+                    <div class="company-size">1,000-Person Company</div>
+                    <div class="task-count">(Avg. of 2,450,000 ERP tasks per year)</div>
+                    <div class="hours-saved">232,750 hrs</div>
+                    <div class="dollar-saved">$11,637,500</div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Slide 7: Process Change Challenge -->
+        <div class="slide" id="slide7">
+            <h2 class="task-title">Process Change Example</h2>
+            <div class="process-comparison">
+                <div class="process-column traditional-process">
+                    <div class="process-header">Traditional ERP</div>
+                    <div class="process-flow">
+                        <div class="process-step">Submit change request</div>
+                        <div class="process-step">Create dev ticket</div>
+                        <div class="process-step">Wait for sprint planning</div>
+                        <div class="process-step">Development & testing</div>
+                        <div class="process-step">Deploy to production</div>
+                    </div>
+                    <div class="process-cost">$1,000-$100,000+</div>
+                    <div class="process-time">2-12 weeks per change</div>
+                </div>
+                
+                <div class="process-column vilara-process">
+                    <div class="process-header">Vilara</div>
+                    <div class="process-flow">
+                        <div class="process-step">Type your change:<br>
+                            <span style="color: #ffffff; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 8px; display: inline-block; margin-top: 10px; font-family: monospace; font-size: 14px;">
+                                "From now on, auto-email invoices to customers at shipping confirmation"
+                            </span>
+                        </div>
+                        <div class="process-step">Approve</div>
+                        <div class="process-step">✓ Done</div>
+                    </div>
+                    <div class="process-cost">$0</div>
+                    <div class="process-time">Instant</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 8: More Process Changes -->
+        <div class="slide" id="slide8">
+            <h2 class="task-title">Instant Process Adaptations</h2>
+            <div style="max-width: 600px; margin: 0 auto;">
+                <div class="vilara-ui-container" style="margin-bottom: 30px;">
+                    <div class="vilara-logo-section">
+                        <img src="Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
+                        <div class="vilara-subtitle">Instant Business Process Changes</div>
+                    </div>
+                    <div class="chat-window" id="chat8" style="height: 400px;">
+                        <div class="chat-message user" data-message="Require manager approval for all POs over $10K"><span class="typing-text"></span></div>
+                        <div class="chat-message vilara-response">✅ Approval workflow updated</div>
+                        
+                        <div class="chat-message user" data-message="Switch monthly billing to weekly for Acme Corp"><span class="typing-text"></span></div>
+                        <div class="chat-message vilara-response">✅ Billing schedule changed for Acme Corp</div>
+                        
+                        <div class="chat-message user" data-message="Add discount rule for orders over $50K"><span class="typing-text"></span></div>
+                        <div class="chat-message vilara-response">✅ 5% discount rule applied for orders > $50K</div>
+                        
+                        <div class="chat-message user" data-message="Auto-email invoices when orders ship"><span class="typing-text"></span></div>
+                        <div class="chat-message vilara-response">✅ Automated invoice workflow created</div>
+                    </div>
+                    <div class="vilara-input-form">
+                        <input type="text" class="vilara-input" placeholder="Change any business process instantly...">
+                        <button class="vilara-send-btn">Send</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px; font-size: 24px; color: #ffffff;">
+                From approval chains to billing rules, Vilara adapts instantly.
+            </div>
+        </div>
+        
+        <!-- Slide 9: Key Features Icons -->
+        <div class="slide" id="slide9">
+            <h2 class="task-title">Why Vilara</h2>
+            <div class="icon-grid" style="grid-template-columns: repeat(5, 1fr); gap: 20px;">
+                <div class="icon-item">
+                    <div class="icon">⚡</div>
+                    <div class="icon-label">95% Faster<br>Operations</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">💰</div>
+                    <div class="icon-label">No Seat<br>License Costs</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">🚀</div>
+                    <div class="icon-label">No Dev<br>Delays</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">💵</div>
+                    <div class="icon-label">No Costly<br>Implementations</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">🔄</div>
+                    <div class="icon-label">Works With<br>Current System</div>
+                </div>
+            </div>
+            
+            <div style="max-width: 800px; margin: 40px auto; text-align: center;">
+                <p style="font-size: 20px; line-height: 1.6; color: #ffffff; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);">
+                    Stop clicking through menus. Stop waiting for developers.<br>
+                    Just tell Vilara what you need, and it's done.<br>
+                    Built on proven PostgreSQL. Works alongside your current ERP.<br>
+                    Start small, scale instantly.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Slide 10: Closing & CTA -->
+        <div class="slide" id="slide10" style="padding-bottom: 120px;">
+            <div class="logo-container">
+                <img src="Vilara_logo_transparent.png" alt="Vilara" style="height: 120px; width: auto;">
+            </div>
+            <h2 class="tagline">The ERP that adapts instantly</h2>
+            
+            <ul class="benefits-list">
+                <li class="benefit-item">
+                    <span class="checkmark">✓</span>
+                    <span>95% faster operations</span>
+                </li>
+                <li class="benefit-item">
+                    <span class="checkmark">✓</span>
+                    <span>No seat license costs</span>
+                </li>
+                <li class="benefit-item">
+                    <span class="checkmark">✓</span>
+                    <span>No dev delays</span>
+                </li>
+                <li class="benefit-item">
+                    <span class="checkmark">✓</span>
+                    <span>Works with your current system</span>
+                </li>
+            </ul>
+            
+            <button class="cta-button">Try Vilara Free</button>
+            
+            <p style="margin-top: 20px; margin-bottom: 0; font-size: 18px; color: #e0e0e0;">
+                Enterprise ERP without the enterprise complexity.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Navigation Controls -->
+    <div class="navigation">
+        <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)">Previous</button>
+        <span class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">10</span>
+        </span>
+        <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Next</button>
+        <button class="nav-button" id="startOverBtn" onclick="startOver()" style="display: none;">↻ Start Over</button>
+    </div>
+    
+    <!-- Calculation Note (only visible on slide 6) -->
+    <div id="calculationNote" style="position: fixed; bottom: 30px; right: 30px; font-size: 11px; color: rgba(255, 255, 255, 0.6); font-style: italic; max-width: 200px; text-align: right; display: none;">
+        * Based on 6 min avg per ERP task<br>100 daily tasks × 245 business days<br>Hourly rate: $50/hour
+    </div>
+    
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 10;
+        let animationTimeouts = [];
+        
+        function clearAnimationTimeouts() {
+            animationTimeouts.forEach(timeout => clearTimeout(timeout));
+            animationTimeouts = [];
+            
+            // Clear any watch demo button event listeners
+            const watchButtons = document.querySelectorAll('.watch-demo-btn');
+            watchButtons.forEach(btn => {
+                // Remove any existing event listeners by cloning the node
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+            });
+        }
+        
+        function typeText(element, text, callback) {
+            element.textContent = text;
+            element.classList.add('active', 'typing');
+            
+            // Remove typing animation after it completes
+            animationTimeouts.push(setTimeout(() => {
+                element.classList.remove('active', 'typing');
+                element.style.width = 'auto';
+                element.style.maxWidth = 'none';
+                if (callback) callback();
+            }, 3000));
+        }
+        
+        function setupWatchButton(chatId, inputId, watchBtnId) {
+            const watchBtn = document.getElementById(watchBtnId);
+            if (!watchBtn) return;
+            
+            // Add click event listener to watch button
+            const handleWatchClick = () => {
+                watchBtn.style.display = 'none'; // Hide the button after clicking
+                animateChatSequence(chatId, inputId);
+            };
+            
+            watchBtn.addEventListener('click', handleWatchClick);
+        }
+        
+        function animateChatSequence(chatId, inputId) {
+            const chatWindow = document.getElementById(chatId);
+            const inputField = document.getElementById(inputId);
+            if (!chatWindow) return;
+            
+            const messages = chatWindow.querySelectorAll('.chat-message');
+            
+            // Hide all messages initially
+            messages.forEach(msg => {
+                msg.classList.remove('show');
+                msg.style.opacity = '0';
+            });
+            
+            // Get the user message
+            const userMessage = messages[0];
+            const messageText = userMessage.dataset.message;
+            const typingSpan = userMessage.querySelector('.typing-text');
+            
+            if (inputField && messageText) {
+                // Simulate typing in the input field
+                let charIndex = 0;
+                function typeInInput() {
+                    if (charIndex <= messageText.length) {
+                        inputField.value = messageText.substring(0, charIndex);
+                        charIndex++;
+                        animationTimeouts.push(setTimeout(typeInInput, 30));
+                    } else {
+                        // After typing is complete, "send" the message
+                        animationTimeouts.push(setTimeout(() => {
+                            inputField.value = '';
+                            
+                            // Show user message in chat
+                            typingSpan.textContent = messageText;
+                            userMessage.style.opacity = '1';
+                            userMessage.classList.add('show');
+                            
+                            // Show thinking message
+                            animationTimeouts.push(setTimeout(() => {
+                                if (messages[1] && messages[1].classList.contains('thinking')) {
+                                    messages[1].style.opacity = '1';
+                                    messages[1].classList.add('show');
+                                    
+                                    // Hide thinking and show responses
+                                    animationTimeouts.push(setTimeout(() => {
+                                        messages[1].style.opacity = '0';
+                                        messages[1].classList.remove('show');
+                                        
+                                        // Show each response message
+                                        for (let i = 2; i < messages.length; i++) {
+                                            animationTimeouts.push(setTimeout(() => {
+                                                messages[i].style.opacity = '1';
+                                                messages[i].classList.add('show');
+                                                // Auto-scroll chat window
+                                                chatWindow.scrollTop = chatWindow.scrollHeight;
+                                                
+                                                // Add click listener to clickable actions after they appear
+                                                if (messages[i].classList.contains('clickable-action')) {
+                                                    addClickableActionListener(messages[i], chatWindow);
+                                                }
+                                            }, (i - 2) * 400));
+                                        }
+                                    }, 1500));
+                                }
+                            }, 500));
+                        }, 500));
+                    }
+                }
+                typeInInput();
+            }
+        }
+        
+        function animateProcessChanges() {
+            const chatWindow = document.getElementById('chat8');
+            if (!chatWindow) return;
+            
+            const messages = chatWindow.querySelectorAll('.chat-message');
+            messages.forEach(msg => {
+                msg.classList.remove('show');
+                msg.style.opacity = '0';
+            });
+            
+            let messageIndex = 0;
+            
+            function showNextPair() {
+                if (messageIndex < messages.length) {
+                    const userMsg = messages[messageIndex];
+                    const responseMsg = messages[messageIndex + 1];
+                    
+                    if (userMsg && userMsg.classList.contains('user')) {
+                        const messageText = userMsg.dataset.message;
+                        const typingSpan = userMsg.querySelector('.typing-text');
+                        
+                        // Type the user message
+                        typingSpan.textContent = '';
+                        userMsg.style.opacity = '1';
+                        userMsg.classList.add('show');
+                        
+                        typeText(typingSpan, messageText, () => {
+                            // Show response after typing
+                            animationTimeouts.push(setTimeout(() => {
+                                if (responseMsg) {
+                                    responseMsg.style.opacity = '1';
+                                    responseMsg.classList.add('show');
+                                    
+                                    // Only scroll if this message is going off-screen
+                                    const chatRect = chatWindow.getBoundingClientRect();
+                                    const msgRect = responseMsg.getBoundingClientRect();
+                                    if (msgRect.bottom > chatRect.bottom) {
+                                        animationTimeouts.push(setTimeout(() => {
+                                            chatWindow.scrollTop = chatWindow.scrollTop + (msgRect.bottom - chatRect.bottom) + 20;
+                                        }, 1000));
+                                    }
+                                }
+                                
+                                messageIndex += 2;
+                                animationTimeouts.push(setTimeout(showNextPair, 3000));
+                            }, 800));
+                        });
+                    }
+                }
+            }
+            
+            showNextPair();
+        }
+        
+        function showSlide(n) {
+            clearAnimationTimeouts();
+            
+            const slides = document.getElementsByClassName('slide');
+            
+            if (n > totalSlides) currentSlide = 1;
+            if (n < 1) currentSlide = totalSlides;
+            
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active');
+            }
+            
+            slides[currentSlide - 1].classList.add('active');
+            
+            // Update counter
+            document.getElementById('currentSlide').textContent = currentSlide;
+            
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+            
+            // Show/hide start over button on slide 10
+            const startOverBtn = document.getElementById('startOverBtn');
+            if (startOverBtn) {
+                startOverBtn.style.display = currentSlide === totalSlides ? 'inline-block' : 'none';
+            }
+            
+            // Show/hide calculation note on slide 6
+            const calculationNote = document.getElementById('calculationNote');
+            if (calculationNote) {
+                calculationNote.style.display = currentSlide === 6 ? 'block' : 'none';
+            }
+            
+            // Trigger animations for specific slides
+            if (currentSlide === 2) {
+                setupWatchButton('chat1', 'input1', 'watchBtn1');
+            } else if (currentSlide === 3) {
+                setupWatchButton('chat2', 'input2', 'watchBtn2');
+            } else if (currentSlide === 4) {
+                setupWatchButton('chat3', 'input3', 'watchBtn3');
+            } else if (currentSlide === 5) {
+                setupWatchButton('chat4', 'input4', 'watchBtn4');
+            } else if (currentSlide === 6) {
+                // Animate bars on savings slide
+                animationTimeouts.push(setTimeout(() => {
+                    const traditionalBar = document.getElementById('traditionalBar');
+                    const vilaraBar = document.getElementById('vilaraBar');
+                    if (traditionalBar) {
+                        traditionalBar.style.height = '200px'; // Proportional to 6 min avg
+                    }
+                    if (vilaraBar) {
+                        vilaraBar.style.height = '20px'; // Small bar for Vilara
+                    }
+                }, 500));
+            } else if (currentSlide === 8) {
+                animationTimeouts.push(setTimeout(() => {
+                    animateProcessChanges();
+                }, 500));
+            }
+        }
+        
+        function changeSlide(n) {
+            currentSlide += n;
+            showSlide(currentSlide);
+            
+            // Reset watch buttons visibility when changing slides
+            const watchButtons = document.querySelectorAll('.watch-demo-btn');
+            watchButtons.forEach(btn => {
+                btn.style.display = 'block';
+            });
+        }
+        
+        function startOver() {
+            // Do a hard page refresh to completely reset everything
+            window.location.reload(true);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === ' ' || e.key === 'Enter') changeSlide(1);
+        });
+        
+        function addClickableActionListener(element, chatWindow) {
+            element.addEventListener('click', function() {
+                const action = this.dataset.action;
+                
+                // Change the message to show completion
+                const actionMessages = {
+                    'email-invoices': '📧 All invoices emailed to customers ✓',
+                    'notify-acme': '📧 Confirmation sent to Acme Corp ✓',
+                    'email-report': '📧 Report emailed to stakeholders ✓',
+                    'send-welcome': '📧 Welcome email sent to customer ✓'
+                };
+                
+                if (actionMessages[action]) {
+                    // Add click animation
+                    this.style.transform = 'scale(0.95)';
+                    this.style.opacity = '0.7';
+                    
+                    setTimeout(() => {
+                        this.textContent = actionMessages[action];
+                        this.style.backgroundColor = '#22c55e'; // Success green
+                        this.style.border = '1px solid rgba(34, 197, 94, 0.5)';
+                        this.style.transform = 'scale(1)';
+                        this.style.opacity = '1';
+                        this.style.cursor = 'default';
+                        this.classList.remove('clickable-action');
+                        
+                        // Auto-scroll to show the updated message
+                        chatWindow.scrollTop = chatWindow.scrollHeight;
+                    }, 150);
+                }
+            });
+        }
+        
+        // Initialize
+        showSlide(1);
+        document.getElementById('totalSlides').textContent = totalSlides;
+    </script>
+</body>
+</html>
