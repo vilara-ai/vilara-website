@@ -55,7 +55,7 @@ vercel ls
 ## Architecture & Design Patterns
 - **Lead Qualification**: Two-path approach based on company size
   - Free tier: Under 10 employees → Instant access
-  - Consultation: 25+ employees → Personalized demo
+  - Consultation: 10+ employees → Personalized demo
 - **Content Strategy**: Problem-focused messaging with clear value props
 - **Conversion Funnels**: Multiple entry points (demo, pricing, solutions)
 - **Technical Credibility**: PostgreSQL + Nushell foundation highlighted
@@ -153,7 +153,7 @@ vercel ls
 
 ## Recent Changes & Notes
 - **2025-08-16**: Implemented tiered lead qualification system
-- **Company size focus**: Free for under 10 employees, consultation for 25+
+- **Company size focus**: Free for under 10 employees, consultation for 10+
 - **Messaging refinement**: Added "blow my mind features" and "nirvana" language
 - **Cost comparison**: Added "Additional Seat Licenses" row highlighting $0 advantage
 

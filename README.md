@@ -58,7 +58,7 @@ Professional website for Vilara - The AI-augmented ERP system that flexibly augm
 - **First-time**: Start fresh with modern ERP
 
 ### Pricing (pricing.html)
-- Free tier (up to 25 employees)
+- Free tier (up to 10 employees)
 - Transparent pricing tiers
 - Cost comparison with traditional ERPs
 - FAQ section
