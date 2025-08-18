@@ -8,7 +8,6 @@ node_modules/
 # IDE files
 .vscode/
 .idea/
-.claude/
 *.swp
 *.swo
 
@@ -27,4 +26,3 @@ npm-debug.log*
 # Deployment
 .vercel/
 .netlify/
-.vercel

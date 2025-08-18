@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vilara Demo - See the 95% Time Reduction in Action</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="icon" type="image/png" href="assets/images/vilara_logo.png">
+    <title>Vilara - The ERP Time Challenge</title>
     <style>
         * {
             margin: 0;
@@ -13,19 +11,18 @@
             box-sizing: border-box;
         }
         
-        body.demo-body {
+        body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #ffffff;
             overflow: hidden;
             height: 100vh;
-            padding-top: 60px;
         }
         
         .presentation-container {
             position: relative;
             width: 100%;
-            height: calc(100vh - 60px);
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -82,238 +79,6 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
-        /* Mobile Responsive Styles */
-        @media (max-width: 768px) {
-            .slide {
-                padding: 20px 15px;
-            }
-            
-            .logo-text {
-                font-size: 48px;
-                letter-spacing: -1px;
-            }
-            
-            .tagline {
-                font-size: 20px;
-                margin-bottom: 20px;
-            }
-            
-            .timer-icon {
-                width: 80px;
-                height: 80px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .slide {
-                padding: 15px 10px;
-            }
-            
-            .logo-text {
-                font-size: 36px;
-            }
-            
-            .tagline {
-                font-size: 18px;
-            }
-            
-            .timer-icon {
-                width: 60px;
-                height: 60px;
-                border-width: 3px;
-            }
-        }
-        
-        /* Mobile Responsive for Split Screen */
-        @media (max-width: 768px) {
-            .split-container {
-                flex-direction: column;
-                gap: 20px;
-                height: auto;
-            }
-            
-            .split-side {
-                padding: 20px 15px;
-                margin-bottom: 10px;
-            }
-            
-            .system-label {
-                font-size: 18px;
-                margin-bottom: 15px;
-            }
-            
-            .screen-mockup {
-                max-width: 100%;
-                padding: 15px;
-            }
-            
-            .menu-navigation {
-                font-size: 13px;
-                padding: 12px;
-                min-height: 60px;
-            }
-            
-            .task-label {
-                font-size: 12px !important;
-                padding: 6px 10px !important;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .split-container {
-                gap: 15px;
-            }
-            
-            .split-side {
-                padding: 15px 10px;
-                border-radius: 15px;
-            }
-            
-            .system-label {
-                font-size: 16px;
-            }
-            
-            .screen-mockup {
-                padding: 12px;
-                border-radius: 8px;
-            }
-            
-            .menu-navigation {
-                font-size: 11px;
-                padding: 10px;
-                min-height: 50px;
-            }
-        }
-        
-        /* Mobile Navigation and Touch Improvements */
-        @media (max-width: 768px) {
-            .nav-button {
-                padding: 10px 18px;
-                font-size: 14px;
-                margin: 0 5px;
-                min-width: 80px;
-            }
-            
-            .slide-counter {
-                font-size: 12px;
-                margin: 0 10px;
-            }
-            
-            /* Improve touch targets */
-            .nav-button {
-                min-height: 44px;
-                touch-action: manipulation;
-            }
-            
-            /* Fixed navigation positioning for mobile */
-            .navigation {
-                bottom: 10px;
-                left: 50%;
-                transform: translateX(-50%);
-                padding: 0 15px;
-            }
-            
-            /* Chat elements mobile fixes */
-            .chat-container {
-                font-size: 14px !important;
-            }
-            
-            .chart-container {
-                max-width: 100%;
-                padding: 10px;
-            }
-            
-            /* Calculation note mobile positioning */
-            #calculationNote {
-                bottom: 80px !important;
-                right: 15px !important;
-                left: 15px !important;
-                max-width: none !important;
-                font-size: 10px !important;
-                text-align: center !important;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .nav-button {
-                padding: 8px 12px;
-                font-size: 12px;
-                margin: 0 3px;
-                min-width: 70px;
-            }
-            
-            .slide-counter {
-                font-size: 11px;
-                margin: 0 8px;
-            }
-            
-            .navigation {
-                bottom: 5px;
-                padding: 0 10px;
-            }
-        }
-        
-        /* Override inline styles for mobile */
-        @media (max-width: 768px) {
-            /* Large headings */
-            h1[style*="font-size: 62px"], 
-            h1[style*="font-size: 47px"],
-            .slide h1 {
-                font-size: 32px !important;
-            }
-            
-            /* Medium headings */
-            h2[style*="font-size: 36px"],
-            h2[style*="font-size: 31px"],
-            h2[style*="font-size: 32px"],
-            h2[style*="font-size: 28px"] {
-                font-size: 24px !important;
-            }
-            
-            /* Paragraphs and smaller text */
-            p[style*="font-size: 25px"],
-            p[style*="font-size: 20px"],
-            p[style*="font-size: 18px"] {
-                font-size: 16px !important;
-                line-height: 1.4 !important;
-            }
-            
-            /* Charts and data visualizations */
-            .chart-bar {
-                height: auto !important;
-                min-height: 40px !important;
-            }
-            
-            /* Watch demo buttons */
-            .watch-demo-btn {
-                padding: 8px 16px !important;
-                font-size: 14px !important;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            /* Extra small screens - further reduction */
-            h1[style*="font-size"] {
-                font-size: 24px !important;
-            }
-            
-            h2[style*="font-size"] {
-                font-size: 18px !important;
-            }
-            
-            p[style*="font-size"] {
-                font-size: 14px !important;
-            }
-            
-            /* Slide specific fixes */
-            .slide h1,
-            .slide h2,
-            .slide p {
-                text-align: center !important;
-                margin: 10px 0 !important;
-            }
-        }
-        
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -348,7 +113,7 @@
         .split-container {
             display: flex;
             width: 100%;
-            height: 85%;
+            height: 80%;
             gap: 40px;
             position: relative;
         }
@@ -357,7 +122,7 @@
             flex: 1;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 20px;
-            padding: 30px 30px 25px 30px;
+            padding: 30px;
             position: relative;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -400,21 +165,21 @@
         
         .screen-mockup {
             width: 100%;
-            max-width: 450px;
+            max-width: 400px;
             background: #1e1e1e;
             border-radius: 10px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
         
         .menu-navigation {
             background: #2a2a2a;
-            padding: 15px;
-            margin-bottom: 15px;
+            padding: 10px;
+            margin-bottom: 10px;
             border-radius: 5px;
-            font-size: 15px;
+            font-size: 14px;
             color: #888;
-            min-height: 80px;
+            min-height: 60px;
         }
         
         .click-indicator {
@@ -635,28 +400,22 @@
         
         .metrics-container {
             background: rgba(255, 255, 255, 0.15);
-            padding: 6px 12px;
-            border-radius: 6px;
-            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: auto;
             margin-bottom: 0;
             text-align: center;
-            font-size: 15px;
+            font-size: 14px;
             flex-shrink: 0;
-            position: absolute;
-            bottom: 0px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: inline-block;
-            width: auto;
         }
         
         .metric-item {
             display: inline-block;
-            margin: 0 8px;
+            margin: 0 10px;
         }
         
         .metric-value {
-            font-size: 21px;
+            font-size: 22px;
             font-weight: 700;
             color: #ffffff;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -665,7 +424,7 @@
         .metric-label {
             font-size: 12px;
             color: #ffffff;
-            margin-top: 1px;
+            margin-top: 3px;
             opacity: 0.9;
         }
         
@@ -694,22 +453,21 @@
         .savings-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            gap: 30px;
             width: 100%;
             max-width: 1200px;
-            margin-top: 15px;
-            margin-bottom: 40px;
+            margin-top: 20px;
+            margin-bottom: 100px;
         }
         
         .savings-card {
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 16px;
-            padding: 16px;
+            border-radius: 20px;
+            padding: 20px;
             text-align: center;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             animation: slideInUp 0.8s ease-out backwards;
-            transform: scale(0.8);
         }
         
         .savings-card:nth-child(1) { animation-delay: 0.2s; }
@@ -717,26 +475,26 @@
         .savings-card:nth-child(3) { animation-delay: 0.6s; }
         
         @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(50px) scale(0.8); }
-            to { opacity: 1; transform: translateY(0) scale(0.8); }
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .company-size {
-            font-size: 31px;
+            font-size: 24px;
             color: #ffffff;
             margin-bottom: 10px;
             font-weight: 500;
         }
         
         .task-count {
-            font-size: 18px;
+            font-size: 14px;
             color: #e0e0e0;
             margin-bottom: 20px;
             font-style: italic;
         }
         
         .hours-saved {
-            font-size: 62px;
+            font-size: 48px;
             font-weight: 700;
             color: #ffffff;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
@@ -744,7 +502,7 @@
         }
         
         .dollar-saved {
-            font-size: 47px;
+            font-size: 36px;
             color: #4caf50;
             font-weight: 600;
             margin-bottom: 10px;
@@ -820,10 +578,6 @@
             font-size: 32px;
             font-weight: 700;
             margin-top: 30px;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
         .traditional-process .process-cost {
@@ -832,32 +586,19 @@
         
         .vilara-process .process-cost {
             color: #4caf50;
-            margin-top: 100px;
         }
         
         .process-time {
             font-size: 20px;
             color: #ffffff;
             margin-top: 10px;
-            min-height: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
         /* Closing Slide */
-        .closing-tagline {
-            font-size: 32px;
-            color: #ffffff;
-            margin-bottom: 10px;
-            animation: slideUp 1s ease-out 0.5s backwards;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
         .benefits-list {
             list-style: none;
             font-size: 28px;
-            margin: 10px 0 10px 0;
+            margin: 20px 0 40px 0;
         }
         
         .benefit-item {
@@ -888,12 +629,12 @@
             color: white;
             font-size: 24px;
             font-weight: 600;
-            padding: 20px 30px;
+            padding: 20px 60px;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             animation: pulse 2s ease-in-out infinite;
-            margin-top: 20px;
+            margin-top: 40px;
             box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
             transition: transform 0.3s ease;
         }
@@ -953,12 +694,12 @@
         .chart-container {
             width: 100%;
             max-width: 800px;
-            height: 345px;
-            margin: 130px auto 15px auto;
+            height: 400px;
+            margin: 40px auto;
             position: relative;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 15px;
-            padding: 20px 20px 60px 20px;
+            padding: 20px 20px 80px 20px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -969,9 +710,9 @@
             align-items: flex-end;
             justify-content: center;
             gap: 80px;
-            height: 200px;
+            height: 300px;
             width: 100%;
-            padding: 20px 30px 0px 30px;
+            padding: 20px 40px;
             border-left: 2px solid rgba(255, 255, 255, 0.3);
             border-bottom: 2px solid rgba(255, 255, 255, 0.3);
             position: relative;
@@ -1001,10 +742,10 @@
         
         .bar-value {
             position: absolute;
-            top: -25px;
+            top: -40px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             color: #ffffff;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
@@ -1013,7 +754,7 @@
         
         .bar-label {
             position: absolute;
-            bottom: -40px;
+            bottom: -60px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 14px;
@@ -1068,36 +809,12 @@
         }
     </style>
 </head>
-<body class="demo-body">
-    <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <div class="nav-container">
-                <a href="/" class="logo">
-                    <img src="assets/images/vilara_logo.png" alt="Vilara Logo">
-                    <span class="logo-text">Vilara</span>
-                </a>
-                <ul class="nav-menu">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/demo.html" class="active">Demo</a></li>
-                    <li><a href="/pricing.html">Pricing</a></li>
-                    <li><a href="/how-it-works.html">How It Works</a></li>
-                    <li><a href="/migration.html">Migration</a></li>
-                    <li><a href="/contact.html" class="btn btn-primary">Get Started</a></li>
-                </ul>
-                <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </div>
-    </nav>
+<body>
     <div class="presentation-container">
         <!-- Slide 1: Opening Hook -->
-        <div class="slide active" id="slide1" style="padding-top: 10px; padding-bottom: 60px;">
+        <div class="slide active" id="slide1">
             <div class="logo-container">
-                <img src="assets/images/vilara_logo.png" alt="Vilara" style="height: 120px; width: auto;">
+                <img src="Vilara_logo_transparent.png" alt="Vilara" style="height: 120px; width: auto;">
             </div>
             <h2 class="tagline">The ERP Time Challenge</h2>
             <div class="timer-icon">
@@ -1149,7 +866,7 @@
                     <div class="task-display">
                         <div class="vilara-ui-container">
                             <div class="vilara-logo-section">
-                                <img src="assets/images/vilara_logo.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
+                                <img src="Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
                                 <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
                             </div>
                             <button class="watch-demo-btn" id="watchBtn1">🎬 Now watch Vilara do it</button>
@@ -1222,7 +939,7 @@
                     <div class="task-display">
                         <div class="vilara-ui-container">
                             <div class="vilara-logo-section">
-                                <img src="assets/images/vilara_logo.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
+                                <img src="Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
                                 <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
                             </div>
                             <button class="watch-demo-btn" id="watchBtn2">🎬 Now watch Vilara do it</button>
@@ -1291,7 +1008,7 @@
                     <div class="task-display">
                         <div class="vilara-ui-container">
                             <div class="vilara-logo-section">
-                                <img src="assets/images/vilara_logo.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
+                                <img src="Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
                                 <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
                             </div>
                             <button class="watch-demo-btn" id="watchBtn3">🎬 Now watch Vilara do it</button>
@@ -1359,7 +1076,7 @@
                     <div class="task-display">
                         <div class="vilara-ui-container">
                             <div class="vilara-logo-section">
-                                <img src="assets/images/vilara_logo.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
+                                <img src="Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
                                 <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
                             </div>
                             <button class="watch-demo-btn" id="watchBtn4">🎬 Now watch Vilara do it</button>
@@ -1392,23 +1109,23 @@
         </div>
         
         <!-- Slide 6: Annual Time & Cost Savings -->
-        <div class="slide" id="slide6" style="padding: 60px 40px 120px 40px;">
+        <div class="slide" id="slide6" style="padding-top: 100px;">
             <h2 class="task-title">Annual Time & Cost Savings</h2>
             <div class="chart-container">
                 <div class="bar-chart">
                     <div class="bar-group">
-                        <div class="bar traditional-bar" id="traditionalBar" style="height: 5px;">
+                        <div class="bar traditional-bar" id="traditionalBar" style="height: 10px;">
                             <span class="bar-value">6 min</span>
                         </div>
+                        <div class="bar-label">Average ERP Task<br>(time required)</div>
                     </div>
                     <div class="bar-group">
-                        <div class="bar vilara-bar" id="vilaraBar" style="height: 5px; background: linear-gradient(180deg, #4caf50 0%, #388e3c 100%);">
+                        <div class="bar vilara-bar" id="vilaraBar" style="height: 10px; background: linear-gradient(180deg, #4caf50 0%, #388e3c 100%);">
                             <span class="bar-value" style="color: #4caf50; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">0.17 min</span>
                         </div>
+                        <div class="bar-label">Vilara<br>(time required)</div>
                     </div>
                 </div>
-                <div style="position: absolute; bottom: 15px; left: calc(50% - 80px); transform: translateX(-50%); font-size: 14px; color: #ffffff; text-align: center; font-weight: 500; white-space: nowrap;">Average ERP Task<br>(time required)</div>
-                <div style="position: absolute; bottom: 15px; left: calc(50% + 80px); transform: translateX(-50%); font-size: 14px; color: #ffffff; text-align: center; font-weight: 500; white-space: nowrap;">Vilara<br>(time required)</div>
             </div>
             
             <div class="savings-grid">
@@ -1469,12 +1186,12 @@
         </div>
         
         <!-- Slide 8: More Process Changes -->
-        <div class="slide" id="slide8" style="padding: 40px 40px 120px 40px;">
+        <div class="slide" id="slide8">
             <h2 class="task-title">Instant Process Adaptations</h2>
             <div style="max-width: 600px; margin: 0 auto;">
-                <div class="vilara-ui-container" style="margin-bottom: 30px; margin-top: 126px;">
+                <div class="vilara-ui-container" style="margin-bottom: 30px;">
                     <div class="vilara-logo-section">
-                        <img src="assets/images/vilara_logo.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
+                        <img src="Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
                         <div class="vilara-subtitle">Instant Business Process Changes</div>
                     </div>
                     <div class="chat-window" id="chat8" style="height: 400px;">
@@ -1497,7 +1214,7 @@
                 </div>
             </div>
             
-            <div style="text-align: center; margin-top: 20px; font-size: 24px; color: #ffffff;">
+            <div style="text-align: center; margin-top: 30px; font-size: 24px; color: #ffffff;">
                 From approval chains to billing rules, Vilara adapts instantly.
             </div>
         </div>
@@ -1505,7 +1222,7 @@
         <!-- Slide 9: Key Features Icons -->
         <div class="slide" id="slide9">
             <h2 class="task-title">Why Vilara</h2>
-            <div class="icon-grid" style="grid-template-columns: repeat(5, 1fr); gap: 10px;">
+            <div class="icon-grid" style="grid-template-columns: repeat(5, 1fr); gap: 20px;">
                 <div class="icon-item">
                     <div class="icon">⚡</div>
                     <div class="icon-label">95% Faster<br>Operations</div>
@@ -1529,7 +1246,7 @@
             </div>
             
             <div style="max-width: 800px; margin: 40px auto; text-align: center;">
-                <p style="font-size: 25px; line-height: 1.6; color: #ffffff; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);">
+                <p style="font-size: 20px; line-height: 1.6; color: #ffffff; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);">
                     Stop clicking through menus. Stop waiting for developers.<br>
                     Just tell Vilara what you need, and it's done.<br>
                     Built on proven PostgreSQL. Works alongside your current ERP.<br>
@@ -1539,11 +1256,11 @@
         </div>
         
         <!-- Slide 10: Closing & CTA -->
-        <div class="slide" id="slide10" style="padding: 60px 40px 140px 40px;">
+        <div class="slide" id="slide10" style="padding-bottom: 120px;">
             <div class="logo-container">
-                <img src="assets/images/vilara_logo.png" alt="Vilara" style="height: 120px; width: auto;">
+                <img src="Vilara_logo_transparent.png" alt="Vilara" style="height: 120px; width: auto;">
             </div>
-            <h2 class="closing-tagline">The ERP that adapts instantly</h2>
+            <h2 class="tagline">The ERP that adapts instantly</h2>
             
             <ul class="benefits-list">
                 <li class="benefit-item">
@@ -1564,9 +1281,9 @@
                 </li>
             </ul>
             
-            <button class="cta-button" onclick="window.location.href='/contact.html'">Get Started</button>
+            <button class="cta-button">Try Vilara Free</button>
             
-            <p style="margin-top: 20px; margin-bottom: 20; font-size: 18px; color: #e0e0e0;">
+            <p style="margin-top: 20px; margin-bottom: 0; font-size: 18px; color: #e0e0e0;">
                 Enterprise ERP without the enterprise complexity.
             </p>
         </div>
@@ -1804,10 +1521,10 @@
                     const traditionalBar = document.getElementById('traditionalBar');
                     const vilaraBar = document.getElementById('vilaraBar');
                     if (traditionalBar) {
-                        traditionalBar.style.height = '144px'; // 120px + 20% = 144px
+                        traditionalBar.style.height = '200px'; // Proportional to 6 min avg
                     }
                     if (vilaraBar) {
-                        vilaraBar.style.height = '18px'; // 15px + 20% = 18px
+                        vilaraBar.style.height = '20px'; // Small bar for Vilara
                     }
                 }, 500));
             } else if (currentSlide === 8) {
@@ -1877,6 +1594,5 @@
         showSlide(1);
         document.getElementById('totalSlides').textContent = totalSlides;
     </script>
-    <script src="assets/js/main.js"></script>
 </body>
 </html>
