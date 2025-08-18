@@ -82,6 +82,238 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 20px 15px;
+            }
+            
+            .logo-text {
+                font-size: 48px;
+                letter-spacing: -1px;
+            }
+            
+            .tagline {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .timer-icon {
+                width: 80px;
+                height: 80px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .slide {
+                padding: 15px 10px;
+            }
+            
+            .logo-text {
+                font-size: 36px;
+            }
+            
+            .tagline {
+                font-size: 18px;
+            }
+            
+            .timer-icon {
+                width: 60px;
+                height: 60px;
+                border-width: 3px;
+            }
+        }
+        
+        /* Mobile Responsive for Split Screen */
+        @media (max-width: 768px) {
+            .split-container {
+                flex-direction: column;
+                gap: 20px;
+                height: auto;
+            }
+            
+            .split-side {
+                padding: 20px 15px;
+                margin-bottom: 10px;
+            }
+            
+            .system-label {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+            
+            .screen-mockup {
+                max-width: 100%;
+                padding: 15px;
+            }
+            
+            .menu-navigation {
+                font-size: 13px;
+                padding: 12px;
+                min-height: 60px;
+            }
+            
+            .task-label {
+                font-size: 12px !important;
+                padding: 6px 10px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .split-container {
+                gap: 15px;
+            }
+            
+            .split-side {
+                padding: 15px 10px;
+                border-radius: 15px;
+            }
+            
+            .system-label {
+                font-size: 16px;
+            }
+            
+            .screen-mockup {
+                padding: 12px;
+                border-radius: 8px;
+            }
+            
+            .menu-navigation {
+                font-size: 11px;
+                padding: 10px;
+                min-height: 50px;
+            }
+        }
+        
+        /* Mobile Navigation and Touch Improvements */
+        @media (max-width: 768px) {
+            .nav-button {
+                padding: 10px 18px;
+                font-size: 14px;
+                margin: 0 5px;
+                min-width: 80px;
+            }
+            
+            .slide-counter {
+                font-size: 12px;
+                margin: 0 10px;
+            }
+            
+            /* Improve touch targets */
+            .nav-button {
+                min-height: 44px;
+                touch-action: manipulation;
+            }
+            
+            /* Fixed navigation positioning for mobile */
+            .navigation {
+                bottom: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                padding: 0 15px;
+            }
+            
+            /* Chat elements mobile fixes */
+            .chat-container {
+                font-size: 14px !important;
+            }
+            
+            .chart-container {
+                max-width: 100%;
+                padding: 10px;
+            }
+            
+            /* Calculation note mobile positioning */
+            #calculationNote {
+                bottom: 80px !important;
+                right: 15px !important;
+                left: 15px !important;
+                max-width: none !important;
+                font-size: 10px !important;
+                text-align: center !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-button {
+                padding: 8px 12px;
+                font-size: 12px;
+                margin: 0 3px;
+                min-width: 70px;
+            }
+            
+            .slide-counter {
+                font-size: 11px;
+                margin: 0 8px;
+            }
+            
+            .navigation {
+                bottom: 5px;
+                padding: 0 10px;
+            }
+        }
+        
+        /* Override inline styles for mobile */
+        @media (max-width: 768px) {
+            /* Large headings */
+            h1[style*="font-size: 62px"], 
+            h1[style*="font-size: 47px"],
+            .slide h1 {
+                font-size: 32px !important;
+            }
+            
+            /* Medium headings */
+            h2[style*="font-size: 36px"],
+            h2[style*="font-size: 31px"],
+            h2[style*="font-size: 32px"],
+            h2[style*="font-size: 28px"] {
+                font-size: 24px !important;
+            }
+            
+            /* Paragraphs and smaller text */
+            p[style*="font-size: 25px"],
+            p[style*="font-size: 20px"],
+            p[style*="font-size: 18px"] {
+                font-size: 16px !important;
+                line-height: 1.4 !important;
+            }
+            
+            /* Charts and data visualizations */
+            .chart-bar {
+                height: auto !important;
+                min-height: 40px !important;
+            }
+            
+            /* Watch demo buttons */
+            .watch-demo-btn {
+                padding: 8px 16px !important;
+                font-size: 14px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            /* Extra small screens - further reduction */
+            h1[style*="font-size"] {
+                font-size: 24px !important;
+            }
+            
+            h2[style*="font-size"] {
+                font-size: 18px !important;
+            }
+            
+            p[style*="font-size"] {
+                font-size: 14px !important;
+            }
+            
+            /* Slide specific fixes */
+            .slide h1,
+            .slide h2,
+            .slide p {
+                text-align: center !important;
+                margin: 10px 0 !important;
+            }
+        }
+        
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
