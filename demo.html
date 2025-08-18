@@ -1156,7 +1156,9 @@
         <!-- Slide 1: Opening Hook -->
         <div class="slide active" id="slide1">
             <div class="logo-container">
-                <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 120px; width: auto;">
+                <a href="/" style="display: inline-block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 120px; width: auto; cursor: pointer;">
+                </a>
             </div>
             <h2 class="tagline">The ERP Time Challenge</h2>
             <div class="timer-icon">
@@ -1211,7 +1213,9 @@
                     <div class="task-display">
                         <div class="vilara-ui-container">
                             <div class="vilara-logo-section">
-                                <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
+                                <a href="/" style="display: inline-block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                    <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px; cursor: pointer;">
+                                </a>
                                 <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
                             </div>
                             <button class="watch-demo-btn" id="watchBtn1">🎬 Now watch Vilara do it</button>
@@ -1287,7 +1291,9 @@
                     <div class="task-display">
                         <div class="vilara-ui-container">
                             <div class="vilara-logo-section">
-                                <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
+                                <a href="/" style="display: inline-block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                    <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px; cursor: pointer;">
+                                </a>
                                 <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
                             </div>
                             <button class="watch-demo-btn" id="watchBtn2">🎬 Now watch Vilara do it</button>
@@ -1359,7 +1365,9 @@
                     <div class="task-display">
                         <div class="vilara-ui-container">
                             <div class="vilara-logo-section">
-                                <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
+                                <a href="/" style="display: inline-block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                    <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px; cursor: pointer;">
+                                </a>
                                 <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
                             </div>
                             <button class="watch-demo-btn" id="watchBtn3">🎬 Now watch Vilara do it</button>
@@ -1430,7 +1438,9 @@
                     <div class="task-display">
                         <div class="vilara-ui-container">
                             <div class="vilara-logo-section">
-                                <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
+                                <a href="/" style="display: inline-block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                    <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px; cursor: pointer;">
+                                </a>
                                 <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
                             </div>
                             <button class="watch-demo-btn" id="watchBtn4">🎬 Now watch Vilara do it</button>
@@ -1612,7 +1622,9 @@
         <!-- Slide 10: Closing & CTA -->
         <div class="slide" id="slide10" style="padding-bottom: 120px;">
             <div class="logo-container">
-                <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 120px; width: auto;">
+                <a href="/" style="display: inline-block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 120px; width: auto; cursor: pointer;">
+                </a>
             </div>
             <h2 class="tagline">The ERP that adapts instantly</h2>
             
@@ -1635,7 +1647,11 @@
                 </li>
             </ul>
             
-            <button class="cta-button">Try Vilara Free</button>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+                <a href="/contact.html#free" class="cta-button" style="text-decoration: none;">Start Free Today</a>
+                <a href="/pricing.html" class="cta-button" style="text-decoration: none; background: transparent; border: 2px solid #667eea;">View Pricing</a>
+                <a href="/" class="cta-button" style="text-decoration: none; background: transparent; border: 2px solid #667eea;">Explore Vilara</a>
+            </div>
             
             <p style="margin-top: 20px; margin-bottom: 0; font-size: 18px; color: #e0e0e0;">
                 Enterprise ERP without the enterprise complexity.
@@ -1650,6 +1666,7 @@
             <span id="currentSlide">1</span> / <span id="totalSlides">10</span>
         </span>
         <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Next</button>
+        <button class="nav-button" id="exitBtn" onclick="window.location.href='/'" style="background: #667eea; border-color: #667eea;">← Exit Demo</button>
         <button class="nav-button" id="startOverBtn" onclick="startOver()" style="display: none;">↻ Start Over</button>
     </div>
     
