@@ -54,7 +54,7 @@ vercel ls
 
 ## Architecture & Design Patterns
 - **Lead Qualification**: Two-path approach based on company size
-  - Free tier: Under 10 employees → Instant access
+  - Free tier: Under 5 employees → Instant access
   - Consultation: 10+ employees → Personalized demo
 - **Content Strategy**: Problem-focused messaging with clear value props
 - **Conversion Funnels**: Multiple entry points (demo, pricing, solutions)
@@ -75,7 +75,7 @@ vercel ls
 - Clear progression from problem to solution
 
 ### Pricing Page (pricing.html)
-- Free Starter (up to 10 employees)
+- Free Starter (up to 5 employees)
 - Transparent paid tiers (Professional, Business, Enterprise)
 - Cost comparison table vs NetSuite/SAP
 - No hidden fees messaging
@@ -153,7 +153,7 @@ vercel ls
 
 ## Recent Changes & Notes
 - **2025-08-16**: Implemented tiered lead qualification system
-- **Company size focus**: Free for under 10 employees, consultation for 10+
+- **Company size focus**: Free for under 5 employees, consultation for 5+
 - **Messaging refinement**: Added "blow my mind features" and "nirvana" language
 - **Cost comparison**: Added "Additional Seat Licenses" row highlighting $0 advantage
 
