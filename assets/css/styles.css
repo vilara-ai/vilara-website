@@ -22,12 +22,15 @@ body {
     line-height: 1.6;
     color: var(--text-dark);
     background: var(--bg-white);
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Navigation */
@@ -897,4 +900,51 @@ footer {
     border: none;
     border-radius: 1rem;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Process Automation Grid Responsive */
+.process-automation-grid {
+    overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+    .process-automation-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1.5rem !important;
+        align-items: stretch !important;
+    }
+    
+    .process-automation-grid > div[style*="font-size: 1.5rem"] {
+        display: none !important; /* Hide arrows on mobile */
+    }
+    
+    /* Ensure process automation cards don't overflow */
+    .process-automation-grid > div {
+        min-width: 0 !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .process-automation-grid > div {
+        padding: 1rem !important;
+    }
+    
+    .process-automation-grid h4 {
+        font-size: 0.95rem !important;
+    }
+    
+    .process-automation-grid p {
+        font-size: 0.85rem !important;
+    }
+}
+
+/* Fix grid layouts that can cause overflow */
+@media (max-width: 768px) {
+    div[style*="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr))"] {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
 }

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Test - Vilara</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .viewport-info {
+            background: #667eea;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .test-link {
+            display: block;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .test-link:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+        .critical {
+            border-left: 4px solid #dc3545;
+            background: #f8d7da;
+        }
+        .status {
+            float: right;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .fixed {
+            background: #d4edda;
+            color: #155724;
+        }
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .viewport-sizes {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .viewport-size {
+            background: #667eea;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Vilara Website Mobile Testing</h1>
+        
+        <div class="viewport-info">
+            Current Viewport: <span id="viewportSize">Loading...</span>
+        </div>
+        
+        <div class="instructions">
+            <h3>Testing Instructions:</h3>
+            <ol>
+                <li><strong>Resize your browser</strong> to simulate mobile devices (or use DevTools device mode)</li>
+                <li><strong>Test these viewport sizes:</strong></li>
+                <div class="viewport-sizes">
+                    <div class="viewport-size">320px (iPhone SE)</div>
+                    <div class="viewport-size">375px (iPhone 12)</div>
+                    <div class="viewport-size">414px (iPhone Plus)</div>
+                    <div class="viewport-size">768px (iPad)</div>
+                </div>
+                <li><strong>Check for:</strong> Horizontal scrolling, content overflow, broken layouts, unusable touch targets</li>
+            </ol>
+        </div>
+        
+        <h2>Test Pages (All Issues Fixed)</h2>
+        
+        <a href="/demo.html" class="test-link critical">
+            <strong>Demo Page</strong>
+            <span class="status fixed">FIXED</span>
+            <br>
+            <small>❌ Was: Split-screen layout broken on mobile<br>
+            ✅ Now: Shows only Vilara side on mobile, proper touch targets</small>
+        </a>
+        
+        <a href="/how-it-works.html" class="test-link critical">
+            <strong>How It Works Page</strong>
+            <span class="status fixed">FIXED</span>
+            <br>
+            <small>❌ Was: "AI-Powered Process Automation" section caused horizontal scroll<br>
+            ✅ Now: Responsive grid layout, no overflow</small>
+        </a>
+        
+        <a href="/index.html" class="test-link">
+            <strong>Home Page</strong>
+            <span class="status fixed">FIXED</span>
+            <br>
+            <small>✅ Logo paths corrected, no overflow issues</small>
+        </a>
+        
+        <a href="/pricing.html" class="test-link">
+            <strong>Pricing Page</strong>
+            <span class="status fixed">VERIFIED</span>
+            <br>
+            <small>✅ Already responsive, verified logo paths</small>
+        </a>
+        
+        <a href="/contact.html" class="test-link">
+            <strong>Contact Page</strong>
+            <span class="status fixed">VERIFIED</span>
+            <br>
+            <small>✅ Already responsive, verified logo paths</small>
+        </a>
+        
+        <h2>Critical Fixes Applied:</h2>
+        
+        <div style="background: #d4edda; padding: 15px; border-radius: 8px; border: 1px solid #c3e6cb; margin: 20px 0;">
+            <h4 style="color: #155724; margin-top: 0;">✅ Demo Page Mobile Layout</h4>
+            <ul style="color: #155724;">
+                <li>Hidden traditional ERP side panel on mobile devices</li>
+                <li>Vilara demo side now uses full width on mobile</li>
+                <li>Added mobile-friendly touch targets (44px minimum)</li>
+                <li>Improved chat message sizing for mobile</li>
+                <li>Added visible mobile experience note</li>
+            </ul>
+        </div>
+        
+        <div style="background: #d4edda; padding: 15px; border-radius: 8px; border: 1px solid #c3e6cb; margin: 20px 0;">
+            <h4 style="color: #155724; margin-top: 0;">✅ Logo Path Issues</h4>
+            <ul style="color: #155724;">
+                <li>Fixed broken logo references in demo.html</li>
+                <li>Added favicon to demo.html</li>
+                <li>Verified all other pages have correct logo paths</li>
+            </ul>
+        </div>
+        
+        <div style="background: #d4edda; padding: 15px; border-radius: 8px; border: 1px solid #c3e6cb; margin: 20px 0;">
+            <h4 style="color: #155724; margin-top: 0;">✅ Content Overflow Issues</h4>
+            <ul style="color: #155724;">
+                <li>Fixed "AI-Powered Process Automation" 5-column grid</li>
+                <li>Added responsive breakpoints for complex grids</li>
+                <li>Implemented overflow-x: hidden on body</li>
+                <li>Fixed minmax(400px) grids that caused mobile overflow</li>
+                <li>Ensured all containers properly contain content</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        function updateViewportInfo() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const viewportElement = document.getElementById('viewportSize');
+            
+            let deviceType = '';
+            if (width <= 320) deviceType = ' (Very Small Mobile)';
+            else if (width <= 375) deviceType = ' (Mobile)';
+            else if (width <= 414) deviceType = ' (Large Mobile)';
+            else if (width <= 768) deviceType = ' (Tablet)';
+            else if (width <= 1024) deviceType = ' (Small Laptop)';
+            else deviceType = ' (Desktop)';
+            
+            viewportElement.textContent = `${width}px × ${height}px${deviceType}`;
+        }
+        
+        updateViewportInfo();
+        window.addEventListener('resize', updateViewportInfo);
+        
+        // Add click tracking for testing
+        document.querySelectorAll('.test-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                console.log(`Testing: ${this.querySelector('strong').textContent} at viewport ${window.innerWidth}px`);
+            });
+        });
+    </script>
+</body>
+</html>
