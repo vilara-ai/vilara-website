@@ -310,7 +310,9 @@
         
         .vilara-input-form {
             display: flex;
+            align-items: center;
             gap: 8px;
+            margin-top: 15px;
         }
         
         .vilara-input {
@@ -338,6 +340,9 @@
             font-weight: 600;
             font-size: 0.9rem;
             transition: all 0.3s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+            align-self: stretch;
         }
         
         .watch-demo-btn {
@@ -662,7 +667,14 @@
             left: 50%;
             transform: translateX(-50%);
             display: flex;
+            align-items: center;
+            justify-content: center;
             gap: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             z-index: 100;
         }
         
@@ -1035,9 +1047,17 @@
                 bottom: 20px;
                 left: 50%;
                 transform: translateX(-50%);
-                gap: 10px;
-                flex-wrap: wrap;
+                display: flex;
+                align-items: center;
                 justify-content: center;
+                gap: 10px;
+                background: rgba(0, 0, 0, 0.6);
+                padding: 12px 20px;
+                border-radius: 30px;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                flex-wrap: wrap;
+                max-width: 90vw;
             }
             
             .nav-button {
