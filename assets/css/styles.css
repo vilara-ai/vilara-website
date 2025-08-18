@@ -126,6 +126,19 @@ nav {
     background: var(--text-dark);
     margin: 3px 0;
     transition: 0.3s;
+    display: block;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
 }
 
 /* Hero Section */
@@ -515,6 +528,11 @@ footer {
 @media (max-width: 768px) {
     .mobile-menu-toggle {
         display: flex;
+        min-height: 44px;
+        min-width: 44px;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
     }
     
     .nav-menu {
@@ -527,10 +545,19 @@ footer {
         flex-direction: column;
         padding: 1rem;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 1001;
     }
     
     .nav-menu.active {
         display: flex;
+    }
+    
+    .nav-menu a {
+        padding: 12px 0;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        touch-action: manipulation;
     }
     
     .hero h1 {
@@ -567,18 +594,49 @@ footer {
         padding: 0 15px;
     }
     
+    /* Logo improvements for mobile */
+    .logo img {
+        height: 50px;
+    }
+    
+    /* Hero section mobile spacing */
+    .hero {
+        padding: 100px 0 40px;
+    }
+    
     /* Button improvements for mobile */
     .btn {
         padding: 12px 20px;
-        font-size: 14px;
+        font-size: 16px; /* Prevent zoom on iOS */
         min-height: 44px; /* Apple recommended touch target */
         touch-action: manipulation;
+        border: none;
+        outline: none;
     }
     
     /* Form improvements */
     input, select, textarea {
         font-size: 16px; /* Prevents zoom on iOS */
         min-height: 44px;
+        touch-action: manipulation;
+        border-radius: 8px;
+        padding: 12px 16px;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    
+    /* Improve select dropdowns on mobile */
+    select {
+        background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23666' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 12px;
+        padding-right: 40px;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+        outline: 2px solid var(--primary-gradient-start);
+        outline-offset: 2px;
     }
     
     /* Card layouts */
@@ -588,9 +646,50 @@ footer {
     }
     
     /* Tables */
-    .comparison-table {
+    .comparison-table,
+    table {
         font-size: 14px;
         overflow-x: auto;
+        display: block;
+        white-space: nowrap;
+    }
+    
+    table tbody,
+    table thead,
+    table tr,
+    table td,
+    table th {
+        display: block;
+    }
+    
+    table tr {
+        border: 1px solid var(--border-light);
+        margin-bottom: 0.5rem;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+    }
+    
+    table td {
+        border: none;
+        padding: 0.5rem;
+        position: relative;
+        padding-left: 50%;
+        white-space: normal;
+    }
+    
+    table td:before {
+        content: attr(data-label) ": ";
+        position: absolute;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+    
+    table th {
+        display: none;
     }
     
     /* Hero section mobile text */
@@ -628,10 +727,11 @@ footer {
     }
     
     .btn {
-        padding: 10px 16px;
-        font-size: 13px;
+        padding: 12px 16px;
+        font-size: 15px;
         width: 100%;
         margin-bottom: 10px;
+        min-height: 48px;
     }
     
     .section-header h2 {
@@ -639,16 +739,132 @@ footer {
     }
     
     .feature-icon {
-        font-size: 2rem;
+        font-size: 1.8rem;
         width: 60px;
         height: 60px;
-        line-height: 60px;
+    }
+    
+    .path-icon {
+        font-size: 1.8rem;
+        width: 70px;
+        height: 70px;
+    }
+    
+    /* ROI Calculator mobile improvements */
+    .calculator-container {
+        padding: 2rem 1rem;
+    }
+    
+    .calculator-inputs {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .roi-results {
+        padding: 1.5rem;
     }
     
     /* Stack button groups */
     .hero .btn + .btn {
         margin-left: 0;
         margin-top: 10px;
+    }
+    
+    /* Mobile CTAs */
+    .hero > .container > .hero-content > div {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+    }
+    
+    .hero > .container > .hero-content > div .btn {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+        margin: 0;
+    }
+}
+
+/* Tablet portrait adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-stats {
+        gap: 2rem;
+    }
+    
+    .paths-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .features-grid-6 {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+/* Large mobile devices */
+@media (max-width: 540px) {
+    .hero h1 {
+        font-size: 2.2rem;
+        line-height: 1.3;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .hero-description {
+        font-size: 0.95rem;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+    }
+}
+
+/* Ultra-small screens */
+@media (max-width: 360px) {
+    .container {
+        padding: 0 8px;
+    }
+    
+    .hero {
+        padding: 90px 0 30px;
+    }
+    
+    .hero h1 {
+        font-size: 1.6rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .stat-value {
+        font-size: 1.8rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+    }
+    
+    .section-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .section-header p {
+        font-size: 0.9rem;
+    }
+    
+    .path-card {
+        padding: 1.5rem;
+    }
+    
+    .feature-item {
+        padding: 1rem;
     }
 }
 

@@ -1,7 +1,28 @@
 // Mobile menu toggle
 function toggleMobileMenu() {
     const navMenu = document.querySelector('.nav-menu');
+    const mobileToggle = document.querySelector('.mobile-menu-toggle');
+    
     navMenu.classList.toggle('active');
+    mobileToggle.classList.toggle('active');
+    
+    // Close menu when clicking outside
+    if (navMenu.classList.contains('active')) {
+        document.addEventListener('click', closeMobileMenuOnOutsideClick);
+    } else {
+        document.removeEventListener('click', closeMobileMenuOnOutsideClick);
+    }
+}
+
+function closeMobileMenuOnOutsideClick(event) {
+    const navMenu = document.querySelector('.nav-menu');
+    const mobileToggle = document.querySelector('.mobile-menu-toggle');
+    
+    if (!navMenu.contains(event.target) && !mobileToggle.contains(event.target)) {
+        navMenu.classList.remove('active');
+        mobileToggle.classList.remove('active');
+        document.removeEventListener('click', closeMobileMenuOnOutsideClick);
+    }
 }
 
 // Currency formatting functions
