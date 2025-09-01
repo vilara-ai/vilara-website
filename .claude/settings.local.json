@@ -5,7 +5,8 @@
       "Bash(cp:*)",
       "Bash(find:*)",
       "Bash(npx vercel:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(python3:*)"
     ],
     "deny": [],
     "ask": []
