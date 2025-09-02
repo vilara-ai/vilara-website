@@ -103,6 +103,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            position: relative; /* Needed for corner navigation positioning */
         }
         
         @keyframes fadeIn {
@@ -2046,18 +2047,11 @@
             
             slides[currentSlide - 1].classList.add('active');
             
-            // Update counter
-            document.getElementById('currentSlide').textContent = currentSlide;
-            
-            // Update button states
-            document.getElementById('prevBtn').disabled = currentSlide === 1;
-            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
-            
-            // Show/hide start over button on slide 10
-            const startOverBtn = document.getElementById('startOverBtn');
-            if (startOverBtn) {
-                startOverBtn.style.display = currentSlide === totalSlides ? 'inline-block' : 'none';
-            }
+            // Update all slide counters (corner navigation)
+            const slideCounters = document.querySelectorAll('.current-slide');
+            slideCounters.forEach(counter => {
+                if (counter) counter.textContent = currentSlide;
+            });
             
             // Show/hide calculation note on slide 6
             const calculationNote = document.getElementById('calculationNote');
@@ -2216,9 +2210,21 @@
         }
         
         // Initialize
-        showSlide(1);
-        initializeMobileToggles();
-        addNavigationToSlides();
+        document.addEventListener('DOMContentLoaded', function() {
+            showSlide(1);
+            initializeMobileToggles();
+            addNavigationToSlides();
+        });
+        
+        // Also run immediately if DOM is already loaded
+        if (document.readyState === 'loading') {
+            // Still loading, wait for DOMContentLoaded
+        } else {
+            // DOM is already loaded
+            showSlide(1);
+            initializeMobileToggles();
+            addNavigationToSlides();
+        }
     </script>
 </body>
 </html>
