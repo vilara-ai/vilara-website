@@ -102,6 +102,13 @@
             z-index: 50;
         }
         
+        /* Special padding for slide 6 on desktop only */
+        @media (min-width: 769px) {
+            #slide6 {
+                padding-top: 100px;
+            }
+        }
+        
         .slide {
             position: absolute;
             width: 100%;
@@ -907,6 +914,20 @@
         
         /* Mobile Responsive Styles */
         @media (max-width: 768px) {
+            /* Move calculation note to left on mobile to avoid nav button overlap */
+            .calculation-note {
+                left: 20px;
+                right: auto;
+                transform: none;
+                text-align: left;
+                bottom: 20px;
+                max-width: 60%;
+            }
+            
+            /* Ensure slide 6 has normal padding on mobile */
+            #slide6 {
+                padding-top: 40px !important;
+            }
             body {
                 overflow-y: auto;
             }
@@ -1436,12 +1457,8 @@
                         </div>
                         <div class="metrics-container">
                             <div class="metric-item">
-                                <div class="metric-value">5</div>
-                                <div class="metric-label">Screens</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">23</div>
-                                <div class="metric-label">Clicks</div>
+                                <div class="metric-value">8</div>
+                                <div class="metric-label">Steps</div>
                             </div>
                             <div class="metric-item">
                                 <div class="metric-value">3:00</div>
@@ -1479,15 +1496,11 @@
                         <div class="metrics-container">
                             <div class="metric-item">
                                 <div class="metric-value">1</div>
-                                <div class="metric-label">Command</div>
+                                <div class="metric-label">Commands</div>
                             </div>
                             <div class="metric-item">
-                                <div class="metric-value">0</div>
-                                <div class="metric-label">Clicks</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">0:03</div>
-                                <div class="metric-label">Seconds</div>
+                                <div class="metric-value">0:05</div>
+                                <div class="metric-label">Minutes</div>
                             </div>
                         </div>
                     </div>
@@ -1559,11 +1572,11 @@
                         <div class="metrics-container">
                             <div class="metric-item">
                                 <div class="metric-value">1</div>
-                                <div class="metric-label">Command</div>
+                                <div class="metric-label">Commands</div>
                             </div>
                             <div class="metric-item">
-                                <div class="metric-value">0:02</div>
-                                <div class="metric-label">Seconds</div>
+                                <div class="metric-value">0:03</div>
+                                <div class="metric-label">Minutes</div>
                             </div>
                         </div>
                     </div>
@@ -1637,11 +1650,11 @@
                         <div class="metrics-container">
                             <div class="metric-item">
                                 <div class="metric-value">1</div>
-                                <div class="metric-label">Command</div>
+                                <div class="metric-label">Commands</div>
                             </div>
                             <div class="metric-item">
-                                <div class="metric-value">0:02</div>
-                                <div class="metric-label">Seconds</div>
+                                <div class="metric-value">0:03</div>
+                                <div class="metric-label">Minutes</div>
                             </div>
                         </div>
                     </div>
@@ -1717,11 +1730,11 @@
                         <div class="metrics-container">
                             <div class="metric-item">
                                 <div class="metric-value">1</div>
-                                <div class="metric-label">Command</div>
+                                <div class="metric-label">Commands</div>
                             </div>
                             <div class="metric-item">
-                                <div class="metric-value">0:03</div>
-                                <div class="metric-label">Seconds</div>
+                                <div class="metric-value">0:05</div>
+                                <div class="metric-label">Minutes</div>
                             </div>
                         </div>
                     </div>
@@ -1731,7 +1744,7 @@
         </div>
         
         <!-- Slide 6: Annual Time & Cost Savings -->
-        <div class="slide" id="slide6" style="padding-top: 100px;">
+        <div class="slide" id="slide6">
             <h2 class="task-title">Annual Time & Cost Savings</h2>
             <div class="chart-container">
                 <div class="bar-chart">
