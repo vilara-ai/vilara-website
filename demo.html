@@ -1080,9 +1080,42 @@
             
             /* Mobile icons grid */
             .icon-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(3, 1fr);
                 gap: 15px;
-                margin: 30px auto;
+                margin: 20px auto;
+                max-width: 100%;
+                padding: 0 10px;
+            }
+            
+            /* Special handling for slide 9 on mobile */
+            #slide9 .icon-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: auto auto;
+                gap: 15px;
+            }
+            
+            #slide9 .icon-item:nth-child(4) {
+                grid-column: 1 / 2;
+            }
+            
+            #slide9 .icon-item:nth-child(5) {
+                grid-column: 2 / 3;
+            }
+            
+            /* Center the bottom row */
+            #slide9 .icon-grid::after {
+                content: "";
+                grid-column: 3 / 4;
+                grid-row: 2 / 3;
+            }
+            
+            /* Fix slide 9 text on mobile */
+            #slide9 p {
+                font-size: 16px !important;
+                padding: 0 15px;
+                margin: 10px auto 25px !important;
+                line-height: 1.5 !important;
             }
             
             .icon {
@@ -1091,8 +1124,21 @@
                 font-size: 24px;
             }
             
+            /* Smaller icons for slide 9 mobile */
+            #slide9 .icon {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
             .icon-label {
                 font-size: 12px;
+            }
+            
+            /* Smaller labels for slide 9 mobile */
+            #slide9 .icon-label {
+                font-size: 11px;
+                line-height: 1.3;
             }
             
             /* Mobile benefits list */
@@ -1286,6 +1332,23 @@
             .icon-grid {
                 grid-template-columns: 1fr;
                 gap: 10px;
+            }
+            
+            /* Keep slide 9 as 3 over 2 even on very small screens */
+            #slide9 .icon-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+                padding: 0 5px;
+            }
+            
+            #slide9 .icon {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+            
+            #slide9 .icon-label {
+                font-size: 10px;
             }
             
             .benefits-list {
