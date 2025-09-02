@@ -88,6 +88,24 @@
             border-color: rgba(102, 126, 234, 0.8);
         }
         
+        /* Calculation Note for Slide 6 */
+        .calculation-note {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+            max-width: 250px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            z-index: 50;
+        }
+        
         .slide {
             position: absolute;
             width: 100%;
@@ -524,17 +542,17 @@
         .savings-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            gap: 25px;
             width: 100%;
-            max-width: 1200px;
-            margin-top: 20px;
-            margin-bottom: 100px;
+            max-width: 1020px;
+            margin-top: 17px;
+            margin-bottom: 85px;
         }
         
         .savings-card {
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 17px;
+            padding: 17px;
             text-align: center;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -551,32 +569,32 @@
         }
         
         .company-size {
-            font-size: 24px;
+            font-size: 20px;
             color: #ffffff;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 500;
         }
         
         .task-count {
-            font-size: 14px;
+            font-size: 12px;
             color: #e0e0e0;
-            margin-bottom: 20px;
+            margin-bottom: 17px;
             font-style: italic;
         }
         
         .hours-saved {
-            font-size: 48px;
+            font-size: 41px;
             font-weight: 700;
             color: #ffffff;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         
         .dollar-saved {
-            font-size: 36px;
+            font-size: 31px;
             color: #4caf50;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         
@@ -776,13 +794,13 @@
         /* Chart Styles */
         .chart-container {
             width: 100%;
-            max-width: 800px;
-            height: 400px;
-            margin: 40px auto;
+            max-width: 680px;
+            height: 340px;
+            margin: 35px auto;
             position: relative;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 15px;
-            padding: 20px 20px 80px 20px;
+            padding: 17px 17px 68px 17px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -792,10 +810,10 @@
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            gap: 80px;
-            height: 300px;
+            gap: 68px;
+            height: 255px;
             width: 100%;
-            padding: 20px 40px;
+            padding: 17px 34px;
             border-left: 2px solid rgba(255, 255, 255, 0.3);
             border-bottom: 2px solid rgba(255, 255, 255, 0.3);
             position: relative;
@@ -810,12 +828,12 @@
         }
         
         .bar {
-            width: 80px;
+            width: 68px;
             background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 100%);
             border-radius: 5px 5px 0 0;
             transition: height 1s ease-out;
             position: relative;
-            margin: 0 10px;
+            margin: 0 8px;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
             min-height: 5px;
             display: flex;
@@ -825,10 +843,10 @@
         
         .bar-value {
             position: absolute;
-            top: -40px;
+            top: -35px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 600;
             color: #ffffff;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
@@ -837,15 +855,15 @@
         
         .bar-label {
             position: absolute;
-            bottom: -60px;
+            bottom: -50px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 14px;
+            font-size: 12px;
             color: #ffffff;
             text-align: center;
             font-weight: 500;
             white-space: nowrap;
-            width: 120px;
+            width: 110px;
         }
         
         /* Animated Icons */
@@ -1633,7 +1651,7 @@
         </div>
         
         <!-- Slide 6: Annual Time & Cost Savings -->
-        <div class="slide" id="slide6" style="padding-top: 100px;">
+        <div class="slide" id="slide6" style="padding-top: 60px;">
             <h2 class="task-title">Annual Time & Cost Savings</h2>
             <div class="chart-container">
                 <div class="bar-chart">
@@ -1673,6 +1691,10 @@
                 </div>
             </div>
             
+            <!-- Calculation Note positioned at bottom middle -->
+            <div class="calculation-note">
+                * Based on 6 min avg per ERP task<br>100 daily tasks × 245 business days<br>Hourly rate: $50/hour
+            </div>
         </div>
         
         <!-- Slide 7: Process Change Challenge -->
@@ -1828,10 +1850,6 @@
     </div>
     
     
-    <!-- Calculation Note (only visible on slide 6) -->
-    <div id="calculationNote" style="position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 11px; color: rgba(255, 255, 255, 0.6); font-style: italic; max-width: 250px; text-align: center; display: none;">
-        * Based on 6 min avg per ERP task<br>100 daily tasks × 245 business days<br>Hourly rate: $50/hour
-    </div>
     
     <script>
         let currentSlide = 1;
@@ -2029,12 +2047,6 @@
                 if (counter) counter.textContent = currentSlide;
             });
             
-            // Show/hide calculation note on slide 6
-            const calculationNote = document.getElementById('calculationNote');
-            if (calculationNote) {
-                calculationNote.style.display = currentSlide === 6 ? 'block' : 'none';
-            }
-            
             // Trigger animations for specific slides
             if (currentSlide === 2) {
                 setupWatchButton('chat1', 'input1', 'watchBtn1');
@@ -2050,10 +2062,10 @@
                     const traditionalBar = document.getElementById('traditionalBar');
                     const vilaraBar = document.getElementById('vilaraBar');
                     if (traditionalBar) {
-                        traditionalBar.style.height = '200px'; // Proportional to 6 min avg
+                        traditionalBar.style.height = '170px'; // Proportional to 6 min avg (15% smaller)
                     }
                     if (vilaraBar) {
-                        vilaraBar.style.height = '20px'; // Small bar for Vilara
+                        vilaraBar.style.height = '17px'; // Small bar for Vilara (15% smaller)
                     }
                 }, 500));
             } else if (currentSlide === 8) {
