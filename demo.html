@@ -29,38 +29,24 @@
             justify-content: center;
         }
         
-        /* Slide-integrated navigation */
-        .slide-nav {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
+        /* Desktop Navigation */
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            gap: 10px;
-            z-index: 100;
-        }
-        
-        .slide-nav-top {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-        }
-        
-        .slide-progress {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 14px;
+            align-items: center;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px 25px;
+            border-radius: 50px;
             backdrop-filter: blur(10px);
             z-index: 100;
         }
         
-        .nav-btn {
-            background: rgba(0, 0, 0, 0.4);
+        .nav-button {
+            background: rgba(255, 255, 255, 0.1);
             border: 2px solid rgba(255, 255, 255, 0.3);
             color: white;
             width: 50px;
@@ -72,18 +58,100 @@
             font-size: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
         }
         
-        .nav-btn:hover {
-            background: rgba(0, 0, 0, 0.6);
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.2);
             border-color: rgba(255, 255, 255, 0.6);
             transform: scale(1.05);
         }
         
-        .nav-btn.exit {
-            background: rgba(102, 126, 234, 0.8);
-            border-color: rgba(102, 126, 234, 0.8);
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .nav-text {
+            font-size: 14px;
+            padding: 0 15px;
+            width: auto;
+        }
+        
+        .slide-counter {
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        /* Mobile Navigation (corner-integrated) */
+        .slide-nav,
+        .slide-nav-top,
+        .slide-progress {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .navigation {
+                display: none;
+            }
+            
+            .slide-nav {
+                position: absolute;
+                bottom: 20px;
+                right: 20px;
+                display: flex;
+                gap: 10px;
+                z-index: 100;
+            }
+            
+            .slide-nav-top {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                display: block;
+                z-index: 100;
+            }
+            
+            .slide-progress {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background: rgba(0, 0, 0, 0.3);
+                color: white;
+                padding: 8px 12px;
+                border-radius: 20px;
+                font-size: 14px;
+                backdrop-filter: blur(10px);
+                z-index: 100;
+                display: block;
+            }
+            
+            .nav-btn {
+                background: rgba(0, 0, 0, 0.4);
+                border: 2px solid rgba(255, 255, 255, 0.3);
+                color: white;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(10px);
+            }
+            
+            .nav-btn:hover {
+                background: rgba(0, 0, 0, 0.6);
+                border-color: rgba(255, 255, 255, 0.6);
+                transform: scale(1.05);
+            }
+            
+            .nav-btn.exit {
+                background: rgba(102, 126, 234, 0.8);
+                border-color: rgba(102, 126, 234, 0.8);
+            }
         }
         
         .slide {
@@ -366,40 +434,39 @@
         }
         
         .vilara-input-form {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            position: relative;
             margin-top: 15px;
         }
         
         .vilara-input {
-            flex: 1;
-            padding: 12px 18px;
+            width: 100%;
+            padding: 12px 50px 12px 18px;
             border: 2px solid #e5e7eb;
             border-radius: 20px;
             font-size: 0.9rem;
             outline: none;
             color: #333 !important;
             background: white !important;
+            box-sizing: border-box;
         }
         
         .vilara-input:focus {
             border-color: #667eea;
         }
         
-        .vilara-send-btn {
-            padding: 12px 20px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 20px;
+        .vilara-send-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
             transition: all 0.3s ease;
-            white-space: nowrap;
-            flex-shrink: 0;
-            align-self: stretch;
+        }
+        
+        .vilara-send-icon:hover {
+            transform: translateY(-50%) scale(1.1);
         }
         
         .watch-demo-btn {
@@ -991,11 +1058,10 @@
                 touch-action: manipulation;
             }
             
-            .vilara-send-btn {
-                padding: 15px 20px;
-                font-size: 16px;
-                min-height: 44px;
-                touch-action: manipulation;
+            .vilara-send-icon {
+                width: 28px;
+                height: 28px;
+                right: 15px;
             }
             
             /* Improve touch interactions on mobile */
@@ -1320,16 +1386,6 @@
     <div class="presentation-container">
         <!-- Slide 1: Opening Hook -->
         <div class="slide active" id="slide1">
-            <!-- Navigation Elements -->
-            <div class="slide-progress">
-                <span id="currentSlide">1</span> / <span id="totalSlides">10</span>
-            </div>
-            <div class="slide-nav-top">
-                <button class="nav-btn exit" onclick="window.location.href='/'" title="Exit Demo">✕</button>
-            </div>
-            <div class="slide-nav">
-                <button class="nav-btn" onclick="changeSlide(1)" title="Next">→</button>
-            </div>
             
             <div class="logo-container">
                 <a href="/" style="display: inline-block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
@@ -1348,9 +1404,6 @@
         <!-- Slide 2: Task 1 - Invoice Run -->
         <div class="slide" id="slide2">
             <h2 class="task-title">Task 1: Invoice Run</h2>
-            <div class="mobile-note">
-                📱 Mobile View: Experience the Vilara difference - traditional ERP comparison hidden for optimal mobile experience
-            </div>
             <div class="split-container">
                 <div class="split-side traditional">
                     <div class="system-label">Traditional ERP</div>
@@ -1407,7 +1460,7 @@
                             </div>
                             <div class="vilara-input-form">
                                 <input type="text" class="vilara-input" id="input1" placeholder="What would you like to do?">
-                                <button class="vilara-send-btn" id="sendBtn1">Send</button>
+                                <img src="assets/images/send.png" alt="Send" class="vilara-send-icon" id="sendBtn1">
                             </div>
                         </div>
                         <div class="metrics-container">
@@ -1437,9 +1490,6 @@
         <!-- Slide 3: Task 2 - Purchase Order Approval -->
         <div class="slide" id="slide3">
             <h2 class="task-title">Task 2: Purchase Order Approval</h2>
-            <div class="mobile-note">
-                📱 Mobile View: Experience the Vilara difference - traditional ERP comparison hidden for optimal mobile experience
-            </div>
             <div class="split-container">
                 <div class="split-side traditional">
                     <div class="system-label">Traditional ERP</div>
@@ -1491,7 +1541,7 @@
                             </div>
                             <div class="vilara-input-form">
                                 <input type="text" class="vilara-input" id="input2" placeholder="What would you like to do?">
-                                <button class="vilara-send-btn" id="sendBtn2">Send</button>
+                                <img src="assets/images/send.png" alt="Send" class="vilara-send-icon" id="sendBtn2">
                             </div>
                         </div>
                         <div class="metrics-container">
@@ -1517,9 +1567,6 @@
         <!-- Slide 4: Task 3 - Sales Report -->
         <div class="slide" id="slide4">
             <h2 class="task-title">Task 3: Sales Variance Analysis</h2>
-            <div class="mobile-note">
-                📱 Mobile View: Experience the Vilara difference - traditional ERP comparison hidden for optimal mobile experience
-            </div>
             <div class="split-container">
                 <div class="split-side traditional">
                     <div class="system-label">Traditional ERP</div>
@@ -1573,7 +1620,7 @@
                             </div>
                             <div class="vilara-input-form">
                                 <input type="text" class="vilara-input" id="input3" placeholder="What would you like to do?">
-                                <button class="vilara-send-btn" id="sendBtn3">Send</button>
+                                <img src="assets/images/send.png" alt="Send" class="vilara-send-icon" id="sendBtn3">
                             </div>
                         </div>
                         <div class="metrics-container">
@@ -1599,9 +1646,6 @@
         <!-- Slide 5: Task 4 - Customer Onboarding -->
         <div class="slide" id="slide5">
             <h2 class="task-title">Task 4: Customer Onboarding</h2>
-            <div class="mobile-note">
-                📱 Mobile View: Experience the Vilara difference - traditional ERP comparison hidden for optimal mobile experience
-            </div>
             <div class="split-container">
                 <div class="split-side traditional">
                     <div class="system-label">Traditional ERP</div>
@@ -1657,7 +1701,7 @@
                             </div>
                             <div class="vilara-input-form">
                                 <input type="text" class="vilara-input" id="input4" placeholder="What would you like to do?">
-                                <button class="vilara-send-btn" id="sendBtn4">Send</button>
+                                <img src="assets/images/send.png" alt="Send" class="vilara-send-icon" id="sendBtn4">
                             </div>
                         </div>
                         <div class="metrics-container">
@@ -1782,7 +1826,7 @@
                     </div>
                     <div class="vilara-input-form">
                         <input type="text" class="vilara-input" placeholder="Change any business process instantly...">
-                        <button class="vilara-send-btn">Send</button>
+                        <img src="assets/images/send.png" alt="Send" class="vilara-send-icon">
                     </div>
                 </div>
             </div>
@@ -1872,6 +1916,16 @@
         </div>
     </div>
     
+    <!-- Navigation Controls -->
+    <div class="navigation">
+        <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)" title="Previous">←</button>
+        <span class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">10</span>
+        </span>
+        <button class="nav-button" id="nextBtn" onclick="changeSlide(1)" title="Next">→</button>
+        <button class="nav-button" id="exitBtn" onclick="window.location.href='/'" style="background: #667eea; border-color: #667eea;" title="Exit Demo">✕</button>
+        <button class="nav-button nav-text" id="startOverBtn" onclick="startOver()" style="display: none;">↻ Start Over</button>
+    </div>
     
     <!-- Calculation Note (only visible on slide 6) -->
     <div id="calculationNote" style="position: fixed; bottom: 30px; right: 30px; font-size: 11px; color: rgba(255, 255, 255, 0.6); font-style: italic; max-width: 200px; text-align: right; display: none;">
@@ -2210,9 +2264,11 @@
         // Handle window resize
         window.addEventListener('resize', initializeMobileToggles);
         
-        // Add navigation to all slides
-        function addNavigationToSlides() {
+        // Add navigation to all slides (mobile only)
+        function addMobileNavigationToSlides() {
             const slides = document.querySelectorAll('.slide');
+            const totalSlides = slides.length;
+            
             slides.forEach((slide, index) => {
                 const slideNum = index + 1;
                 
@@ -2221,7 +2277,6 @@
                 
                 // Create navigation HTML
                 const navHTML = `
-                    <!-- Navigation Elements -->
                     <div class="slide-progress">
                         <span class="current-slide">${slideNum}</span> / <span class="total-slides">${totalSlides}</span>
                     </div>
@@ -2244,7 +2299,7 @@
         showSlide(1);
         document.getElementById('totalSlides').textContent = totalSlides;
         initializeMobileToggles();
-        addNavigationToSlides();
+        addMobileNavigationToSlides();
     </script>
 </body>
 </html>
