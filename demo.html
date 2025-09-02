@@ -398,10 +398,15 @@
             height: 24px;
             cursor: pointer;
             transition: all 0.3s ease;
+            fill: none;
         }
         
         .vilara-send-icon:hover {
             transform: translateY(-50%) scale(1.1);
+        }
+        
+        .vilara-send-icon:hover path {
+            stroke: #5a6fd8;
         }
         
         .watch-demo-btn {
@@ -1395,7 +1400,10 @@
                             </div>
                             <div class="vilara-input-form">
                                 <input type="text" class="vilara-input" id="input1" placeholder="What would you like to do?">
-                                <img src="assets/images/send.png" alt="Send" class="vilara-send-icon" id="sendBtn1">
+                                <svg class="vilara-send-icon" id="sendBtn1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22 2L11 13" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </div>
                         </div>
                         <div class="metrics-container">
@@ -1476,7 +1484,10 @@
                             </div>
                             <div class="vilara-input-form">
                                 <input type="text" class="vilara-input" id="input2" placeholder="What would you like to do?">
-                                <img src="assets/images/send.png" alt="Send" class="vilara-send-icon" id="sendBtn2">
+                                <svg class="vilara-send-icon" id="sendBtn2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22 2L11 13" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </div>
                         </div>
                         <div class="metrics-container">
@@ -1555,7 +1566,10 @@
                             </div>
                             <div class="vilara-input-form">
                                 <input type="text" class="vilara-input" id="input3" placeholder="What would you like to do?">
-                                <img src="assets/images/send.png" alt="Send" class="vilara-send-icon" id="sendBtn3">
+                                <svg class="vilara-send-icon" id="sendBtn3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22 2L11 13" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </div>
                         </div>
                         <div class="metrics-container">
@@ -1636,7 +1650,10 @@
                             </div>
                             <div class="vilara-input-form">
                                 <input type="text" class="vilara-input" id="input4" placeholder="What would you like to do?">
-                                <img src="assets/images/send.png" alt="Send" class="vilara-send-icon" id="sendBtn4">
+                                <svg class="vilara-send-icon" id="sendBtn4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22 2L11 13" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </div>
                         </div>
                         <div class="metrics-container">
@@ -1761,7 +1778,10 @@
                     </div>
                     <div class="vilara-input-form">
                         <input type="text" class="vilara-input" placeholder="Change any business process instantly...">
-                        <img src="assets/images/send.png" alt="Send" class="vilara-send-icon">
+                        <svg class="vilara-send-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 2L11 13" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
                 </div>
             </div>
@@ -2187,7 +2207,9 @@
                 const slideNum = index + 1;
                 
                 // Don't add navigation if it already exists
-                if (slide.querySelector('.slide-progress')) return;
+                if (slide.querySelector('.slide-progress')) {
+                    return;
+                }
                 
                 // Create navigation HTML
                 const navHTML = `
@@ -2198,9 +2220,9 @@
                         <button class="nav-btn exit" onclick="window.location.href='/'" title="Exit Demo">✕</button>
                     </div>
                     <div class="slide-nav">
-                        ${slideNum > 1 ? '<button class="nav-btn" onclick="changeSlide(-1)" title="Previous">←</button>' : ''}
-                        ${slideNum < totalSlides ? '<button class="nav-btn" onclick="changeSlide(1)" title="Next">→</button>' : ''}
-                        ${slideNum === totalSlides ? '<button class="nav-btn" onclick="startOver()" title="Start Over">↻</button>' : ''}
+                        ${slideNum > 1 ? `<button class="nav-btn" onclick="changeSlide(-1)" title="Previous">←</button>` : ''}
+                        ${slideNum < totalSlides ? `<button class="nav-btn" onclick="changeSlide(1)" title="Next">→</button>` : ''}
+                        ${slideNum === totalSlides ? `<button class="nav-btn" onclick="startOver()" title="Start Over">↻</button>` : ''}
                     </div>
                 `;
                 
@@ -2211,9 +2233,9 @@
         
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            addNavigationToSlides();  // Add navigation first
             showSlide(1);
             initializeMobileToggles();
-            addNavigationToSlides();
         });
         
         // Also run immediately if DOM is already loaded
@@ -2221,9 +2243,9 @@
             // Still loading, wait for DOMContentLoaded
         } else {
             // DOM is already loaded
+            addNavigationToSlides();  // Add navigation first
             showSlide(1);
             initializeMobileToggles();
-            addNavigationToSlides();
         }
     </script>
 </body>
