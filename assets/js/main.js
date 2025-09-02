@@ -107,6 +107,34 @@ document.addEventListener('DOMContentLoaded', function() {
                     top: targetPosition,
                     behavior: 'smooth'
                 });
+                
+                // Close mobile menu if it's open
+                const navMenu = document.querySelector('.nav-menu');
+                const mobileToggle = document.querySelector('.mobile-menu-toggle');
+                if (navMenu && navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    mobileToggle.classList.remove('active');
+                    document.removeEventListener('click', closeMobileMenuOnOutsideClick);
+                }
+            }
+        });
+    });
+    
+    // Also add click handlers to ALL nav menu links to close mobile menu
+    const navMenuLinks = document.querySelectorAll('.nav-menu a');
+    navMenuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            const navMenu = document.querySelector('.nav-menu');
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            
+            // Only close if it's actually the mobile menu (active state)
+            if (navMenu && navMenu.classList.contains('active')) {
+                // Small delay for anchor links to allow smooth scroll to start
+                setTimeout(() => {
+                    navMenu.classList.remove('active');
+                    mobileToggle.classList.remove('active');
+                    document.removeEventListener('click', closeMobileMenuOnOutsideClick);
+                }, 100);
             }
         });
     });
