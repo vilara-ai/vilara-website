@@ -99,10 +99,6 @@
             font-style: italic;
             max-width: 250px;
             text-align: center;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 8px 12px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
             z-index: 50;
         }
         
@@ -525,7 +521,7 @@
         /* Task Title */
         .task-title {
             position: absolute;
-            top: 40px;
+            top: 70px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 36px;
@@ -966,6 +962,7 @@
                 position: static;
                 transform: none;
                 font-size: 24px;
+                margin-top: 50px;
                 margin-bottom: 20px;
                 text-align: center;
             }
@@ -1651,7 +1648,7 @@
         </div>
         
         <!-- Slide 6: Annual Time & Cost Savings -->
-        <div class="slide" id="slide6" style="padding-top: 60px;">
+        <div class="slide" id="slide6" style="padding-top: 70px;">
             <h2 class="task-title">Annual Time & Cost Savings</h2>
             <div class="chart-container">
                 <div class="bar-chart">
@@ -2078,6 +2075,9 @@
         function changeSlide(n) {
             currentSlide += n;
             showSlide(currentSlide);
+            
+            // Scroll to top of page when changing slides
+            window.scrollTo(0, 0);
             
             // Reset watch buttons visibility when changing slides
             const watchButtons = document.querySelectorAll('.watch-demo-btn');
