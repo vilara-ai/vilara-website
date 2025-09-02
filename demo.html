@@ -1188,11 +1188,7 @@
             }
             
             .split-side.traditional {
-                display: none; /* Hidden by default on mobile */
-            }
-            
-            .split-side.traditional.show-mobile {
-                display: block;
+                display: block; /* Always visible on mobile */
                 margin-top: 20px;
                 border-top: 2px solid rgba(255, 255, 255, 0.2);
                 padding-top: 20px;
@@ -1207,30 +1203,6 @@
                 font-size: 14px;
                 color: #667eea;
                 border-radius: 4px;
-            }
-            
-            .mobile-toggle-btn {
-                display: block;
-                width: 100%;
-                background: rgba(255, 255, 255, 0.1);
-                border: 2px solid #667eea;
-                color: #667eea;
-                padding: 12px 20px;
-                border-radius: 8px;
-                font-size: 14px;
-                font-weight: 600;
-                cursor: pointer;
-                margin-top: 15px;
-                transition: all 0.3s ease;
-            }
-            
-            .mobile-toggle-btn:hover {
-                background: rgba(102, 126, 234, 0.2);
-            }
-            
-            .mobile-toggle-btn.active {
-                background: #667eea;
-                color: white;
             }
             
             /* Mobile navigation improvements */
@@ -1423,10 +1395,6 @@
                     </div>
                 </div>
                 
-                <!-- Mobile Toggle Button -->
-                <button class="mobile-toggle-btn" onclick="toggleTraditionalView(this)" style="display: none;">
-                    📊 Compare with Traditional ERP
-                </button>
             </div>
         </div>
         
@@ -1503,10 +1471,6 @@
                     </div>
                 </div>
                 
-                <!-- Mobile Toggle Button -->
-                <button class="mobile-toggle-btn" onclick="toggleTraditionalView(this)" style="display: none;">
-                    📊 Compare with Traditional ERP
-                </button>
             </div>
         </div>
         
@@ -1585,10 +1549,6 @@
                     </div>
                 </div>
                 
-                <!-- Mobile Toggle Button -->
-                <button class="mobile-toggle-btn" onclick="toggleTraditionalView(this)" style="display: none;">
-                    📊 Compare with Traditional ERP
-                </button>
             </div>
         </div>
         
@@ -1669,10 +1629,6 @@
                     </div>
                 </div>
                 
-                <!-- Mobile Toggle Button -->
-                <button class="mobile-toggle-btn" onclick="toggleTraditionalView(this)" style="display: none;">
-                    👤 Compare with Traditional ERP
-                </button>
             </div>
         </div>
         
@@ -1873,7 +1829,7 @@
     
     
     <!-- Calculation Note (only visible on slide 6) -->
-    <div id="calculationNote" style="position: fixed; bottom: 30px; right: 30px; font-size: 11px; color: rgba(255, 255, 255, 0.6); font-style: italic; max-width: 200px; text-align: right; display: none;">
+    <div id="calculationNote" style="position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 11px; color: rgba(255, 255, 255, 0.6); font-style: italic; max-width: 250px; text-align: center; display: none;">
         * Based on 6 min avg per ERP task<br>100 daily tasks × 245 business days<br>Hourly rate: $50/hour
     </div>
     
@@ -2163,40 +2119,6 @@
             });
         }
         
-        // Mobile toggle functionality
-        function toggleTraditionalView(button) {
-            const slide = button.closest('.slide');
-            const traditionalSide = slide.querySelector('.split-side.traditional');
-            
-            if (traditionalSide) {
-                const isVisible = traditionalSide.classList.contains('show-mobile');
-                
-                if (isVisible) {
-                    // Hide traditional view
-                    traditionalSide.classList.remove('show-mobile');
-                    button.textContent = button.textContent.replace('Hide', 'Compare with');
-                    button.classList.remove('active');
-                } else {
-                    // Show traditional view
-                    traditionalSide.classList.add('show-mobile');
-                    button.textContent = button.textContent.replace('Compare with', 'Hide');
-                    button.classList.add('active');
-                }
-            }
-        }
-        
-        // Initialize mobile toggle buttons visibility
-        function initializeMobileToggles() {
-            const isMobile = window.innerWidth <= 768;
-            const toggleButtons = document.querySelectorAll('.mobile-toggle-btn');
-            
-            toggleButtons.forEach(button => {
-                button.style.display = isMobile ? 'block' : 'none';
-            });
-        }
-        
-        // Handle window resize
-        window.addEventListener('resize', initializeMobileToggles);
         
         // Add navigation to all slides (both desktop and mobile)
         function addNavigationToSlides() {
@@ -2235,7 +2157,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             addNavigationToSlides();  // Add navigation first
             showSlide(1);
-            initializeMobileToggles();
         });
         
         // Also run immediately if DOM is already loaded
@@ -2245,7 +2166,6 @@
             // DOM is already loaded
             addNavigationToSlides();  // Add navigation first
             showSlide(1);
-            initializeMobileToggles();
         }
     </script>
 </body>
