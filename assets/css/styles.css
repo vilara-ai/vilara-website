@@ -515,31 +515,37 @@ nav {
     }
     
     .comparison-table-container td {
-        display: flex !important;
-        justify-content: space-between;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
         align-items: center;
         padding: 1rem !important;
-        text-align: left !important;
         border-bottom: 1px solid var(--border-light);
+        gap: 1rem;
     }
     
     .comparison-table-container td:first-child {
         background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
         color: white;
         font-weight: 700 !important;
-        justify-content: center;
+        text-align: center !important;
         padding: 1.25rem !important;
+        display: block !important;
     }
     
     .comparison-table-container td:before {
         content: attr(data-label);
         font-weight: 600;
-        flex-shrink: 0;
-        margin-right: 1rem;
+        color: var(--text-dark);
+        text-align: left;
     }
     
     .comparison-table-container td:first-child:before {
         content: none;
+    }
+    
+    /* Align the value to the right */
+    .comparison-table-container td:not(:first-child) {
+        text-align: right !important;
     }
     
     .comparison-table-container td[data-label="Vilara"] {
