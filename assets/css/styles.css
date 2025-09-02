@@ -539,16 +539,17 @@ nav {
         transform: translateY(-50%);
         font-weight: 600;
         color: var(--text-dark);
-        width: 35%;
+        width: 45%;
+        text-align: left;
     }
     
     .comparison-table-container td:not(:first-child) {
-        text-align: right !important;
-        padding-left: 40% !important;
+        text-align: left !important;
+        padding-left: 50% !important;
         padding-right: 1rem !important;
         display: flex !important;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: flex-start;
     }
     
     .comparison-table-container td:first-child:before {
