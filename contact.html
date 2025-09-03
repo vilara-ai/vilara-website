@@ -63,7 +63,7 @@
                     </div>
                     <div class="path-icon">🚀</div>
                     <h3>Start Free</h3>
-                    <p style="font-weight: 600; color: var(--text-dark);">Perfect for companies under 5 employees</p>
+                    <p style="font-weight: 600; color: var(--text-dark);">Perfect for companies that want to get started with Vilara</p>
                     <ul>
                         <li>Instant access - no demo needed</li>
                         <li>Core features free forever for small teams</li>
@@ -78,7 +78,7 @@
                 <div id="consultation" class="path-card" data-form="consultation">
                     <div class="path-icon">🎯</div>
                     <h3>Schedule Consultation</h3>
-                    <p style="font-weight: 600; color: var(--text-dark);">Perfect for companies with 5+ employees</p>
+                    <p style="font-weight: 600; color: var(--text-dark);">For organizations that expect more than 1,000 transactions/mo.</p>
                     <ul>
                         <li>Personalized implementation roadmap</li>
                         <li>Live demo with your data scenarios</li>
@@ -100,8 +100,8 @@
                 <!-- Free Form -->
                 <div id="free-form" class="contact-form" style="display: none;">
                     <h2 style="text-align: center; margin-bottom: 2rem; color: var(--success);">Start Free Today</h2>
-                    <p style="text-align: center; margin-bottom: 2rem; color: var(--text-light);">Get instant access to Vilara - perfect for teams under 5 employees</p>
-                    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                    <p style="text-align: center; margin-bottom: 2rem; color: var(--text-light);">Get instant access to Vilara with 1,000 free transactions per month</p>
+                    <form id="free-signup-form">
                         <input type="hidden" name="form_type" value="free">
                         
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
@@ -112,6 +112,17 @@
                             <div class="input-group">
                                 <label for="free-email">Email Address *</label>
                                 <input type="email" id="free-email" name="email" required>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="input-group">
+                                <label for="free-password">Create Password *</label>
+                                <input type="password" id="free-password" name="password" required minlength="8" placeholder="Minimum 8 characters">
+                            </div>
+                            <div class="input-group">
+                                <label for="free-confirm-password">Confirm Password *</label>
+                                <input type="password" id="free-confirm-password" name="confirm_password" required minlength="8" placeholder="Re-enter password">
                             </div>
                         </div>
                         
@@ -162,11 +173,11 @@
                         </div>
                         
                         <div class="input-group" style="margin-bottom: 1.5rem;">
-                            <label for="free-goals">What do you want to accomplish? *</label>
-                            <textarea id="free-goals" name="goals" rows="3" placeholder="What business processes do you want to streamline or automate?" required></textarea>
+                            <label for="free-goals">What are your top 3 goals you hope to achieve with Vilara? *</label>
+                            <textarea id="free-goals" name="goals" rows="3" placeholder="Example: Reduce manual data entry, improve reporting accuracy, streamline order processing..." required></textarea>
                         </div>
                         
-                        <button type="submit" class="btn btn-primary" style="width: 100%; background: var(--success);">Get Free Access</button>
+                        <button type="submit" class="btn btn-primary" id="free-submit-btn" style="width: 100%; background: var(--success);">Get Free Access</button>
                         <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">No credit card required • Instant setup • Free forever</p>
                     </form>
                 </div>
@@ -174,7 +185,7 @@
                 <!-- Consultation Form -->
                 <div id="consultation-form" class="contact-form" style="display: none;">
                     <h2 style="text-align: center; margin-bottom: 2rem; color: var(--primary-gradient-start);">Schedule Your Consultation</h2>
-                    <p style="text-align: center; margin-bottom: 2rem; color: var(--text-light);">Get personalized guidance for companies with 10+ employees</p>
+                    <p style="text-align: center; margin-bottom: 2rem; color: var(--text-light);">Get personalized guidance for organizations needing more than 1,000 transactions/mo.</p>
                     <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
                         <input type="hidden" name="form_type" value="consultation">
                         
@@ -423,23 +434,7 @@
 
     <script src="assets/js/main.js"></script>
     <script>
-        // Form switching functionality
-        function showForm(formType) {
-            // Hide all forms
-            const forms = document.querySelectorAll('.contact-form');
-            forms.forEach(form => form.style.display = 'none');
-            
-            // Show selected form
-            document.getElementById(formType + '-form').style.display = 'block';
-            
-            // Update path cards
-            const cards = document.querySelectorAll('.path-card');
-            cards.forEach(card => card.classList.remove('active'));
-            document.querySelector(`[data-form="${formType}"]`).classList.add('active');
-            
-            // Scroll to form
-            document.querySelector('.roi-calculator').scrollIntoView({ behavior: 'smooth' });
-        }
+        // Form switching functionality is now in main.js
         
         // Auto-show form based on URL hash
         document.addEventListener('DOMContentLoaded', function() {
@@ -456,39 +451,9 @@
             alert('Live chat feature coming soon! Please use email or phone for immediate assistance.');
         }
         
-        // Add active state styles
-        const style = document.createElement('style');
-        style.textContent = `
-            .path-card.active {
-                border-color: var(--primary-gradient-start);
-                box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
-                transform: translateY(-5px);
-            }
-            
-            .contact-form {
-                background: white;
-                border-radius: 1rem;
-                padding: 2rem;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            }
-            
-            .input-group select,
-            .input-group textarea {
-                padding: 0.75rem;
-                border: 1px solid var(--border-light);
-                border-radius: 0.5rem;
-                font-size: 1rem;
-                width: 100%;
-                font-family: inherit;
-            }
-            
-            .input-group select:focus,
-            .input-group textarea:focus {
-                outline: none;
-                border-color: var(--primary-gradient-start);
-            }
-        `;
-        document.head.appendChild(style);
+        // Form submission handler is now in main.js
+        
+        // All styles are now in main.js
     </script>
 </body>
 </html>
