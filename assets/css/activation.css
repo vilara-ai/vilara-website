@@ -1,0 +1,435 @@
+/* Activation Page Styles */
+
+.activation-page {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.activation-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.activation-header {
+    text-align: center;
+    padding: 40px 40px 20px;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.activation-header .logo {
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+.activation-header h1 {
+    color: #2d3748;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+.welcome-message {
+    color: #4a5568;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.activation-content {
+    padding: 40px;
+}
+
+.activation-content h2 {
+    color: #2d3748;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Activation Options */
+.activation-option {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.activation-option:hover {
+    border-color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+}
+
+.activation-option.recommended {
+    border-color: #48bb78;
+    background: #f0fff4;
+}
+
+.activation-option.recommended::before {
+    content: "RECOMMENDED";
+    position: absolute;
+    top: -12px;
+    left: 30px;
+    background: #48bb78;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.option-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.option-icon {
+    font-size: 3rem;
+    min-width: 60px;
+    text-align: center;
+}
+
+.option-info h3 {
+    color: #2d3748;
+    font-size: 1.4rem;
+    margin: 0 0 5px 0;
+}
+
+.option-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.option-badge:not(.coming-soon) {
+    background: #48bb78;
+    color: white;
+}
+
+.option-badge.coming-soon {
+    background: #ed8936;
+    color: white;
+}
+
+.option-description {
+    color: #4a5568;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.option-benefits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.benefit {
+    color: #38a169;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.option-note {
+    color: #718096;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+/* Form Elements */
+.activation-code-section,
+.activation-token-section {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #cbd5e0;
+}
+
+.activation-code-section label,
+.activation-token-section label {
+    display: block;
+    color: #4a5568;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.code-input-group,
+.token-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.activation-code-section input,
+.activation-token-section textarea {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 0.9rem;
+    background: #f8fafc;
+}
+
+.activation-token-section textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.code-instructions,
+.token-instructions {
+    color: #718096;
+    font-size: 0.85rem;
+    margin-top: 8px;
+    line-height: 1.4;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.btn-large {
+    padding: 16px 32px;
+    font-size: 1.1rem;
+    width: 100%;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5a67d8;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #4a5568;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #2d3748;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid #4a5568;
+    color: #4a5568;
+}
+
+.btn-outline:hover {
+    background: #4a5568;
+    color: white;
+}
+
+.enterprise-actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.enterprise-actions .btn {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* Next Steps */
+.next-steps-section {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 16px;
+    padding: 30px;
+    margin: 40px;
+}
+
+.next-steps-section h3 {
+    color: #2d3748;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: white;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.step.completed {
+    background: #f0fff4;
+    border-left: 4px solid #48bb78;
+}
+
+.step.current {
+    background: #ebf4ff;
+    border-left: 4px solid #667eea;
+    transform: scale(1.02);
+}
+
+.step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 0.9rem;
+    min-width: 30px;
+}
+
+.step.completed .step-number {
+    background: #48bb78;
+    color: white;
+}
+
+.step.current .step-number {
+    background: #667eea;
+    color: white;
+}
+
+.step:not(.completed):not(.current) .step-number {
+    background: #e2e8f0;
+    color: #718096;
+}
+
+.step-text {
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.step.completed .step-text {
+    color: #22543d;
+}
+
+.step.current .step-text {
+    color: #2c5282;
+    font-weight: 600;
+}
+
+/* Support Section */
+.support-section {
+    text-align: center;
+    padding: 20px 40px 40px;
+    color: #718096;
+}
+
+.support-section a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.support-section a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .activation-container {
+        margin: 10px;
+        border-radius: 16px;
+    }
+    
+    .activation-header,
+    .activation-content,
+    .next-steps-section {
+        padding: 20px;
+    }
+    
+    .activation-option {
+        padding: 20px;
+    }
+    
+    .option-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .option-icon {
+        font-size: 2.5rem;
+    }
+    
+    .option-benefits {
+        justify-content: center;
+    }
+    
+    .enterprise-actions {
+        flex-direction: column;
+    }
+    
+    .enterprise-actions .btn {
+        min-width: auto;
+    }
+    
+    .code-input-group,
+    .token-input-group {
+        flex-direction: column;
+    }
+    
+    .steps-list {
+        gap: 10px;
+    }
+    
+    .step {
+        padding: 12px;
+    }
+    
+    .activation-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .welcome-message {
+        font-size: 1rem;
+    }
+}

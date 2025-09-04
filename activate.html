@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activate Your Vilara Account | Choose Your Deployment</title>
+    <meta name="description" content="Activate your Vilara account. Choose web interface, desktop app, or enterprise deployment.">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/activation.css">
+    <link rel="icon" type="image/png" href="assets/images/vilara_logo.png">
+</head>
+<body class="activation-page">
+    <div class="activation-container">
+        <div class="activation-header">
+            <img src="assets/images/vilara_logo.png" alt="Vilara" class="logo">
+            <h1>🎉 Account Created Successfully!</h1>
+            <p class="welcome-message" id="welcome-message">Welcome to Vilara! Let's get you started.</p>
+        </div>
+
+        <div class="activation-content">
+            <h2>Choose how you'd like to use Vilara:</h2>
+            
+            <!-- Web Interface Option -->
+            <div class="activation-option recommended" id="web-option">
+                <div class="option-header">
+                    <span class="option-icon">🌐</span>
+                    <div class="option-info">
+                        <h3>Use Web Interface</h3>
+                        <span class="option-badge">Available Now</span>
+                    </div>
+                </div>
+                <p class="option-description">Try Vilara in your browser right now. Perfect for getting started quickly.</p>
+                <div class="option-benefits">
+                    <span class="benefit">✓ Instant access</span>
+                    <span class="benefit">✓ No downloads required</span>
+                    <span class="benefit">✓ Natural language interface</span>
+                </div>
+                <button class="btn btn-primary btn-large" onclick="activateWebUI()">
+                    Launch Web Interface
+                </button>
+                <p class="option-note">Note: Alpha version with core features</p>
+            </div>
+            
+            <!-- Desktop App Option -->
+            <div class="activation-option" id="desktop-option">
+                <div class="option-header">
+                    <span class="option-icon">💻</span>
+                    <div class="option-info">
+                        <h3>Download Desktop App</h3>
+                        <span class="option-badge coming-soon">Coming Soon</span>
+                    </div>
+                </div>
+                <p class="option-description">Full-featured desktop application with offline capabilities and advanced features.</p>
+                <div class="option-benefits">
+                    <span class="benefit">✓ Offline mode</span>
+                    <span class="benefit">✓ Advanced reporting</span>
+                    <span class="benefit">✓ Local data backup</span>
+                </div>
+                <div class="activation-code-section">
+                    <label for="activation-code">Your Activation Code:</label>
+                    <div class="code-input-group">
+                        <input type="text" id="activation-code" readonly>
+                        <button class="btn btn-secondary" onclick="copyCode()">Copy</button>
+                    </div>
+                    <p class="code-instructions">Save this code - you'll need it when the desktop app is available</p>
+                </div>
+                <button class="btn btn-secondary" onclick="notifyWhenReady()">
+                    Notify Me When Available
+                </button>
+            </div>
+            
+            <!-- Enterprise Option -->
+            <div class="activation-option" id="enterprise-option">
+                <div class="option-header">
+                    <span class="option-icon">🏢</span>
+                    <div class="option-info">
+                        <h3>Enterprise Deployment</h3>
+                        <span class="option-badge">Contact Required</span>
+                    </div>
+                </div>
+                <p class="option-description">Deploy Vilara on your company's private network or cloud infrastructure.</p>
+                <div class="option-benefits">
+                    <span class="benefit">✓ Private network deployment</span>
+                    <span class="benefit">✓ Enterprise security</span>
+                    <span class="benefit">✓ Multi-user support</span>
+                </div>
+                <div class="activation-token-section">
+                    <label for="activation-token">Token for IT Administrator:</label>
+                    <div class="token-input-group">
+                        <textarea id="activation-token" readonly rows="3"></textarea>
+                        <button class="btn btn-secondary" onclick="copyToken()">Copy Token</button>
+                    </div>
+                    <p class="token-instructions">Share this token with your IT administrator for enterprise setup</p>
+                </div>
+                <div class="enterprise-actions">
+                    <button class="btn btn-secondary" onclick="contactEnterprise()">
+                        Contact Enterprise Support
+                    </button>
+                    <button class="btn btn-outline" onclick="downloadGuide()">
+                        Download Setup Guide
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Next Steps -->
+        <div class="next-steps-section">
+            <h3>What happens next:</h3>
+            <div class="steps-list">
+                <div class="step completed">
+                    <span class="step-number">1</span>
+                    <span class="step-text">Account created with 1,000 free transactions/month</span>
+                </div>
+                <div class="step current">
+                    <span class="step-number">2</span>
+                    <span class="step-text">Choose and activate your preferred Vilara deployment</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <span class="step-text">Complete 5-minute onboarding tutorial</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <span class="step-text">Start using natural language ERP commands</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Links -->
+        <div class="support-section">
+            <p>Need help? <a href="/contact.html">Contact Support</a> | <a href="/docs/">Documentation</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Load activation data from signup
+        let activationData = {};
+        
+        // Try to load from localStorage (if coming from same-page signup)
+        try {
+            const storedData = localStorage.getItem('vilaraActivation');
+            if (storedData) {
+                activationData = JSON.parse(storedData);
+            }
+        } catch (e) {
+            console.warn('Could not load activation data from localStorage');
+        }
+        
+        // Try to load from URL parameters (if coming from external signup)
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        if (token && !activationData.onboarding_token) {
+            // Load activation data from server using token
+            loadActivationData(token);
+        }
+        
+        function loadActivationData(token) {
+            fetch('/api/get-activation-data.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token: token })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    activationData = data;
+                    updateActivationDisplay();
+                }
+            })
+            .catch(error => {
+                console.error('Failed to load activation data:', error);
+            });
+        }
+        
+        function updateActivationDisplay() {
+            // Update welcome message conditionally
+            const welcomeElement = document.getElementById('welcome-message');
+            if (activationData.user_data?.company) {
+                welcomeElement.textContent = `Welcome to Vilara, ${activationData.user_data.company}!`;
+            } else {
+                welcomeElement.textContent = "Welcome to Vilara! Let's get you started.";
+            }
+            
+            if (activationData.ui_activation_methods) {
+                const methods = activationData.ui_activation_methods;
+                
+                // Set activation code for desktop
+                if (methods.desktop_app && methods.desktop_app.activation_code) {
+                    document.getElementById('activation-code').value = methods.desktop_app.activation_code;
+                }
+                
+                // Set activation token for enterprise
+                if (activationData.onboarding_token) {
+                    document.getElementById('activation-token').value = activationData.onboarding_token;
+                }
+            }
+        }
+        
+        function activateWebUI() {
+            if (activationData.ui_activation_methods && activationData.ui_activation_methods.web_ui) {
+                // Open web UI with activation token
+                const webURL = activationData.ui_activation_methods.web_ui;
+                window.open(webURL, '_blank');
+            } else {
+                // Fallback to default local web UI
+                const fallbackURL = 'http://localhost:5006/activate?token=' + (activationData.onboarding_token || 'demo');
+                window.open(fallbackURL, '_blank');
+            }
+            
+            // Track activation
+            trackActivation('web_ui');
+        }
+        
+        function copyCode() {
+            const codeInput = document.getElementById('activation-code');
+            codeInput.select();
+            document.execCommand('copy');
+            
+            // Show feedback
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Copied!';
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 2000);
+            
+            trackActivation('desktop_code_copied');
+        }
+        
+        function copyToken() {
+            const tokenInput = document.getElementById('activation-token');
+            tokenInput.select();
+            document.execCommand('copy');
+            
+            // Show feedback
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Copied!';
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 2000);
+            
+            trackActivation('enterprise_token_copied');
+        }
+        
+        function notifyWhenReady() {
+            if (activationData.user_data && activationData.user_data.email) {
+                // Add to desktop app notification list
+                fetch('/api/notify-desktop-ready.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: activationData.user_data.email,
+                        activation_code: document.getElementById('activation-code').value
+                    })
+                })
+                .then(() => {
+                    alert('We\'ll notify you when the desktop app is available!');
+                });
+            }
+            
+            trackActivation('desktop_notify_requested');
+        }
+        
+        function contactEnterprise() {
+            const subject = encodeURIComponent('Enterprise Vilara Setup Request');
+            const body = encodeURIComponent(
+                `Hello,\n\nI'd like to set up Vilara for enterprise deployment.\n\n` +
+                `Company: ${activationData.user_data ? activationData.user_data.company : 'N/A'}\n` +
+                `Activation Token: ${activationData.onboarding_token || 'N/A'}\n\n` +
+                `Please contact me to discuss enterprise deployment options.\n\n` +
+                `Thank you`
+            );
+            
+            window.open(`mailto:enterprise@vilara.ai?subject=${subject}&body=${body}`);
+            trackActivation('enterprise_contact');
+        }
+        
+        function downloadGuide() {
+            // Link to enterprise setup documentation
+            window.open('/docs/enterprise-setup-guide.pdf', '_blank');
+            trackActivation('enterprise_guide_downloaded');
+        }
+        
+        function trackActivation(action) {
+            // Track activation method selection
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'activation_method', {
+                    'method': action,
+                    'company': activationData.user_data ? activationData.user_data.company : 'unknown'
+                });
+            }
+        }
+        
+        // Initialize display when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateActivationDisplay();
+        });
+    </script>
+</body>
+</html>
