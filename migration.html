@@ -45,8 +45,8 @@
                     and any other ERP system. Automated data transfer, zero downtime, 100% data integrity.
                 </p>
                 <div style="margin-top: 2rem;">
-                    <a href="/contact.html" class="btn btn-primary">Get Migration Plan</a>
-                    <a href="#migration-calculator" class="btn btn-secondary">Calculate Timeline</a>
+                    <a href="/contact.html#consultation" class="btn btn-primary" id="hero-migration-btn">Get Migration Plan</a>
+                    <a href="#" onclick="document.querySelector('.customer-paths').scrollIntoView({behavior: 'smooth'}); return false;" class="btn btn-secondary">Choose Your Path</a>
                 </div>
             </div>
         </div>
@@ -108,7 +108,7 @@
                 <p style="font-size: 1.1rem; color: var(--text-dark); margin-bottom: 1rem;">
                     <strong>Don't see your system?</strong> We migrate from any ERP, database, or spreadsheet system.
                 </p>
-                <a href="/contact.html" class="btn btn-primary">Discuss Your Migration</a>
+                <a href="/contact.html#consultation" class="btn btn-primary">Discuss Your Migration</a>
             </div>
         </div>
     </section>
@@ -117,12 +117,122 @@
     <section class="customer-paths">
         <div class="container">
             <div class="section-header">
-                <h2>Our Migration Process</h2>
-                <p>Proven methodology used by hundreds of successful migrations</p>
+                <h2>Choose Your Migration Path</h2>
+                <p>Right-sized approach based on your needs and current system</p>
             </div>
             
-            <div style="max-width: 1000px; margin: 0 auto;">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <!-- Migration Path Selector -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto 3rem;">
+                <!-- Start Fresh Path -->
+                <div class="path-card" onclick="showMigrationPath('fresh')" style="cursor: pointer; transition: transform 0.3s;">
+                    <div class="path-icon">🌱</div>
+                    <h3>Start Fresh</h3>
+                    <p>First-time ERP or minimal data</p>
+                    <ul style="text-align: left; list-style: none; padding: 0; margin-top: 1rem;">
+                        <li style="padding: 0.3rem 0;">✓ Under 10 employees</li>
+                        <li style="padding: 0.3rem 0;">✓ Using spreadsheets</li>
+                        <li style="padding: 0.3rem 0;">✓ 3-day setup</li>
+                    </ul>
+                </div>
+                
+                <!-- Enhance Path -->
+                <div class="path-card" onclick="showMigrationPath('enhance')" style="cursor: pointer; transition: transform 0.3s;">
+                    <div class="path-icon">⚡</div>
+                    <h3>Enhance Current ERP</h3>
+                    <p>Keep your ERP, add Vilara power</p>
+                    <ul style="text-align: left; list-style: none; padding: 0; margin-top: 1rem;">
+                        <li style="padding: 0.3rem 0;">✓ 10-100 employees</li>
+                        <li style="padding: 0.3rem 0;">✓ Sync key data only</li>
+                        <li style="padding: 0.3rem 0;">✓ 1-week integration</li>
+                    </ul>
+                </div>
+                
+                <!-- Full Migration Path -->
+                <div class="path-card" onclick="showMigrationPath('full')" style="cursor: pointer; transition: transform 0.3s;">
+                    <div class="path-icon">🚀</div>
+                    <h3>Full Migration</h3>
+                    <p>Complete ERP replacement</p>
+                    <ul style="text-align: left; list-style: none; padding: 0; margin-top: 1rem;">
+                        <li style="padding: 0.3rem 0;">✓ 100+ employees</li>
+                        <li style="padding: 0.3rem 0;">✓ All data migrated</li>
+                        <li style="padding: 0.3rem 0;">✓ 3-6 week process</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Fresh Start Process (Simple) -->
+            <div id="fresh-process" class="migration-process" style="display: none;">
+                <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary-gradient-start);">
+                    🌱 Start Fresh in 3 Days
+                </h3>
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                        <div style="background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                            <h4 style="color: var(--primary-gradient-start);">Day 1: Setup</h4>
+                            <ul style="list-style: none; padding: 0; font-size: 0.95rem;">
+                                <li>✓ Account creation</li>
+                                <li>✓ Basic configuration</li>
+                                <li>✓ Import contacts & products</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                            <h4 style="color: var(--primary-gradient-start);">Day 2: Training</h4>
+                            <ul style="list-style: none; padding: 0; font-size: 0.95rem;">
+                                <li>✓ Team onboarding</li>
+                                <li>✓ Workflow setup</li>
+                                <li>✓ Practice transactions</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                            <h4 style="color: var(--success);">Day 3: Go Live</h4>
+                            <ul style="list-style: none; padding: 0; font-size: 0.95rem;">
+                                <li>✓ Start using Vilara</li>
+                                <li>✓ Live support</li>
+                                <li>✓ Quick adjustments</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Enhancement Process (Medium) -->
+            <div id="enhance-process" class="migration-process" style="display: none;">
+                <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary-gradient-start);">
+                    ⚡ Enhance Your ERP in 1 Week
+                </h3>
+                <div style="max-width: 900px; margin: 0 auto;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                        <div style="background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                            <h4 style="color: var(--primary-gradient-start); font-size: 1rem;">Days 1-2</h4>
+                            <h5 style="margin: 0.5rem 0;">Integration Setup</h5>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">Connect to your existing ERP and configure sync rules</p>
+                        </div>
+                        <div style="background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                            <h4 style="color: var(--primary-gradient-start); font-size: 1rem;">Days 3-4</h4>
+                            <h5 style="margin: 0.5rem 0;">Data Sync</h5>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">Test synchronization and validate data flows</p>
+                        </div>
+                        <div style="background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                            <h4 style="color: var(--primary-gradient-start); font-size: 1rem;">Day 5</h4>
+                            <h5 style="margin: 0.5rem 0;">Training</h5>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">Team training on enhanced features</p>
+                        </div>
+                        <div style="background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                            <h4 style="color: var(--success); font-size: 1rem;">Days 6-7</h4>
+                            <h5 style="margin: 0.5rem 0;">Go Live</h5>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">Launch enhanced capabilities with support</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Full Migration Process (Complex) - Keep existing but hidden by default -->
+            <div id="full-process" class="migration-process" style="display: none;">
+                <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary-gradient-start);">
+                    🚀 Complete ERP Migration Process
+                </h3>
+                <div style="max-width: 1000px; margin: 0 auto;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
                     <!-- Phase 1 -->
                     <div style="background: white; border-radius: 1rem; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative;">
                         <div style="position: absolute; top: -15px; left: 20px; background: var(--primary-gradient-start); color: white; padding: 0.5rem 1rem; border-radius: 1rem; font-weight: 600;">Phase 1</div>
@@ -149,7 +259,7 @@
                             <li style="padding: 0.5rem 0;">🔗 Integration setup</li>
                         </ul>
                         <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-light); color: var(--text-light);">
-                            <strong>Duration:</strong> 1-2 weeks
+                            <strong>Duration:</strong> 3-10 days
                         </div>
                     </div>
                     
@@ -214,67 +324,67 @@
                     </div>
                 </div>
             </div>
+            </div>
+            
+            <!-- Default Selection Message -->
+            <div id="select-path-message" style="text-align: center; padding: 3rem; background: var(--bg-light); border-radius: 1rem; max-width: 600px; margin: 0 auto;">
+                <p style="font-size: 1.2rem; color: var(--primary-gradient-start); margin-bottom: 1rem;">
+                    👆 Select your migration path above to see the process
+                </p>
+                <p style="color: var(--text-light);">
+                    Each path is optimized for your specific needs and timeline
+                </p>
+            </div>
         </div>
     </section>
 
-    <!-- Migration Calculator -->
+    <!-- Need Help Choosing? -->
     <section id="migration-calculator" class="roi-calculator">
         <div class="container">
             <div class="section-header">
-                <h2>Migration Timeline Calculator</h2>
-                <p>Get an estimate of your migration timeline and complexity</p>
+                <h2>Need Help Choosing Your Path?</h2>
+                <p>Answer a few questions to find the right migration approach</p>
             </div>
             
-            <div class="calculator-container">
-                <div class="calculator-inputs">
-                    <div class="input-group">
-                        <label for="current-system">Current ERP System</label>
-                        <select id="current-system" style="padding: 0.75rem; border: 1px solid var(--border-light); border-radius: 0.5rem; font-size: 1rem;">
-                            <option value="quickbooks">QuickBooks</option>
-                            <option value="netsuite">NetSuite</option>
-                            <option value="sap">SAP</option>
-                            <option value="oracle">Oracle</option>
-                            <option value="sage">Sage</option>
-                            <option value="spreadsheets">Spreadsheets</option>
-                            <option value="custom">Custom/Other</option>
-                        </select>
+            <div class="calculator-container" style="max-width: 800px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div style="text-align: left;">
+                        <h3 style="color: var(--primary-gradient-start); margin-bottom: 1rem;">Choose Start Fresh if:</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.5rem 0;">✓ You have fewer than 10 employees</li>
+                            <li style="padding: 0.5rem 0;">✓ Currently using spreadsheets or basic tools</li>
+                            <li style="padding: 0.5rem 0;">✓ Want to be operational in 3 days</li>
+                            <li style="padding: 0.5rem 0;">✓ Limited historical data to migrate</li>
+                        </ul>
+                        <a href="#" onclick="showMigrationPath('fresh'); document.querySelector('.path-card').scrollIntoView({behavior: 'smooth'}); return false;" class="btn btn-secondary" style="margin-top: 1rem;">View Start Fresh Process</a>
                     </div>
-                    <div class="input-group">
-                        <label for="data-complexity">Data Complexity</label>
-                        <select id="data-complexity" style="padding: 0.75rem; border: 1px solid var(--border-light); border-radius: 0.5rem; font-size: 1rem;">
-                            <option value="simple">Simple (Standard data)</option>
-                            <option value="moderate">Moderate (Some customization)</option>
-                            <option value="complex">Complex (Heavy customization)</option>
-                        </select>
+                    
+                    <div style="text-align: left;">
+                        <h3 style="color: var(--primary-gradient-start); margin-bottom: 1rem;">Choose Enhance if:</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.5rem 0;">✓ You have 10-100 employees</li>
+                            <li style="padding: 0.5rem 0;">✓ Happy with current ERP but need more</li>
+                            <li style="padding: 0.5rem 0;">✓ Want specific Vilara capabilities</li>
+                            <li style="padding: 0.5rem 0;">✓ Prefer gradual transition</li>
+                        </ul>
+                        <a href="#" onclick="showMigrationPath('enhance'); document.querySelector('.path-card').scrollIntoView({behavior: 'smooth'}); return false;" class="btn btn-secondary" style="margin-top: 1rem;">View Enhancement Process</a>
                     </div>
-                    <div class="input-group">
-                        <label for="migration-type">Migration Approach</label>
-                        <select id="migration-type" style="padding: 0.75rem; border: 1px solid var(--border-light); border-radius: 0.5rem; font-size: 1rem;">
-                            <option value="full">Full Replacement</option>
-                            <option value="gradual">Gradual Migration</option>
-                            <option value="augmentation">Start with Augmentation</option>
-                        </select>
+                    
+                    <div style="text-align: left;">
+                        <h3 style="color: var(--primary-gradient-start); margin-bottom: 1rem;">Choose Full Migration if:</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.5rem 0;">✓ You have 100+ employees</li>
+                            <li style="padding: 0.5rem 0;">✓ Replacing legacy ERP completely</li>
+                            <li style="padding: 0.5rem 0;">✓ Complex data and workflows</li>
+                            <li style="padding: 0.5rem 0;">✓ Need comprehensive support</li>
+                        </ul>
+                        <a href="#" onclick="showMigrationPath('full'); document.querySelector('.path-card').scrollIntoView({behavior: 'smooth'}); return false;" class="btn btn-secondary" style="margin-top: 1rem;">View Full Migration Process</a>
                     </div>
                 </div>
                 
-                <div id="migration-results" class="roi-results">
-                    <h3>Your Migration Estimate</h3>
-                    <div class="roi-metric">
-                        <span>Estimated Timeline:</span>
-                        <span class="roi-value" id="migration-timeline">4-6 weeks</span>
-                    </div>
-                    <div class="roi-metric">
-                        <span>Migration Complexity:</span>
-                        <span class="roi-value" id="migration-complexity">Moderate</span>
-                    </div>
-                    <div class="roi-metric">
-                        <span>Automation Level:</span>
-                        <span class="roi-value" id="automation-level">High</span>
-                    </div>
-                    <div class="roi-metric">
-                        <span>Support Level:</span>
-                        <span class="roi-value" id="support-level">Standard</span>
-                    </div>
+                <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-light);">
+                    <p style="color: var(--text-light); margin-bottom: 1rem;">Still not sure? Let's discuss your specific needs</p>
+                    <a href="/contact.html#consultation" class="btn btn-primary">Schedule Free Consultation</a>
                 </div>
             </div>
         </div>
@@ -384,11 +494,11 @@
         <div class="container">
             <div class="hero-content">
                 <h2 style="font-size: 2rem; margin-bottom: 1rem;">Ready to Start Your Migration?</h2>
-                <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;" id="cta-description">
                     Get a detailed migration plan and timeline for your specific system.
                 </p>
                 <div>
-                    <a href="/contact.html" class="btn btn-primary" style="margin-right: 1rem;">Get Migration Assessment</a>
+                    <a href="/contact.html#consultation" class="btn btn-primary" style="margin-right: 1rem;" id="bottom-migration-btn">Get Your Migration Plan</a>
                     <a href="/demo.html" class="btn btn-secondary">See Vilara Demo</a>
                 </div>
             </div>
@@ -440,64 +550,63 @@
 
     <script src="assets/js/main.js"></script>
     <script>
-        // Migration calculator
-        function updateMigrationEstimate() {
-            const system = document.getElementById('current-system').value;
-            const complexity = document.getElementById('data-complexity').value;
-            const type = document.getElementById('migration-type').value;
+        function showMigrationPath(path) {
+            // Hide all processes
+            document.querySelectorAll('.migration-process').forEach(el => {
+                el.style.display = 'none';
+            });
+            document.getElementById('select-path-message').style.display = 'none';
             
-            let timeline = "4-6 weeks";
-            let complexityLevel = "Moderate";
-            let automation = "High";
-            let support = "Standard";
+            // Show selected process and update CTAs
+            const heroBtn = document.getElementById('hero-migration-btn');
+            const bottomBtn = document.getElementById('bottom-migration-btn');
+            const ctaDescription = document.getElementById('cta-description');
             
-            // Adjust based on system
-            if (system === 'quickbooks' || system === 'spreadsheets') {
-                timeline = "2-3 weeks";
-                automation = "Fully Automated";
-            } else if (system === 'sap' || system === 'oracle') {
-                timeline = "6-12 weeks";
-                support = "Expert";
-            } else if (system === 'custom') {
-                timeline = "8-16 weeks";
-                complexityLevel = "High";
-                support = "Expert";
-                automation = "Assisted";
+            if (path === 'fresh') {
+                document.getElementById('fresh-process').style.display = 'block';
+                // Update CTAs for Start Fresh path
+                heroBtn.textContent = 'Start Free Trial';
+                heroBtn.href = '/contact.html?migration=fresh#free';
+                bottomBtn.textContent = 'Start Your 3-Day Setup';
+                bottomBtn.href = '/contact.html?migration=fresh#free';
+                ctaDescription.textContent = 'Get started with Vilara in just 3 days - perfect for growing businesses.';
+                
+            } else if (path === 'enhance') {
+                document.getElementById('enhance-process').style.display = 'block';
+                // Update CTAs for Enhancement path
+                heroBtn.textContent = 'Discuss Enhancement';
+                heroBtn.href = '/contact.html?migration=enhance#consultation';
+                bottomBtn.textContent = 'Plan Your Enhancement';
+                bottomBtn.href = '/contact.html?migration=enhance#consultation';
+                ctaDescription.textContent = 'Keep your current ERP and add Vilara\'s powerful capabilities in just 1 week.';
+                
+            } else if (path === 'full') {
+                document.getElementById('full-process').style.display = 'block';
+                // Update CTAs for Full Migration path
+                heroBtn.textContent = 'Get Migration Assessment';
+                heroBtn.href = '/contact.html?migration=full#consultation';
+                bottomBtn.textContent = 'Schedule Migration Consultation';
+                bottomBtn.href = '/contact.html?migration=full#consultation';
+                ctaDescription.textContent = 'Complete ERP replacement with expert support and zero data loss.';
             }
             
-            // Adjust based on complexity
-            if (complexity === 'complex') {
-                timeline = timeline.split('-').map(w => w.includes('weeks') ? 
-                    (parseInt(w) + 2) + ' weeks' : w).join('-');
-                complexityLevel = "High";
-                support = "Expert";
-            } else if (complexity === 'simple') {
-                timeline = timeline.split('-').map(w => w.includes('weeks') ? 
-                    Math.max(1, parseInt(w) - 1) + ' weeks' : w).join('-');
-                complexityLevel = "Low";
+            // Update active card styling
+            document.querySelectorAll('.path-card').forEach(card => {
+                card.style.border = '2px solid var(--border-light)';
+                card.style.background = 'white';
+            });
+            if (event && event.currentTarget) {
+                event.currentTarget.style.border = '2px solid var(--primary-gradient-start)';
+                event.currentTarget.style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05))';
             }
-            
-            // Adjust based on type
-            if (type === 'augmentation') {
-                timeline = "1-2 weeks";
-                complexityLevel = "Low";
-            } else if (type === 'gradual') {
-                timeline = "4-24 weeks";
-                complexityLevel = "Phased";
-            }
-            
-            document.getElementById('migration-timeline').textContent = timeline;
-            document.getElementById('migration-complexity').textContent = complexityLevel;
-            document.getElementById('automation-level').textContent = automation;
-            document.getElementById('support-level').textContent = support;
         }
         
         document.addEventListener('DOMContentLoaded', function() {
-            const selects = document.querySelectorAll('#migration-calculator select');
-            selects.forEach(select => {
-                select.addEventListener('change', updateMigrationEstimate);
-            });
-            updateMigrationEstimate();
+            // Show "Start Fresh" by default
+            const freshCard = document.querySelector('.path-card');
+            if (freshCard) {
+                freshCard.click();
+            }
         });
     </script>
 </body>
