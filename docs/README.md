@@ -18,6 +18,7 @@
 - ✅ **Dynamic form updates** - Button text and copy changes based on selected plan
 - ✅ **"Can't Decide Yet?" sections** - Added to both Contact and Pricing pages with 4 help options
 - ✅ **Coming soon pages** - Professional [videos.html](../videos.html) and [office-hours.html](../office-hours.html)
+- ✅ **Smart Migration UX** - Context-aware migration paths with dynamic CTAs based on company size
 
 ### **Implementation Plans**
 - **[Architecture-Agnostic Onboarding Plan](architecture-agnostic-onboarding-plan.md)** - **MAIN PLAN** with implementation status
@@ -45,6 +46,7 @@
 - `/activate.html` - Universal activation page
 - `/contact.html` - Enhanced signup forms with plan selection
 - `/pricing.html` - Plan selection with direct signup flow
+- `/migration.html` - Smart migration paths with context-aware CTAs
 - `/videos.html` - Coming soon page for video content
 - `/office-hours.html` - Coming soon page for weekly sessions
 
@@ -60,4 +62,4 @@
 - Architecture and implementation plans with current status
 
 ---
-*Updated: 2025-09-04 - Major Frontend Implementation Complete*
+*Updated: 2025-09-04 - Major Frontend Implementation Complete + Smart Migration UX*
