@@ -48,46 +48,133 @@
         </div>
     </section>
 
-    <!-- Contact Options -->
+    <!-- Pricing Plans -->
     <section class="customer-paths">
         <div class="container">
             <div class="section-header">
-                <h2>Choose Your Path</h2>
-                <p>The right approach depends on your company size</p>
-            </div>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 3rem; max-width: 900px; margin: 0 auto;">
-                <div id="free" class="path-card" data-form="free" style="border: 2px solid var(--success);">
-                    <div style="background: var(--success); color: white; text-align: center; padding: 0.5rem; margin: -2rem -2rem 2rem; border-radius: 1rem 1rem 0 0;">
+                <h2>Choose Your Plan</h2>
+                <p>Scale with confidence - upgrade automatically as you grow</p>
+            </div>            
+            <div class="pricing-grid">
+                <!-- Free Tier -->
+                <div class="path-card" data-form="free">
+                    <h3 style="text-align: center; margin-bottom: 1rem;">Free Starter</h3>
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <div style="font-size: 3rem; font-weight: 700; color: var(--primary-gradient-start);">$0</div>
+                        <div style="color: var(--text-light);">Forever</div>
+                    </div>
+                    <ul style="margin-bottom: 2rem;">
+                        <li>1,000 transactions/mo</li>
+                        <li>Core ERP modules</li>
+                        <li>Natural language interface</li>
+                        <li>Basic reporting</li>
+                        <li>Community support</li>
+                    </ul>
+                    <button class="btn btn-secondary" style="width: 100%; text-align: center; display: block; padding: 0.75rem 1.5rem; box-sizing: border-box;" onclick="showForm('free'); showPlanInfo('starter');">Start Free<br>Today</button>
+                </div>
+
+                <!-- Professional -->
+                <div class="path-card" data-form="free" style="border: 2px solid var(--success); position: relative;">
+                    <div style="position: absolute; top: 0; left: 0; right: 0; background: var(--success); color: white; text-align: center; padding: 0.5rem; border-radius: 1rem 1rem 0 0;">
                         <strong>MOST POPULAR</strong>
                     </div>
-                    <div class="path-icon">🚀</div>
-                    <h3>Start Free</h3>
-                    <p style="font-weight: 600; color: var(--text-dark);">Perfect for companies that want to get started with Vilara</p>
-                    <ul>
-                        <li>Instant access - no demo needed</li>
-                        <li>Core features free forever for small teams</li>
-                        <li>Core ERP modules included</li>
-                        <li>Natural language interface</li>
-                        <li>Community support</li>
-                        <li>Upgrade when you grow</li>
+                    <h3 style="text-align: center; margin-bottom: 1rem; padding-top: 0.5rem;">Professional</h3>
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <div style="font-size: 3rem; font-weight: 700; color: var(--primary-gradient-start);">$12K</div>
+                        <div style="color: var(--text-light);">per year</div>
+                    </div>
+                    <ul style="margin-bottom: 2rem;">
+                        <li>1-49 employees</li>
+                        <li>Unlimited transactions</li>
+                        <li>Full ERP suite</li>
+                        <li>Advanced workflows</li>
+                        <li>Custom reports</li>
+                        <li>Email support</li>
+                        <li>Cloud hosting included</li>
                     </ul>
-                    <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="showForm('free')">Start Free Today</button>
+                    <button class="btn btn-secondary" style="width: 100%; text-align: center; display: block; padding: 0.75rem 1.5rem; box-sizing: border-box;" onclick="showForm('free'); showPlanInfo('professional');">Start Professional<br>Today</button>
                 </div>
-                
-                <div id="consultation" class="path-card" data-form="consultation">
-                    <div class="path-icon">🎯</div>
-                    <h3>Schedule Consultation</h3>
-                    <p style="font-weight: 600; color: var(--text-dark);">For organizations that expect more than 1,000 transactions/mo.</p>
-                    <ul>
-                        <li>Personalized implementation roadmap</li>
-                        <li>Live demo with your data scenarios</li>
-                        <li>Migration strategy & timeline</li>
-                        <li>Custom ROI analysis</li>
-                        <li>Expert Q&A session</li>
+
+                <!-- Business -->
+                <div class="path-card" data-form="free">
+                    <h3 style="text-align: center; margin-bottom: 1rem;">Business</h3>
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <div style="font-size: 3rem; font-weight: 700; color: var(--primary-gradient-start);">$25K</div>
+                        <div style="color: var(--text-light);">per year</div>
+                    </div>
+                    <ul style="margin-bottom: 2rem;">
+                        <li>50-100 employees</li>
+                        <li>Multi-location support</li>
+                        <li>Advanced analytics</li>
+                        <li>API access</li>
+                        <li>Priority support</li>
+                        <li>Custom integrations</li>
                         <li>Dedicated success manager</li>
                     </ul>
-                    <button class="btn btn-secondary" style="width: 100%; margin-top: 1rem;" onclick="showForm('consultation')">Schedule Consultation</button>
+                    <button class="btn btn-secondary" style="width: 100%; text-align: center; display: block; padding: 0.75rem 1.5rem; box-sizing: border-box;" onclick="showForm('free'); showPlanInfo('business');">Start Business<br>Today</button>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="path-card" data-form="consultation">
+                    <h3 style="text-align: center; margin-bottom: 1rem;">Enterprise</h3>
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <div style="font-size: 3rem; font-weight: 700; color: var(--primary-gradient-start);">Custom</div>
+                        <div style="color: var(--text-light);">tailored pricing</div>
+                    </div>
+                    <ul style="margin-bottom: 2rem;">
+                        <li>100+ employees</li>
+                        <li>Multi-company support</li>
+                        <li>White-label options</li>
+                        <li>Custom development</li>
+                        <li>24/7 support</li>
+                        <li>On-premise deployment</li>
+                        <li>SLA guarantees</li>
+                    </ul>
+                    <button class="btn btn-secondary" style="width: 100%; text-align: center; display: block; padding: 0.75rem 1.5rem; box-sizing: border-box;" onclick="showForm('consultation')">Schedule Consultation</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Can't Decide Yet Section -->
+    <section class="features" style="background: var(--bg-light);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Can't Decide Yet?</h2>
+                <p>We're here to help you make the right choice</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto;">
+                <!-- FAQs -->
+                <div style="background: white; padding: 2rem; border-radius: 1rem; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">❓</div>
+                    <h3>Read FAQs</h3>
+                    <p style="color: var(--text-light); margin-bottom: 1.5rem;">Get quick answers to common questions about features, pricing, and implementation</p>
+                    <a href="#faq-section" class="btn btn-secondary" style="width: 100%;">Browse FAQs</a>
+                </div>
+                
+                <!-- Videos -->
+                <div style="background: white; padding: 2rem; border-radius: 1rem; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">🎥</div>
+                    <h3>Watch Videos</h3>
+                    <p style="color: var(--text-light); margin-bottom: 1.5rem;">See Vilara in action and learn which plan works best for your business needs</p>
+                    <a href="/videos.html" class="btn btn-secondary" style="width: 100%;">Watch Videos</a>
+                </div>
+                
+                <!-- Office Hours -->
+                <div style="background: white; padding: 2rem; border-radius: 1rem; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">👥</div>
+                    <h3>Join Office Hours</h3>
+                    <p style="color: var(--text-light); margin-bottom: 1.5rem;">Free weekly Q&A sessions for current and prospective customers<br>&nbsp;</p>
+                    <a href="/office-hours.html" class="btn btn-secondary" style="width: 100%;">Register Free</a>
+                </div>
+                
+                <!-- Consultation -->
+                <div style="background: white; padding: 2rem; border-radius: 1rem; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">📞</div>
+                    <h3>Get Personal Help</h3>
+                    <p style="color: var(--text-light); margin-bottom: 1.5rem;">Schedule a 30-minute one-on-one consultation with our experts</p>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="showForm('consultation')">Schedule Call</button>
                 </div>
             </div>
         </div>
@@ -100,7 +187,7 @@
                 <!-- Free Form -->
                 <div id="free-form" class="contact-form" style="display: none;">
                     <h2 style="text-align: center; margin-bottom: 2rem; color: var(--success);">Start Free Today</h2>
-                    <p style="text-align: center; margin-bottom: 2rem; color: var(--text-light);">Get instant access to Vilara with 1,000 free transactions per month</p>
+                    <p id="free-form-subtitle" style="text-align: center; margin-bottom: 2rem; color: var(--text-light);">Get instant access to Vilara with 1,000 free transactions per month</p>
                     <form id="free-signup-form">
                         <input type="hidden" name="form_type" value="free">
                         
@@ -358,7 +445,7 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="features">
+    <section id="faq-section" class="features">
         <div class="container">
             <div class="section-header">
                 <h2>Frequently Asked Questions</h2>
@@ -434,17 +521,7 @@
 
     <script src="assets/js/main.js"></script>
     <script>
-        // Form switching functionality is now in main.js
-        
-        // Auto-show form based on URL hash
-        document.addEventListener('DOMContentLoaded', function() {
-            const hash = window.location.hash;
-            if (hash === '#free') {
-                showForm('free');
-            } else if (hash === '#consultation') {
-                showForm('consultation');
-            }
-        });
+        // Form switching functionality and auto-show are now in main.js
         
         function openChat() {
             // Placeholder for chat integration

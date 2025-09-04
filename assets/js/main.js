@@ -16,10 +16,111 @@ function showForm(formType) {
     document.querySelector('.roi-calculator').scrollIntoView({ behavior: 'smooth' });
 }
 
+// Show plan information in the signup form
+function showPlanInfo(plan) {
+    const planDetails = {
+        'professional': {
+            name: 'Professional',
+            price: '$12,000/year',
+            features: '1-49 employees, unlimited transactions, full ERP suite',
+            color: 'var(--primary-gradient-start)'
+        },
+        'business': {
+            name: 'Business',
+            price: '$25,000/year',
+            features: '50-100 employees, multi-location, API access',
+            color: 'var(--primary-gradient-start)'
+        },
+        'starter': {
+            name: 'Starter',
+            price: 'Free (1,000 transactions/mo)',
+            features: 'Perfect for getting started with Vilara',
+            color: 'var(--success)'
+        }
+    };
+    
+    if (planDetails[plan]) {
+        const details = planDetails[plan];
+        
+        // Add plan indicator to the form
+        const formTitle = document.querySelector('#free-form h2');
+        if (formTitle) {
+            // Create plan badge if it doesn't exist
+            let planBadge = document.getElementById('selected-plan-badge');
+            if (!planBadge) {
+                planBadge = document.createElement('div');
+                planBadge.id = 'selected-plan-badge';
+                planBadge.style.cssText = `
+                    background: ${details.color};
+                    color: white;
+                    padding: 0.5rem 1rem;
+                    border-radius: 2rem;
+                    margin: 1rem auto;
+                    display: inline-block;
+                    font-weight: 600;
+                `;
+                formTitle.parentNode.insertBefore(planBadge, formTitle.nextSibling);
+            }
+            planBadge.innerHTML = `Selected Plan: ${details.name} - ${details.price}`;
+            
+            // Update subtitle based on plan
+            const subtitle = document.getElementById('free-form-subtitle');
+            if (subtitle) {
+                if (plan === 'professional' || plan === 'business') {
+                    subtitle.innerHTML = `Starting with the ${details.name} plan. Complete your signup below and we'll help you get started!`;
+                }
+            }
+            
+            // Update form title for paid plans
+            if (formTitle && (plan === 'professional' || plan === 'business')) {
+                formTitle.innerHTML = `Start Your ${details.name} Plan`;
+            }
+            
+            // Update button text and copy below for paid plans
+            const submitBtn = document.getElementById('free-submit-btn');
+            const buttonCopy = submitBtn?.parentElement?.querySelector('p');
+            
+            if (submitBtn) {
+                if (plan === 'professional' || plan === 'business') {
+                    submitBtn.textContent = `Start ${details.name} Plan`;
+                    if (buttonCopy) {
+                        buttonCopy.innerHTML = `${details.price} • 14-day free trial • Cancel anytime`;
+                    }
+                } else if (plan === 'starter') {
+                    submitBtn.textContent = 'Get Free Access';
+                    if (buttonCopy) {
+                        buttonCopy.innerHTML = 'No credit card required • Instant setup • Free forever';
+                    }
+                }
+            }
+            
+            // Add hidden input for plan
+            let planInput = document.getElementById('selected-plan-input');
+            if (!planInput) {
+                planInput = document.createElement('input');
+                planInput.type = 'hidden';
+                planInput.id = 'selected-plan-input';
+                planInput.name = 'selected_plan';
+                document.getElementById('free-signup-form').appendChild(planInput);
+            }
+            planInput.value = plan;
+        }
+    }
+}
+
 // Handle free signup form submission
 function initializeSignupForm() {
     const signupForm = document.getElementById('free-signup-form');
     if (!signupForm) return; // Only run on contact page
+    
+    // Check for plan parameter in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedPlan = urlParams.get('plan');
+    
+    // If plan is specified, show plan information
+    if (selectedPlan) {
+        showPlanInfo(selectedPlan);
+    }
     
     signupForm.addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -57,6 +158,12 @@ function initializeSignupForm() {
             formData.append('industry', document.getElementById('free-industry').value);
             formData.append('current_system', document.getElementById('free-current-system').value);
             formData.append('goals', document.getElementById('free-goals').value);
+            
+            // Include selected plan if present
+            const selectedPlanInput = document.getElementById('selected-plan-input');
+            if (selectedPlanInput && selectedPlanInput.value) {
+                formData.append('selected_plan', selectedPlanInput.value);
+            }
             
             // Submit to our API
             const response = await fetch('/api/universal-signup.php', {
@@ -199,6 +306,25 @@ function calculateROI() {
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize signup form if on contact page
     initializeSignupForm();
+    
+    // Auto-show form based on URL hash (for contact page)
+    const hash = window.location.hash;
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check for hash (with or without query params)
+    if (hash.startsWith('#free') && document.getElementById('free-form')) {
+        // Small delay to ensure everything is loaded
+        setTimeout(() => {
+            showForm('free');
+            // Also handle plan parameter if present
+            const plan = urlParams.get('plan');
+            if (plan) {
+                showPlanInfo(plan);
+            }
+        }, 100);
+    } else if (hash.startsWith('#consultation') && document.getElementById('consultation-form')) {
+        setTimeout(() => showForm('consultation'), 100);
+    }
     const links = document.querySelectorAll('a[href^="#"]');
     
     links.forEach(link => {
@@ -368,6 +494,16 @@ style.textContent = `
     .input-group textarea:focus {
         outline: none;
         border-color: var(--primary-gradient-start);
+    }
+    
+    /* Hover effect for Can't Decide cards */
+    .features div[style*="transition: transform"] {
+        cursor: pointer;
+    }
+    
+    .features div[style*="transition: transform"]:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
     }
 `;
 document.head.appendChild(style);
