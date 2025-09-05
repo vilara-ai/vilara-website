@@ -1,28 +1,58 @@
 <?php
 /**
- * Universal Signup Bridge API
- * Handles account creation and generates deployment-agnostic activation tokens
+ * Universal Signup API Endpoint
+ * Handles new signups with migration context and token generation
+ * GCP Cloud Run + PostgreSQL implementation
  */
 
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+
+// CORS configuration
+$allowed_origins = [
+    'https://vilara.ai',
+    'https://www.vilara.ai',
+    'http://localhost:3000',
+    'http://localhost:8080'
+];
+
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (in_array($origin, $allowed_origins)) {
+    header("Access-Control-Allow-Origin: $origin");
+    header("Access-Control-Allow-Methods: POST, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type");
+    header("Access-Control-Allow-Credentials: true");
+}
 
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
-    exit;
+    exit();
 }
 
+// Only accept POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
-    echo json_encode(['error' => 'Method not allowed']);
-    exit;
+    echo json_encode(['success' => false, 'error' => 'Method not allowed']);
+    exit();
 }
 
+// Include required files
+require_once __DIR__ . '/includes/database.php';
+require_once __DIR__ . '/includes/email.php';
+require_once __DIR__ . '/includes/rate-limiter.php';
+
 try {
-    // Get POST data
+    // Get client IP
+    $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '';
+    
+    // Rate limiting check
+    if (!checkRateLimit($ip_address, 5, 3600)) { // 5 requests per hour
+        http_response_code(429);
+        echo json_encode(['success' => false, 'error' => 'Too many requests. Please try again later.']);
+        exit();
+    }
+    
+    // Parse input
     $input = json_decode(file_get_contents('php://input'), true);
     
     if (!$input) {
@@ -30,199 +60,114 @@ try {
     }
     
     // Validate required fields
-    $required_fields = ['email', 'company', 'password', 'industry'];
+    $required_fields = ['email', 'firstName', 'lastName', 'companyName', 'companySize'];
     foreach ($required_fields as $field) {
         if (empty($input[$field])) {
             throw new Exception("Missing required field: $field");
         }
     }
     
+    // Validate email
     $email = filter_var($input['email'], FILTER_VALIDATE_EMAIL);
     if (!$email) {
         throw new Exception('Invalid email address');
     }
     
-    $company = trim($input['company']);
-    $password = $input['password'];
-    $industry = trim($input['industry']);
-    
-    // Password validation
-    if (strlen($password) < 8) {
-        throw new Exception('Password must be at least 8 characters');
+    // Get migration type from query parameter
+    $migration_type = $_GET['migration'] ?? 'fresh';
+    if (!in_array($migration_type, ['fresh', 'enhance', 'full'])) {
+        $migration_type = 'fresh';
     }
     
-    // Create user account
-    $user_id = createUser($email, $company, $password, $industry);
+    // Connect to database
+    $db = getDatabase();
     
-    if (!$user_id) {
-        throw new Exception('Failed to create user account');
+    // Check if email already has pending activation
+    $stmt = $db->prepare("
+        SELECT id FROM signups 
+        WHERE email = ? 
+        AND used_at IS NULL 
+        AND expires_at > NOW()
+    ");
+    $stmt->execute([$email]);
+    
+    if ($stmt->fetch()) {
+        throw new Exception('An activation link has already been sent to this email.');
     }
     
-    // Generate universal activation token (24-hour expiry)
-    $activation_token = generateActivationToken($user_id);
+    // Generate secure token
+    $token = bin2hex(random_bytes(32)); // 64 character hex token
+    $token_hash = hash('sha256', $token);
     
-    // Generate short activation code for desktop apps
-    $desktop_code = generateShortCode($activation_token);
+    // Store signup in database
+    $stmt = $db->prepare("
+        INSERT INTO signups (
+            email, first_name, last_name, company_name, company_size,
+            phone, migration_type, token_hash, ip_address,
+            created_at, expires_at
+        ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?, ?,
+            NOW(), NOW() + INTERVAL '24 hours'
+        )
+    ");
     
-    // Prepare response with multiple activation methods
-    $response = [
-        'success' => true,
-        'onboarding_token' => $activation_token,
-        'user_data' => [
-            'email' => $email,
-            'company' => $company,
-            'industry' => $industry
-        ],
-        'ui_activation_methods' => [
-            'web_ui' => getWebUIActivationURL($activation_token),
-            'desktop_app' => [
-                'activation_code' => $desktop_code,
-                'instruction' => 'Enter this code in Vilara Desktop App',
-                'download_url' => 'https://vilara.ai/download'
-            ],
-            'private_network' => [
-                'activation_token' => $activation_token,
-                'instruction' => 'Share this token with your IT administrator',
-                'setup_guide_url' => 'https://vilara.ai/docs/enterprise-setup'
-            ]
-        ]
-    ];
+    $success = $stmt->execute([
+        $email,
+        $input['firstName'],
+        $input['lastName'],
+        $input['companyName'],
+        $input['companySize'],
+        $input['phone'] ?? null,
+        $migration_type,
+        $token_hash,
+        $ip_address
+    ]);
+    
+    if (!$success) {
+        throw new Exception('Failed to create signup record');
+    }
+    
+    // Send activation email
+    $activation_url = "https://vilara.ai/activate.html?token=$token";
+    $email_sent = sendActivationEmail(
+        $email,
+        $input['firstName'],
+        $activation_url,
+        $migration_type,
+        $input['companyName']
+    );
+    
+    if (!$email_sent) {
+        error_log("Warning: Failed to send activation email to $email");
+        // Continue anyway - token is stored
+    }
     
     // Log successful signup
-    logSignupEvent($user_id, $email, $company, $_SERVER['REMOTE_ADDR']);
+    error_log(json_encode([
+        'event' => 'signup_success',
+        'email' => $email,
+        'company' => $input['companyName'],
+        'migration' => $migration_type,
+        'ip' => $ip_address
+    ]));
     
-    echo json_encode($response);
+    // Return success response
+    echo json_encode([
+        'success' => true,
+        'token' => $token,
+        'message' => 'Activation link sent to your email'
+    ]);
     
 } catch (Exception $e) {
+    error_log(json_encode([
+        'event' => 'signup_error',
+        'error' => $e->getMessage(),
+        'ip' => $ip_address ?? 'unknown'
+    ]));
+    
     http_response_code(400);
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()
     ]);
 }
-
-/**
- * Create user account in database
- */
-function createUser($email, $company, $password, $industry) {
-    try {
-        $pdo = getDatabaseConnection();
-        
-        // Check if user already exists
-        $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
-        $stmt->execute([$email]);
-        
-        if ($stmt->fetch()) {
-            throw new Exception('Email address already registered');
-        }
-        
-        // Hash password
-        $password_hash = password_hash($password, PASSWORD_DEFAULT);
-        
-        // Insert new user
-        $stmt = $pdo->prepare("
-            INSERT INTO users (email, company, password_hash, industry, created_at) 
-            VALUES (?, ?, ?, ?, NOW())
-        ");
-        
-        $stmt->execute([$email, $company, $password_hash, $industry]);
-        
-        return $pdo->lastInsertId();
-        
-    } catch (PDOException $e) {
-        error_log("Database error in createUser: " . $e->getMessage());
-        return false;
-    }
-}
-
-/**
- * Generate secure activation token
- */
-function generateActivationToken($user_id) {
-    $token = bin2hex(random_bytes(32));
-    
-    try {
-        $pdo = getDatabaseConnection();
-        
-        // Store token with 24-hour expiry
-        $stmt = $pdo->prepare("
-            INSERT INTO activation_tokens (user_id, token, expires_at, created_at) 
-            VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 24 HOUR), NOW())
-        ");
-        
-        $stmt->execute([$user_id, $token]);
-        
-        return $token;
-        
-    } catch (PDOException $e) {
-        error_log("Database error in generateActivationToken: " . $e->getMessage());
-        return false;
-    }
-}
-
-/**
- * Generate short code for desktop app activation
- */
-function generateShortCode($activation_token) {
-    // Create 8-character code based on token hash
-    $hash = hash('sha256', $activation_token);
-    $code = strtoupper(substr($hash, 0, 4) . '-' . substr($hash, 4, 4));
-    return $code;
-}
-
-/**
- * Get web UI activation URL
- */
-function getWebUIActivationURL($token) {
-    // Default to localhost for current alpha version
-    return "http://localhost:5006/activate?token=" . $token;
-}
-
-/**
- * Get database connection
- */
-function getDatabaseConnection() {
-    $config = [
-        'host' => $_ENV['DB_HOST'] ?? 'localhost',
-        'dbname' => $_ENV['DB_NAME'] ?? 'vilara',
-        'username' => $_ENV['DB_USER'] ?? 'vilara_user',
-        'password' => $_ENV['DB_PASS'] ?? 'vilara_password'
-    ];
-    
-    $dsn = "mysql:host={$config['host']};dbname={$config['dbname']};charset=utf8mb4";
-    
-    try {
-        $pdo = new PDO($dsn, $config['username'], $config['password'], [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES => false,
-        ]);
-        
-        return $pdo;
-        
-    } catch (PDOException $e) {
-        error_log("Database connection failed: " . $e->getMessage());
-        throw new Exception('Database connection failed');
-    }
-}
-
-/**
- * Log signup event for analytics
- */
-function logSignupEvent($user_id, $email, $company, $ip_address) {
-    try {
-        $pdo = getDatabaseConnection();
-        
-        $stmt = $pdo->prepare("
-            INSERT INTO signup_events (user_id, email, company, ip_address, created_at) 
-            VALUES (?, ?, ?, ?, NOW())
-        ");
-        
-        $stmt->execute([$user_id, $email, $company, $ip_address]);
-        
-    } catch (PDOException $e) {
-        error_log("Failed to log signup event: " . $e->getMessage());
-        // Don't throw exception - this is non-critical
-    }
-}
-?>

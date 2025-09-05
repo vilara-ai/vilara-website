@@ -152,11 +152,25 @@ vercel ls
 - **User experience**: Prioritize clarity over complexity
 
 ## Recent Changes & Notes
+- **2025-09-05**: Backend fully deployed and functional on Google Cloud Platform
+  - PostgreSQL database with full schema (signups, rate_limits tables)
+  - Signup API (`/api/universal-signup.php`) with token generation
+  - Activation API (`/api/activate.php`) with token validation
+  - Rate limiting (5 requests/IP/hour), CORS, secure token hashing
+  - Cloud Run service: https://website-1040930643556.us-central1.run.app
 - **2025-08-16**: Implemented tiered lead qualification system
 - **Company size focus**: Free for under 5 employees, consultation for 5+
 - **Messaging refinement**: Added "blow my mind features" and "nirvana" language
 - **Cost comparison**: Added "Additional Seat Licenses" row highlighting $0 advantage
 
+## Backend Status
+- **APIs**: ✅ Fully functional at https://website-1040930643556.us-central1.run.app
+- **Database**: ✅ PostgreSQL on Cloud SQL with appuser configured
+- **Security**: ✅ Rate limiting, CORS, token hashing implemented
+- **Deployment**: ✅ Cloud Run with auto-scaling
+- **Monitoring**: ✅ Cloud Logging integrated
+- **Email**: ⏳ Ready for SendGrid integration (API key needed)
+
 ---
-*Last Updated: 2025-08-16*
+*Last Updated: 2025-09-05*
 *This file guides Claude Code in maintaining and improving the Vilara website.*
