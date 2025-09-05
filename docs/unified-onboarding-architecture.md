@@ -3,26 +3,70 @@
 
 ## Executive Summary
 
-This document outlines a unified authentication and onboarding system for Vilara AI Operating System that aligns with our core value propositions of "$0 seat licenses" and "95% faster" implementation.
+This document outlines a unified authentication and onboarding system for Vilara AI that aligns with our core value proposition: **"Vilara AI transforms manual operations into automated intelligence, integrating with existing processes immediately, reducing the time/costs for tasks by 95% and allowing for continuous modifications and improvements quickly and easily without the need for any developer interventions."**
 
-## Core Philosophy
+## Core Philosophy & Value Proposition
 
-**One System, Multiple Entry Points**
-- All users access the same powerful Vilara AI Operating System
-- No feature limitations based on plan type
-- Pricing based on usage/features, not user count
-- Immediate value delivery during customization process
+**Vilara AI: Automated Intelligence for Business Operations**
+- **Transform Manual → Automated**: Convert existing manual processes into intelligent workflows
+- **Immediate Integration**: Works with current business processes without disruption
+- **95% Time/Cost Reduction**: Dramatic efficiency gains through AI-powered automation
+- **Continuous Improvement**: Easy modifications and enhancements without developer dependency
+- **$0 Seat Licenses**: Pricing based on transaction volume, not user count
 
 ## What's Already Built
 
-### Complete Marketing Website & Backend
+### Complete Marketing Website & Backend Infrastructure
 - **Website**: Full responsive marketing site with pricing, demo, and contact pages
+- **Domain**: vilara.ai fully configured and operational  
 - **PostgreSQL Database**: Production database on Google Cloud SQL with signup and rate limiting tables
 - **Signup API**: `/api/universal-signup.php` - Captures leads with secure token generation
 - **Activation API**: `/api/activate.php` - Validates activation tokens and marks accounts as ready
 - **Cloud Run Service**: https://website-1040930643556.us-central1.run.app (fully deployed and functional)
 - **Security Features**: Rate limiting (5/hour per IP), CORS protection, SHA256 token hashing
 - **GCP Integration**: Artifact Registry, Cloud Build, Secret Manager, Cloud Logging
+
+### Current Architecture (Production Ready)
+**Domain Flow**: 
+- **vilara.ai** → Vercel (static website) + API proxy → Cloud Run (PHP backend) → Cloud SQL (PostgreSQL)
+
+**Key Components**:
+- **Vercel**: Hosts static marketing site with global CDN performance
+- **API Proxy**: Vercel rewrites route `/api/*` calls to Cloud Run backend  
+- **Cloud Run**: Executes PHP backend with full PostgreSQL connectivity
+- **Cloud SQL**: Secure PostgreSQL database with proper schema and authentication
+- **Unified Domain**: All functionality accessible through single vilara.ai domain
+
+**API Endpoints** (Live & Functional):
+- `POST vilara.ai/api/universal-signup.php` - User signup with email activation
+- `POST vilara.ai/api/activate.php` - Token-based account activation
+- Both endpoints include rate limiting, validation, and email integration
+
+### Vilara AI Application System Status
+**Location**: `/mnt/c/Users/grayt/Desktop/Vilara/UI/`
+
+**✅ Core Application Features (Built):**
+- **Natural Language Interface**: Complete web application (`vilara-app.html`) with NLP processor
+- **Vilara-core (formerly chuck-stack) ERP Integration**: Direct terminal session communication with Chuck-Stack ERP
+- **Interactive Command Flows**: Multi-step conversations for complex operations
+- **Entity Tracking**: Context-aware operations across business entities
+- **15 ERP Modules**: Business partners, invoices, projects, contacts, etc.
+- **Dual Command Access**: Natural language OR direct Chuck-Stack commands (`!bp list`)
+- **Comprehensive Testing**: 13 automated tests covering all functionality
+
+**🚨 Integration Gaps (Critical):**
+- **Local-Only Operation**: Currently runs on local machine, not cloud-accessible
+- **No Authentication Bridge**: No connection to vilara.ai signup/activation system
+- **Vilara-core (Chuck-Stack) Dependency**: Requires local Chuck-Stack instance at `/opt/stk-local-default-*`
+- **File Communication**: Uses local file system (`/tmp/chuck_stack_*`) for ERP communication
+- **Single-User Design**: No multi-tenant or workspace isolation capabilities
+
+**⚡ Integration Requirements:**
+1. **Cloud Deployment**: Host UI application at `app.vilara.ai`
+2. **Authentication Bridge**: Connect vilara.ai activation → app.vilara.ai access
+3. **Multi-Tenant Architecture**: Workspace isolation for multiple customers
+4. **Vilara-Core (Chuck-Stack) Cloud Strategy**: Solve ERP access for cloud-hosted UI
+5. **Transaction Metering**: Usage tracking for billing integration
 
 ### Database Schema
 - **signups table**: Stores user information, company details, migration preferences, and secure tokens
@@ -65,19 +109,58 @@ Both paths lead to: Full Vilara AI Operating System with progressive customizati
 4. **No Artificial Limits**: Same features available to all plans
 5. **Workspace Isolation**: Each company gets dedicated environment
 
-## Technical Implementation Plan
+## Integration Architecture Analysis
 
-### Phase 1: Authentication & Workspace Provisioning
+### Current System Integration Gap
 
-#### Single Signup Flow
+**Marketing Website (COMPLETE)** → **Authentication Bridge (MISSING)** → **AI Application (NEEDS FURTHER DEPLOYMENT)**
+
+```
+vilara.ai                     app.vilara.ai
+    ↓                             ↓
+✅ Signup & Activation    →   🚨 UI Application System
+   (Cloud Ready)               (Local Development Only)
+    ↓                             ↓
+PostgreSQL Database       →   Chuck-Stack ERP Integration
+ (Production)                  (Local File Communication)
+```
+
+### Phase 1: Critical Integration Implementation
+
+#### 1. UI Application Cloud Deployment
+**Challenge**: Current UI runs locally with Chuck-Stack file communication
+**Solution Options**:
+
+**Option A: Containerized Chuck-Stack per Workspace**
+```
+app.vilara.ai → Cloud Run → Containerized Chuck-Stack + UI per customer
+```
+- **Pros**: Full isolation, familiar architecture
+- **Cons**: Resource intensive, complex deployment
+
+**Option B: API Bridge Architecture**
+```
+app.vilara.ai → Cloud Run UI → API Bridge → Chuck-Stack Service Layer
+```
+- **Pros**: Efficient resource usage, centralized Chuck-Stack
+- **Cons**: Need to build service layer, multi-tenancy complexity
+
+**Option C: Hybrid Cloud-Local**
+```
+app.vilara.ai → Authentication → Local Chuck-Stack Connector
+```
+- **Pros**: Leverage existing local setup
+- **Cons**: Not fully cloud-native, deployment complexity
+
+#### 2. Authentication Bridge Implementation
+**Current Flow**: `vilara.ai/api/universal-signup.php` → Database storage
+**Needed Flow**: Database activation → `app.vilara.ai` workspace provisioning
+
 ```javascript
-POST /api/signup.php
+// Enhanced activation response
+POST /api/activate.php
 {
-  "email": "user@company.com",
-  "company": "ACME Corp", 
-  "plan": "professional", // free|professional|business|enterprise
-  "auth_method": "google", // google|password|sso
-  "industry": "retail" // optional, for smart defaults
+  "token": "64-char-hex-token"
 }
 
 Response:
@@ -85,9 +168,39 @@ Response:
   "success": true,
   "workspace_id": "acme-corp-x7k9",
   "app_url": "https://app.vilara.ai/workspace/acme-corp-x7k9",
-  "onboarding_url": "https://app.vilara.ai/onboard",
-  "status": "ready_to_customize"
+  "session_token": "jwt-or-session-identifier",
+  "onboarding_required": true
 }
+```
+
+#### 3. Multi-Tenant Workspace Architecture
+**Current**: Single Chuck-Stack instance, no isolation
+**Needed**: Workspace isolation with transaction tracking
+
+```sql
+-- Enhanced database schema for workspaces
+CREATE TABLE workspaces (
+    id SERIAL PRIMARY KEY,
+    workspace_id VARCHAR(255) UNIQUE NOT NULL,
+    company_name VARCHAR(255) NOT NULL,
+    plan_type VARCHAR(50) NOT NULL,
+    chuck_stack_instance VARCHAR(255), -- Instance identifier or connection
+    transaction_count INT DEFAULT 0,
+    created_from_signup_id INT REFERENCES signups(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_activity TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Transaction tracking for billing
+CREATE TABLE workspace_transactions (
+    id SERIAL PRIMARY KEY,
+    workspace_id VARCHAR(255) REFERENCES workspaces(workspace_id),
+    user_command TEXT NOT NULL,
+    chuck_stack_command TEXT,
+    processing_time DECIMAL(10,3),
+    transaction_type VARCHAR(50), -- 'nl_query', 'direct_command', 'multi_step'
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 ```
 
 #### Workspace Database Structure
@@ -232,18 +345,35 @@ class VillarQuery {
 
 ## Implementation Priorities
 
-### Immediate Next Steps ("Website" side - Tim)
-1. **Authentication Integration**: Add Google OAuth to current signup flow
-2. **Workspace Provisioning**: Build workspace creation system with transaction tracking
-3. **Basic Multi-Tenancy**: Implement workspace isolation
-4. **Vilara App Foundation**: Create app.vilara.ai subdomain structure
-5. **Usage Analytics System**: Build transaction volume monitoring and plan upgrade suggestions
+### Phase 1 Implementation Roadmap
 
-### Immediate Next Steps (vilara-core side - Chuck)
-1. **Industry Templates**: Build default work instruction sets
-2. **Progressive Onboarding UI**: Create guided customization flow
-3. **Usage Analytics**: Track patterns for smart suggestions
-4. **Customization Engine**: Build rule modification interface
+#### Architecture Foundation
+**Priority 1**: Resolve Vilara-Core (Chuck-Stack) cloud deployment strategy
+- **Decision Required**: Choose Option A, B, or C for Vilara-Core (Chuck-Stack) architecture  
+- **Deliverable**: Proof of concept for chosen approach
+- **Success Criteria**: Multi-tenant Vilara-Core (Chuck-Stack) access working in cloud
+
+**Priority 2**: Define transaction billing model
+- **Decision Required**: What constitutes a billable transaction
+- **Deliverable**: Transaction tracking implementation
+- **Success Criteria**: Accurate usage metering with billing integration
+
+#### Integration Bridge Development  
+**Priority 3**: Build authentication bridge
+- **Enhancement**: Extend `/api/activate.php` to provision workspaces
+- **New API**: `/api/provision-workspace.php` for post-activation setup
+- **Integration**: Connect activation flow → app.vilara.ai access
+
+**Priority 4**: Deploy UI application system
+- **Target**: Host Vilara AI application at `app.vilara.ai`
+- **Requirements**: Cloud-accessible version of current local UI
+- **Integration**: Connect to authentication bridge and workspace system
+
+#### Testing & Polish
+**Priority 5**: End-to-end integration testing
+- **Flow**: vilara.ai signup → activation → app.vilara.ai workspace access
+- **Validation**: Transaction tracking, multi-tenancy, security isolation
+- **Performance**: Sub-30-second workspace provisioning
 
 ### Longer Term 
 1. **Advanced Integrations**: Accounting, e-commerce, payment systems
@@ -251,22 +381,63 @@ class VillarQuery {
 3. **Dedicated Instances**: Database-per-customer for enterprise
 4. **Advanced Analytics**: Business intelligence and reporting tools
 
-## Key Decisions Needed
+## Critical Decisions Needed for Phase 1
 
-### Technical Architecture
-1. **App Hosting**: Same Cloud Run or separate project for app.vilara.ai?
-2. **Database Strategy**: Start with shared DB or plan for dedicated from day 1?
-3. **Session Management**: JWT tokens, server sessions, or stateless auth?
-4. **Transaction Tracking**: How to define and count transactions across different business processes?
-5. **Usage Analytics**: Real-time vs batch processing for transaction volume monitoring?
+### 1. Vilara-Core (Chuck-Stack) Cloud Architecture (HIGHEST PRIORITY)
+**Decision**: How to deploy Vilara-Core (Chuck-Stack ERP) for multi-tenant cloud access?
 
-### Workspace Provisioning System Requirements
-The system must support transaction-based pricing model:
-- **Track transaction volume** per workspace across all business processes
-- **Monitor usage patterns** to suggest plan upgrades at appropriate thresholds
-- **Handle plan transitions** seamlessly without service disruption
-- **Provide usage analytics** so customers understand their consumption and forecast costs
-- **Automated billing** based on actual transaction volume vs plan limits
+**Options Analysis**:
+- **Option A**: Containerized Vilara-Core per workspace
+  - *Pros*: Complete isolation, familiar development environment
+  - *Cons*: High resource costs, complex Nix container management
+- **Option B**: Shared Vilara-Core with API service layer  
+  - *Pros*: Cost-effective, better resource utilization
+  - *Cons*: Complex multi-tenancy, need to build service abstraction
+- **Option C**: Vilara-Core SaaS service (future)
+  - *Pros*: Scalable, maintained by Vilara-Core team
+  - *Cons*: May not exist yet, dependency on external team
+
+### 2. Transaction Definition & Billing Model
+**Decision**: What constitutes a billable "transaction" in Vilara AI?
+
+**Considerations**:
+- **Natural Language Query**: User types "show me all customers" = 1 transaction?
+- **Chuck-Stack Command**: Each ERP command execution = 1 transaction?
+- **Multi-Step Workflow**: "Create invoice for ACME Corp" (involves customer lookup + invoice creation) = 1 or 2 transactions?
+- **Context Operations**: Follow-up questions in same conversation = separate transactions?
+
+**Business Impact**: Core to pricing model and competitive positioning
+
+### 3. Authentication & Session Architecture
+**Decision**: How do users transition from vilara.ai → app.vilara.ai?
+
+**Technical Requirements**:
+- Cross-domain session management (vilara.ai ↔ app.vilara.ai)
+- Workspace isolation and security
+- Session duration and renewal policies
+- Integration with existing activation token system
+
+### 4. UI Application Hosting Strategy
+**Decision**: Where and how to deploy the Vilara AI application?
+
+**Current State**: Local-only with file communication to Vilara-Core
+**Options**:
+- Same Cloud Run service with routing (`/app/*`)
+- Separate Cloud Run service (`app.vilara.ai`)
+- Different GCP project for isolation
+- Hybrid cloud-local architecture
+
+### 5. Multi-Tenancy & Data Isolation
+**Decision**: How to ensure customer data isolation?
+
+**Database Strategy**:
+- Shared PostgreSQL with workspace_id filtering
+- Database-per-workspace (expensive but secure)
+- Hybrid approach based on plan type
+
+**Vilara-Core Isolation**:
+- How to ensure customer A cannot see customer B's data
+- Instance-level vs application-level isolation
 
 ### Business Process  
 1. **Onboarding Depth**: How much customization is required vs optional?
@@ -306,11 +477,29 @@ The system must support transaction-based pricing model:
 
 ## Conclusion
 
-This unified architecture eliminates artificial barriers between trial and production usage, aligning perfectly with Vilara's "adapt to existing processes and delivers value immediately and '95% faster' than current processes' value propositions. By giving all users immediate access to full functionality while providing progressive customization, we create a competitive advantage that traditional operations / ERPs cannot match.
+This unified architecture delivers on Vilara AI's core value proposition: **"Transform manual operations into automated intelligence, integrating with existing processes immediately, reducing time/costs by 95% with continuous improvements without developer interventions."**
 
-The technical foundation is already in place with our working backend APIs and database. 
+### Current Status Summary
 
-The next step is building the authentication and workspace provisioning system and guided onboarding flows.
+**✅ Foundation Complete:**
+- Marketing website with production backend (vilara.ai)  
+- User signup, activation, and database systems operational
+- Comprehensive UI application with Vilara-Core integration (local)
+- Natural language processing with 15 ERP modules supported
+
+**🚨 Critical Integration Gap:**
+- UI application is local-only, needs cloud deployment
+- No authentication bridge between website activation and UI access
+- Vilara-Core multi-tenancy architecture undefined
+- Transaction billing model needs definition
+
+### Next Phase Focus
+
+**The primary blocker** is resolving Vilara-Core cloud architecture for multi-tenant access. Once this foundational decision is made, the authentication bridge and UI deployment can proceed rapidly.
+
+**Success will be measured by**: Complete user journey from vilara.ai signup → activation → app.vilara.ai workspace → productive usage within 30 seconds.
+
+This architecture positions Vilara AI to deliver unprecedented speed and ease of adoption, making traditional ERP implementations obsolete through AI-powered automation and intelligent process integration.
 
 ---
 *This document serves as the architectural blueprint for Vilara's unified onboarding system and should be updated as implementation progresses.*

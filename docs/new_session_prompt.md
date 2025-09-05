@@ -1,29 +1,25 @@
-# Session Start Prompt
+# Session Start Prompt - Phase 1: Workspace Provisioning
 
-I need help implementing the backend system for Vilara's website onboarding flow. The frontend is complete with a 3-phase onboarding system (Universal Activation, Smart Routing, and Migration Paths), but currently uses mock data.
+Vilara's complete marketing website and backend infrastructure is **LIVE IN PRODUCTION** at vilara.ai. The next phase is implementing workspace provisioning and the actual Vilara AI application system.
 
-**Completed Goals:** ✅
-1. ✅ **`/api/universal-signup.php`** - Fully functional with rate limiting
-2. ✅ **Token-based account creation** - 24-hour expiry, SHA256 hashing
-3. ✅ **PostgreSQL database** - Set up on Google Cloud SQL
-4. ⏳ **Email notifications** - Ready for SendGrid integration (optional)
-5. ✅ **Migration context** - Handles `?migration=fresh/enhance/full`
-6. ✅ **Monitoring** - Cloud Logging integrated, errors logged
-7. ✅ **CORS** - Configured for production domains
+**✅ PRODUCTION INFRASTRUCTURE COMPLETE:**
+1. ✅ **vilara.ai domain** - Fully operational with Vercel + Cloud Run architecture
+2. ✅ **Complete signup flow** - `/api/universal-signup.php` with database storage and email activation
+3. ✅ **PostgreSQL database** - Production Cloud SQL with signups and rate limiting tables
+4. ✅ **Email activation system** - SendGrid integration with HTML email templates
+5. ✅ **Rate limiting & security** - IP-based limiting, CORS, SHA256 token hashing
+6. ✅ **End-to-end testing** - Full signup → activation → database confirmation working
+7. ✅ **Cloud Run deployment** - Automated Docker builds with PHP 8.2 + Apache + PostgreSQL
 
-**Technical Context:**
-- Frontend sends form data to `/api/universal-signup.php` ✅ WORKING
-- Returns real response: `{"success": true, "token": "64-char-hex", "message": "Activation link sent to your email"}`
-- Token generation, database storage working ✅
-- Activation endpoint working at `/api/activate.php?token=xxx` ✅
+**✅ CURRENT PRODUCTION ARCHITECTURE:**
+```
+vilara.ai → Vercel (static site) → API proxy → Cloud Run (PHP backend) → Cloud SQL (PostgreSQL)
+```
 
-**GCP Integration Preferred:**
-- Use Google Cloud SQL (PostgreSQL) for database
-- Consider Firebase Auth or Identity Platform for user management
-- Leverage Cloud Functions or Cloud Run for scalable API hosting
-- Implement Cloud Email/SendGrid for activation emails
-
-**Current Status:** Frontend onboarding system is production-ready. Backend integration is the final step to make the complete flow functional.
+**✅ WORKING ENDPOINTS:**
+- `POST vilara.ai/api/universal-signup.php` - User registration with email activation
+- `POST vilara.ai/api/activate.php` - Token-based account activation
+- Both include comprehensive error handling, logging, and security measures
 
 ## GCP Environment (current state)
 - **Org / Identity**
@@ -100,27 +96,56 @@ I need help implementing the backend system for Vilara's website onboarding flow
   - Env vars often set as: `set PROJECT_ID=vilara-dev` (session) or `setx` (persist).
   - Always verify with `gcloud config set account tim@vilara.ai` and `gcloud config set project vilara-dev`.
 
-## Current Status - Backend COMPLETE ✅
-- **Database**: PostgreSQL schema created, appuser configured
-- **APIs**: Both `/api/universal-signup.php` and `/api/activate.php` fully functional
-- **Cloud Run**: Service deployed and connected to Cloud SQL
-- **Security**: Rate limiting, CORS, token hashing all working
-- **Secrets**: Clean password in Secret Manager (version 4 only)
+## 🚀 PHASE 1 GOALS: Workspace Provisioning & App Integration
 
-## Next Actions (Optional - Backend is Complete)
-1) **SendGrid Integration** (if email sending needed):
-   - Create SendGrid account and API key
-   - Store in Secret Manager: `printf "YOUR_API_KEY" | gcloud secrets create sendgrid-api-key --data-file=-`
-   - Update Cloud Run: `gcloud run services update website --region=us-central1 --update-secrets SENDGRID_API_KEY=sendgrid-api-key:latest`
+**Objective**: Build the actual Vilara AI application system that activated users access after completing signup.
 
-2) **Frontend Integration**:
-   - Update frontend forms to POST to: `https://website-1040930643556.us-central1.run.app/api/universal-signup.php`
-   - Handle activation links: `/activate.html?token=xxx`
+### **🎯 Critical Architecture Decisions Needed:**
 
-3) **Monitoring Setup**:
-   - Configure Cloud SQL automated backups (daily, 7-day retention)
-   - Set up alerts for API errors in Cloud Monitoring
-   - Review logs: `gcloud logging read "resource.type=cloud_run_revision AND resource.labels.service_name=website"`
+#### 1. **Workspace Provisioning Strategy**
+- **Question**: How should we create and manage individual customer workspaces?
+- **Options**: 
+  - Shared database with workspace_id isolation
+  - Database-per-customer for enterprise security
+  - Hybrid approach based on plan type
+- **Impact**: Affects scalability, security, and operational complexity
+
+#### 2. **Transaction Definition & Metering**
+- **Question**: What constitutes a "transaction" for billing purposes?
+- **Considerations**:
+  - Natural language command processing = 1 transaction?
+  - Database operations vs business logic operations?
+  - Multi-step workflows = multiple transactions?
+- **Impact**: Core to pricing model and usage analytics
+
+#### 3. **App Hosting Architecture** 
+- **Question**: Where and how should `app.vilara.ai` be deployed?
+- **Options**:
+  - Same Cloud Run service with different routing
+  - Separate Cloud Run service for app vs marketing
+  - Different GCP project for app vs marketing
+- **Impact**: Performance, security isolation, deployment complexity
+
+#### 4. **Session & Authentication Management**
+- **Question**: How do users transition from vilara.ai to app.vilara.ai?
+- **Considerations**:
+  - JWT tokens vs server-side sessions
+  - Session duration and renewal
+  - Cross-domain authentication (vilara.ai ↔ app.vilara.ai)
+- **Impact**: User experience and security model
+
+### **📋 Phase 1 Implementation Scope:**
+1. **Workspace Creation API** - Provision new customer environments post-activation
+2. **User Authentication System** - Seamless login across marketing and app domains  
+3. **Transaction Tracking** - Define and implement usage metering
+4. **Basic App Framework** - Core structure for app.vilara.ai
+5. **Chuck-Stack Integration** - Connect to core Vilara AI processing system
+
+### **⚡ Immediate Next Steps:**
+1. **Define transaction model** - What gets counted and how?
+2. **Design workspace architecture** - Shared vs isolated database approach
+3. **Plan app.vilara.ai hosting** - Same Cloud Run or separate service?
+4. **Architect user session flow** - Marketing site → App transition
 
 ## Useful IDs / Defaults
 - GCP Organization: `vilara.ai`
@@ -169,4 +194,18 @@ gcloud organizations add-iam-policy-binding 269052776008 --member=user:tim@vilar
 
 
 
-Please help me architect and implement this backend system using Google Cloud Platform best practices.
+## 💡 **Success Metrics for Phase 1:**
+- **Workspace Provisioning**: < 30 seconds from activation to working app environment
+- **User Experience**: Seamless transition from vilara.ai → app.vilara.ai
+- **Transaction Tracking**: Accurate usage metering with plan upgrade prompts
+- **System Performance**: Support 100+ concurrent workspaces with sub-second response
+- **Integration Quality**: Reliable connection to Chuck-Stack processing system
+
+## 🔗 **Integration Context:**
+The marketing website (vilara.ai) handles lead generation and account creation. Phase 1 builds the actual Vilara AI application system (app.vilara.ai) where users perform ERP tasks using natural language commands.
+
+**Key Integration Point**: Users flow from vilara.ai signup → account activation → app.vilara.ai workspace with full Vilara AI capabilities.
+
+---
+
+Please help me architect and implement Phase 1 workspace provisioning and app integration system using Google Cloud Platform best practices. The marketing infrastructure is complete - now we need to build the actual Vilara AI application.

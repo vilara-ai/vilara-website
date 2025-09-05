@@ -1,0 +1,16 @@
+# Backend - handled by Cloud Run
+api/
+Dockerfile
+*.sql
+docker-compose.yml
+.gcloudignore
+
+# Scripts and development tools
+scripts/
+*.bat
+
+# Documentation archives
+docs/archive/
+
+# Development artifacts
+debug.php
