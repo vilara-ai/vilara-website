@@ -70,3 +70,13 @@
     - The limit is 5 requests per hour per IP
     - Your test script used several requests
     - But you probably have 1-2 requests left in your quota
+
+    # First, check how many requests you've made
+  curl -X POST https://vilara.ai/api/universal-signup.php \
+    -H "Content-Type: application/json" \
+    -d '{"companyName":"Test","email":"count-test@example.com","firstName":"Test","lastName":"User","companySize":"1-4","migrationCont    
+  ext":"none"}' \
+    -w "\nHTTP Status: %{http_code}\n"
+
+  # If you get 429, you're still rate limited
+  # If you get 200, you have requests remaining
