@@ -147,28 +147,41 @@ function initializeSignupForm() {
         submitBtn.disabled = true;
         
         try {
-            // Collect form data
-            const formData = new FormData();
-            formData.append('action', 'signup');
-            formData.append('email', document.getElementById('free-email').value);
-            formData.append('name', document.getElementById('free-name').value);
-            formData.append('company', document.getElementById('free-company').value);
-            formData.append('password', password);
-            formData.append('employees', document.getElementById('free-employees').value);
-            formData.append('industry', document.getElementById('free-industry').value);
-            formData.append('current_system', document.getElementById('free-current-system').value);
-            formData.append('goals', document.getElementById('free-goals').value);
+            // Parse the full name into first and last
+            const fullName = document.getElementById('free-name').value.trim();
+            const nameParts = fullName.split(' ');
+            const firstName = nameParts[0] || '';
+            const lastName = nameParts.slice(1).join(' ') || nameParts[0] || '';
             
-            // Include selected plan if present
-            const selectedPlanInput = document.getElementById('selected-plan-input');
-            if (selectedPlanInput && selectedPlanInput.value) {
-                formData.append('selected_plan', selectedPlanInput.value);
+            // Map employee count to company size format expected by API
+            const employeeCount = document.getElementById('free-employees').value;
+            let companySize = '1-4'; // Default for free tier
+            if (employeeCount === '5') {
+                companySize = '1-4'; // Still counts as small
+            } else if (employeeCount <= 4) {
+                companySize = '1-4';
             }
             
-            // Submit to our API
+            // Collect form data as JSON
+            const signupData = {
+                email: document.getElementById('free-email').value,
+                firstName: firstName,
+                lastName: lastName,
+                companyName: document.getElementById('free-company').value,
+                companySize: companySize,
+                migrationContext: document.getElementById('free-current-system').value || 'none',
+                // Additional fields the form collects but API doesn't require
+                industry: document.getElementById('free-industry').value,
+                goals: document.getElementById('free-goals').value
+            };
+            
+            // Submit to our API with JSON
             const response = await fetch('/api/universal-signup.php', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(signupData)
             });
             
             const result = await response.json();

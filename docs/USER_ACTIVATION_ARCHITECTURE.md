@@ -1,9 +1,10 @@
-# Vilara AI Unified Onboarding Architecture
+# Vilara AI User Activation Architecture
 *Document Date: September 5, 2025*
+*Related Document: [BUSINESS_CONFIGURATION_WIZARD.md](BUSINESS_CONFIGURATION_WIZARD.md) - Covers post-activation business setup*
 
 ## Executive Summary
 
-This document outlines a unified authentication and onboarding system for Vilara AI that aligns with our core value proposition: **"Vilara AI transforms manual operations into automated intelligence, integrating with existing processes immediately, reducing the time/costs for tasks by 95% and allowing for continuous modifications and improvements quickly and easily without the need for any developer interventions."**
+This document outlines the user activation and authentication system for Vilara AI that aligns with our core value proposition: **"Vilara AI transforms manual operations into automated intelligence, integrating with existing processes immediately, reducing the time/costs for tasks by 95% and allowing for continuous modifications and improvements quickly and easily without the need for any developer interventions."**
 
 ## Core Philosophy & Value Proposition
 
@@ -47,17 +48,17 @@ This document outlines a unified authentication and onboarding system for Vilara
 
 **✅ Core Application Features (Built):**
 - **Natural Language Interface**: Complete web application (`vilara-app.html`) with NLP processor
-- **Vilara-core (formerly chuck-stack) ERP Integration**: Direct terminal session communication with Chuck-Stack ERP
+- **Vilara-Core Integration**: Direct terminal session communication with Vilara-Core (AI Operating System backend)
 - **Interactive Command Flows**: Multi-step conversations for complex operations
 - **Entity Tracking**: Context-aware operations across business entities
-- **15 ERP Modules**: Business partners, invoices, projects, contacts, etc.
-- **Dual Command Access**: Natural language OR direct Chuck-Stack commands (`!bp list`)
+- **15 Business Modules**: Business partners, invoices, projects, contacts, etc.
+- **Dual Command Access**: Natural language OR direct Vilara-Core commands (`!bp list`)
 - **Comprehensive Testing**: 13 automated tests covering all functionality
 
 **🚨 Integration Gaps (Critical):**
 - **Local-Only Operation**: Currently runs on local machine, not cloud-accessible
 - **No Authentication Bridge**: No connection to vilara.ai signup/activation system
-- **Vilara-core (Chuck-Stack) Dependency**: Requires local Chuck-Stack instance at `/opt/stk-local-default-*`
+- **Vilara-Core Dependency**: Requires local Vilara-Core instance at `/opt/stk-local-default-*`
 - **File Communication**: Uses local file system (`/tmp/chuck_stack_*`) for ERP communication
 - **Single-User Design**: No multi-tenant or workspace isolation capabilities
 
@@ -65,7 +66,7 @@ This document outlines a unified authentication and onboarding system for Vilara
 1. **Cloud Deployment**: Host UI application at `app.vilara.ai`
 2. **Authentication Bridge**: Connect vilara.ai activation → app.vilara.ai access
 3. **Multi-Tenant Architecture**: Workspace isolation for multiple customers
-4. **Vilara-Core (Chuck-Stack) Cloud Strategy**: Solve ERP access for cloud-hosted UI
+4. **Vilara-Core Cloud Strategy**: Solve AI Operating System access for cloud-hosted UI
 5. **Transaction Metering**: Usage tracking for billing integration
 
 ### Database Schema
@@ -121,33 +122,33 @@ vilara.ai                     app.vilara.ai
 ✅ Signup & Activation    →   🚨 UI Application System
    (Cloud Ready)               (Local Development Only)
     ↓                             ↓
-PostgreSQL Database       →   Chuck-Stack ERP Integration
+PostgreSQL Database       →   Vilara-Core AI Operating System
  (Production)                  (Local File Communication)
 ```
 
 ### Phase 1: Critical Integration Implementation
 
 #### 1. UI Application Cloud Deployment
-**Challenge**: Current UI runs locally with Chuck-Stack file communication
+**Challenge**: Current UI runs locally with Vilara-Core file communication
 **Solution Options**:
 
-**Option A: Containerized Chuck-Stack per Workspace**
+**Option A: Containerized Vilara-Core per Workspace**
 ```
-app.vilara.ai → Cloud Run → Containerized Chuck-Stack + UI per customer
+app.vilara.ai → Cloud Run → Containerized Vilara-Core + UI per customer
 ```
 - **Pros**: Full isolation, familiar architecture
 - **Cons**: Resource intensive, complex deployment
 
 **Option B: API Bridge Architecture**
 ```
-app.vilara.ai → Cloud Run UI → API Bridge → Chuck-Stack Service Layer
+app.vilara.ai → Cloud Run UI → API Bridge → Vilara-Core Service Layer
 ```
-- **Pros**: Efficient resource usage, centralized Chuck-Stack
+- **Pros**: Efficient resource usage, centralized Vilara-Core
 - **Cons**: Need to build service layer, multi-tenancy complexity
 
 **Option C: Hybrid Cloud-Local**
 ```
-app.vilara.ai → Authentication → Local Chuck-Stack Connector
+app.vilara.ai → Authentication → Local Vilara-Core Connector
 ```
 - **Pros**: Leverage existing local setup
 - **Cons**: Not fully cloud-native, deployment complexity
@@ -174,7 +175,7 @@ Response:
 ```
 
 #### 3. Multi-Tenant Workspace Architecture
-**Current**: Single Chuck-Stack instance, no isolation
+**Current**: Single Vilara-Core instance, no isolation
 **Needed**: Workspace isolation with transaction tracking
 
 ```sql
@@ -245,10 +246,16 @@ System Response:
 Key Insight: They can USE VILARA AI immediately - create orders, manage inventory, process transactions
 ```
 
-#### Stage 2: Advanced Configuration (Vilara self-service customization process)
+#### Stage 2: Business Configuration (Vilara self-service customization process)
 ```
-Workinstruction building:
-- QA process that builds / customizes workflows for each customer
+Business Configuration Wizard:
+- Industry-specific templates and defaults
+- Department-by-department setup
+- Work instruction customization (.md files)
+- Natural language command training
+- Business rules configuration
+
+See BUSINESS_CONFIGURATION_WIZARD.md for detailed implementation
 
 Integration setup:
 - Accounting software connections
@@ -348,10 +355,10 @@ class VillarQuery {
 ### Phase 1 Implementation Roadmap
 
 #### Architecture Foundation
-**Priority 1**: Resolve Vilara-Core (Chuck-Stack) cloud deployment strategy
-- **Decision Required**: Choose Option A, B, or C for Vilara-Core (Chuck-Stack) architecture  
+**Priority 1**: Resolve Vilara-Core cloud deployment strategy
+- **Decision Required**: Choose Option A, B, or C for Vilara-Core architecture  
 - **Deliverable**: Proof of concept for chosen approach
-- **Success Criteria**: Multi-tenant Vilara-Core (Chuck-Stack) access working in cloud
+- **Success Criteria**: Multi-tenant Vilara-Core access working in cloud
 
 **Priority 2**: Define transaction billing model
 - **Decision Required**: What constitutes a billable transaction
@@ -383,26 +390,61 @@ class VillarQuery {
 
 ## Critical Decisions Needed for Phase 1
 
-### 1. Vilara-Core (Chuck-Stack) Cloud Architecture (HIGHEST PRIORITY)
-**Decision**: How to deploy Vilara-Core (Chuck-Stack ERP) for multi-tenant cloud access?
+### 1. Fundamental Deployment Architecture (HIGHEST PRIORITY)
+**Decision**: Local vs Cloud deployment - This choice determines the entire technical approach and business model.
 
 **Options Analysis**:
-- **Option A**: Containerized Vilara-Core per workspace
-  - *Pros*: Complete isolation, familiar development environment
-  - *Cons*: High resource costs, complex Nix container management
-- **Option B**: Shared Vilara-Core with API service layer  
-  - *Pros*: Cost-effective, better resource utilization
-  - *Cons*: Complex multi-tenancy, need to build service abstraction
-- **Option C**: Vilara-Core SaaS service (future)
-  - *Pros*: Scalable, maintained by Vilara-Core team
-  - *Cons*: May not exist yet, dependency on external team
+
+**Option A: Cloud Deployment** (Original Assumption)
+```
+vilara.ai signup → app.vilara.ai workspace (cloud-hosted UI + Vilara-Core)
+```
+*Pros*: 
+- Immediate browser access, no installation required
+- Centralized updates, easy feature deployment
+- Built-in usage analytics and transaction tracking
+- Simplified support with centralized logging
+- Modern SaaS business model
+
+*Cons*:
+- Complex multi-tenancy architecture required
+- Customer data hosted on Vilara infrastructure
+- Network dependency, requires internet connection
+- Higher infrastructure costs scaling with customers
+- Limited integration with customer's local systems
+
+**Option B: Local Deployment** (Reconsidered Approach)  
+```
+vilara.ai signup → download → local installation (UI + Vilara-Core together)
+```
+*Pros*:
+- **Immediate integration with existing customer systems**
+- Complete data sovereignty - customer data stays local
+- Zero network dependency, works offline
+- **Existing architecture already functional** 
+- Lower infrastructure costs, privacy compliance built-in
+- **Aligns with "integrating with existing processes immediately"**
+
+*Cons*:
+- Distribution and update management complexity
+- Support across different customer environments
+- Usage tracking for billing requires different approach
+- Installation experience must be foolproof
+- Version management across customer base
+
+**Option C: Hybrid Deployment**
+```
+Local Vilara-Core + Cloud Services (updates, licensing, analytics)
+```
+*Pros*: Best of both approaches
+*Cons*: Increased complexity, multiple systems to maintain
 
 ### 2. Transaction Definition & Billing Model
 **Decision**: What constitutes a billable "transaction" in Vilara AI?
 
 **Considerations**:
 - **Natural Language Query**: User types "show me all customers" = 1 transaction?
-- **Chuck-Stack Command**: Each ERP command execution = 1 transaction?
+- **Vilara-Core Command**: Each AI Operating System command execution = 1 transaction?
 - **Multi-Step Workflow**: "Create invoice for ACME Corp" (involves customer lookup + invoice creation) = 1 or 2 transactions?
 - **Context Operations**: Follow-up questions in same conversation = separate transactions?
 
@@ -485,7 +527,7 @@ This unified architecture delivers on Vilara AI's core value proposition: **"Tra
 - Marketing website with production backend (vilara.ai)  
 - User signup, activation, and database systems operational
 - Comprehensive UI application with Vilara-Core integration (local)
-- Natural language processing with 15 ERP modules supported
+- Natural language processing with 15 business modules supported
 
 **🚨 Critical Integration Gap:**
 - UI application is local-only, needs cloud deployment
@@ -495,11 +537,18 @@ This unified architecture delivers on Vilara AI's core value proposition: **"Tra
 
 ### Next Phase Focus
 
-**The primary blocker** is resolving Vilara-Core cloud architecture for multi-tenant access. Once this foundational decision is made, the authentication bridge and UI deployment can proceed rapidly.
+**The primary blocker** is the fundamental deployment architecture decision: Local vs Cloud. This choice determines:
+- All subsequent technical architecture decisions
+- Business model and pricing strategy approach
+- Customer onboarding and integration experience  
+- Support and maintenance methodology
+- Competitive market positioning
 
-**Success will be measured by**: Complete user journey from vilara.ai signup → activation → app.vilara.ai workspace → productive usage within 30 seconds.
+Once this foundational decision is made, all other development can proceed with clear direction.
 
-This architecture positions Vilara AI to deliver unprecedented speed and ease of adoption, making traditional ERP implementations obsolete through AI-powered automation and intelligent process integration.
+**Success will be measured by**: Complete user journey from vilara.ai signup → activation → app.vilara.ai workspace → productive AI Operating System usage within 30 seconds.
+
+This architecture positions Vilara AI to deliver unprecedented speed and ease of adoption, transforming how businesses interact with their operational systems through AI-powered automation and intelligent process integration - whether augmenting existing ERPs or functioning as a complete ERP+ solution.
 
 ---
 *This document serves as the architectural blueprint for Vilara's unified onboarding system and should be updated as implementation progresses.*

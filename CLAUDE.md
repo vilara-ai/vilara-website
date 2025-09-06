@@ -174,3 +174,4 @@ vercel ls
 ---
 *Last Updated: 2025-09-05*
 *This file guides Claude Code in maintaining and improving the Vilara website.*
+- Do not reference claude code in any commits

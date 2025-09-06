@@ -139,7 +139,7 @@ vilara.ai → Vercel (static site) → API proxy → Cloud Run (PHP backend) →
 2. **User Authentication System** - Seamless login across marketing and app domains  
 3. **Transaction Tracking** - Define and implement usage metering
 4. **Basic App Framework** - Core structure for app.vilara.ai
-5. **Chuck-Stack Integration** - Connect to core Vilara AI processing system
+5. **Vilara-Core Integration** - Connect to core Vilara AI Operating System backend
 
 ### **⚡ Immediate Next Steps:**
 1. **Define transaction model** - What gets counted and how?
@@ -199,13 +199,13 @@ gcloud organizations add-iam-policy-binding 269052776008 --member=user:tim@vilar
 - **User Experience**: Seamless transition from vilara.ai → app.vilara.ai
 - **Transaction Tracking**: Accurate usage metering with plan upgrade prompts
 - **System Performance**: Support 100+ concurrent workspaces with sub-second response
-- **Integration Quality**: Reliable connection to Chuck-Stack processing system
+- **Integration Quality**: Reliable connection to Vilara-Core processing system
 
 ## 🔗 **Integration Context:**
-The marketing website (vilara.ai) handles lead generation and account creation. Phase 1 builds the actual Vilara AI application system (app.vilara.ai) where users perform ERP tasks using natural language commands.
+The marketing website (vilara.ai) handles lead generation and account creation. Phase 1 builds the actual Vilara AI Operating System (app.vilara.ai) where users interact with business operations through natural language - whether augmenting existing ERPs or using Vilara as a complete ERP+ solution.
 
 **Key Integration Point**: Users flow from vilara.ai signup → account activation → app.vilara.ai workspace with full Vilara AI capabilities.
 
 ---
 
-Please help me architect and implement Phase 1 workspace provisioning and app integration system using Google Cloud Platform best practices. The marketing infrastructure is complete - now we need to build the actual Vilara AI application.
+Please help me architect and implement Phase 1 workspace provisioning and app integration system using Google Cloud Platform best practices. The marketing infrastructure is complete - now we need to build the actual Vilara AI Operating System that can integrate with existing business processes or function as a complete ERP+ solution.
