@@ -18,7 +18,7 @@ function sendActivationEmail($to_email, $first_name, $activation_url, $migration
         $subject = "Welcome to Vilara - Activate Your Account";
         
         $migration_messages = [
-            'fresh' => "We're excited to be your first ERP solution!",
+            'fresh' => "We're excited to be your AI ERP Assistant!",
             'enhance' => "Ready to enhance your existing ERP capabilities!",
             'full' => "Let's transform your ERP experience together!"
         ];
@@ -42,13 +42,14 @@ function sendActivationEmail($to_email, $first_name, $activation_url, $migration
         <body>
             <div class='container'>
                 <div class='header'>
+                    <img src='https://www.vilara.ai/assets/images/vilara_logo.png' alt='Vilara' style='width: 120px; margin-bottom: 20px;'>
                     <h1>Welcome to Vilara, {$first_name}!</h1>
                     <p>{$migration_message}</p>
                 </div>
                 <div class='content'>
                     <p>Thank you for choosing Vilara for {$company_name}.</p>
                     
-                    <p><strong>You're just one click away from experiencing ERP that's 95% faster!</strong></p>
+                    <p><strong>You're just a few minutes away from supercharging your operations!</strong></p>
                     
                     <p>Click the button below to activate your account and get started:</p>
                     
@@ -66,11 +67,12 @@ function sendActivationEmail($to_email, $first_name, $activation_url, $migration
                         <li>Complete your account activation</li>
                         <li>Set up your workspace preferences</li>
                         <li>Import your data (if applicable)</li>
+                        <li>Customize your work instructions via the Vilara setup wizard</li>
                         <li>Start using natural language to manage your business</li>
                     </ul>
                 </div>
                 <div class='footer'>
-                    <p>© 2024 Vilara. All rights reserved.</p>
+                    <p>© 2025 Vilara. All rights reserved.</p>
                     <p>If you didn't sign up for Vilara, please ignore this email.</p>
                 </div>
             </div>
@@ -97,7 +99,7 @@ What happens next?
 - Import your data (if applicable)
 - Start using natural language to manage your business
 
-© 2024 Vilara. All rights reserved.
+© 2025 Vilara. All rights reserved.
         ";
         
         // Prepare SendGrid request
