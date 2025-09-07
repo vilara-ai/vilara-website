@@ -27,3 +27,6 @@ npm-debug.log*
 # Deployment
 .vercel/
 .netlify/
+
+# Local documentation
+docs/instructions_to_test_locally
