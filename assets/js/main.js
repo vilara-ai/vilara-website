@@ -176,7 +176,9 @@ function initializeSignupForm() {
             };
             
             // Submit to our API with JSON
-            const response = await fetch('/api/universal-signup.php', {
+            // Use production API endpoint
+            const apiUrl = 'https://website-1040930643556.us-central1.run.app/api/universal-signup.php';
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
