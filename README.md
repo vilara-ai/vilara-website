@@ -8,14 +8,30 @@ Complete marketing website and backend system for Vilara AI Operating System. Fe
 ## Architecture
 
 ### Production Setup
-- **Frontend**: Vercel (static site + API proxy)  
-- **Backend**: Google Cloud Run (PHP + PostgreSQL)
+- **Frontend**: Vercel (static HTML/CSS/JS)
+- **Backend**: Google Cloud Run (PHP + PostgreSQL)  
 - **Database**: Google Cloud SQL (PostgreSQL)
-- **Domain**: vilara.ai (unified domain for both frontend and APIs)
+- **Email**: SendGrid API
+- **Domain**: vilara.ai (unified domain)
 
-### API Flow
+### Deployment Architecture
 ```
-vilara.ai/api/* → Vercel Proxy → Cloud Run Backend → PostgreSQL Database
+GitHub Repository (vilara-ai/vilara-website)
+├── Frontend Changes → Vercel (Auto-deploy)
+└── Backend Changes (api/**) → GitHub Actions → Google Cloud Run
+```
+
+### User Flow
+```
+vilara.ai → Vercel Static Site
+    ↓
+Contact Form Submission → api/universal-signup.php (Cloud Run)
+    ↓  
+PostgreSQL (Cloud SQL) + SendGrid Email
+    ↓
+User Clicks Activation Link → api/activate.php (Cloud Run)
+    ↓
+Account Activated → Ready for app.vilara.ai
 ```
 
 ## Project Structure
@@ -78,12 +94,36 @@ curl -X POST https://vilara.ai/api/activate.php \
 
 ## Deployment
 
-### Frontend (Automatic)
-```bash
-# Deploy to production
-npx vercel --prod
+### Automatic Deployment System
 
-# Automatic deployment on git push to main branch
+**Frontend (Vercel)**
+- **Trigger**: Any push to `main` branch
+- **Deploys**: All static files (HTML, CSS, JS, images)
+- **URL**: https://vilara.ai
+- **Time**: ~2-3 minutes
+- **Setup**: Connected via Vercel GitHub integration
+
+**Backend (Google Cloud Run)**
+- **Trigger**: Changes to `api/**` files only
+- **Deploys**: Docker container with PHP backend + APIs
+- **URL**: https://website-1040930643556.us-central1.run.app
+- **Time**: ~5-8 minutes
+- **Setup**: GitHub Actions workflow with Workload Identity Federation
+
+### Manual Deployment (if needed)
+
+**Frontend:**
+```bash
+npx vercel --prod
+```
+
+**Backend:**
+```bash
+# Build and push Docker image
+gcloud builds submit --tag us-central1-docker.pkg.dev/vilara-dev/vilara-docker/website:latest --project vilara-dev
+
+# Deploy to Cloud Run
+gcloud run deploy website --image us-central1-docker.pkg.dev/vilara-dev/vilara-docker/website:latest --region us-central1 --project vilara-dev
 ```
 
 ### Backend (Manual)
@@ -145,10 +185,33 @@ Token-based account activation
 - **SQL Injection Protection**: PDO prepared statements
 - **Secret Management**: Google Secret Manager integration
 
-## Environment Variables
+## Configuration
+
+### Environment Variables
 Backend requires these secrets in Google Secret Manager:
-- `db-appuser-password`: PostgreSQL database password
+- `db-appuser-password`: PostgreSQL database password  
 - `sendgrid-api-key`: SendGrid API key for emails
+
+### GitHub Actions Setup
+The automatic backend deployment uses Workload Identity Federation:
+
+**Service Account**: `github-actions@vilara-dev.iam.gserviceaccount.com`
+**Permissions**: 
+- `roles/cloudbuild.builds.builder`
+- `roles/run.admin` 
+- `roles/iam.serviceAccountUser`
+
+**Workload Identity Pool**: `github-pool`
+**Provider**: Configured for repository `vilara-ai/vilara-website`
+
+**Required Repository Settings**:
+- Actions → General → Workflow permissions: "Read and write permissions"
+- Actions → General → "Allow GitHub Actions to create and approve pull requests" ✓
+
+### Domain Configuration
+- **vilara.ai**: Points to Vercel for frontend
+- **API requests**: Proxied from frontend JavaScript to Cloud Run backend
+- **SendGrid**: DNS records configured in GoDaddy for email authentication
 
 ## Key Features
 - **Unified Onboarding**: Single signup flow for all plan types
