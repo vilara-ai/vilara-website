@@ -1,5 +1,5 @@
 # Vilara AI User Activation Architecture
-*Document Date: September 5, 2025*
+*Document Date: September 8, 2025*
 *Related Document: [BUSINESS_CONFIGURATION_WIZARD.md](BUSINESS_CONFIGURATION_WIZARD.md) - Covers post-activation business setup*
 
 ## Executive Summary
@@ -23,9 +23,9 @@ This document outlines the user activation and authentication system for Vilara 
 - **PostgreSQL Database**: Production database on Google Cloud SQL with signup and rate limiting tables
 - **Signup API**: `/api/universal-signup.php` - Captures leads with secure token generation
 - **Activation API**: `/api/activate.php` - Validates activation tokens and marks accounts as ready
-- **Cloud Run Service**: https://website-1040930643556.us-central1.run.app (fully deployed and functional)
-- **Security Features**: Rate limiting (5/hour per IP), CORS protection, SHA256 token hashing
-- **GCP Integration**: Artifact Registry, Cloud Build, Secret Manager, Cloud Logging
+- **Cloud Run Service**: https://website-2donpjh2tq-uc.a.run.app (fully deployed and functional)
+- **Security Features**: Rate limiting (20/hour per IP), CORS protection, SHA256 token hashing
+- **GCP Integration**: Artifact Registry, Cloud Build, Secret Manager, Cloud Logging, GitHub Actions automation
 
 ### Current Architecture (Production Ready)
 **Domain Flow**: 
@@ -61,6 +61,13 @@ This document outlines the user activation and authentication system for Vilara 
 - **Vilara-Core Dependency**: Requires local Vilara-Core instance at `/opt/stk-local-default-*`
 - **File Communication**: Uses local file system (`/tmp/chuck_stack_*`) for ERP communication
 - **Single-User Design**: No multi-tenant or workspace isolation capabilities
+
+**📱 Recent UX Improvements (Completed):**
+- **Mobile-Optimized Success Flow**: Success messages now scroll into view on mobile devices
+- **Enhanced Email Templates**: Branded activation emails with Vilara logo and clear instructions
+- **Improved Error Handling**: User-friendly messages for all error conditions
+- **Countdown Timer**: 4-second redirect with "Go Now" option for immediate navigation
+- **Rate Limit Optimization**: Increased from 5 to 20 requests per hour for better testing experience
 
 **⚡ Integration Requirements:**
 1. **Cloud Deployment**: Host UI application at `app.vilara.ai`
@@ -114,16 +121,18 @@ Both paths lead to: Full Vilara AI Operating System with progressive customizati
 
 ### Current System Integration Gap
 
-**Marketing Website (COMPLETE)** → **Authentication Bridge (MISSING)** → **AI Application (NEEDS FURTHER DEPLOYMENT)**
+**Marketing Website (COMPLETE)** → **Authentication Bridge (MISSING)** → **AI Application (NEEDS CLOUD DEPLOYMENT)**
 
 ```
 vilara.ai                     app.vilara.ai
     ↓                             ↓
 ✅ Signup & Activation    →   🚨 UI Application System
-   (Cloud Ready)               (Local Development Only)
-    ↓                             ↓
-PostgreSQL Database       →   Vilara-Core AI Operating System
- (Production)                  (Local File Communication)
+   (Production Ready)          (Local Development Only)
+   (Mobile Optimized)              ↓
+    ↓                         Vilara-Core AI Operating System
+PostgreSQL Database       →   (Local File Communication)
+ (Production + GitHub              ↓
+  Actions Automation)          15 Business Modules Ready
 ```
 
 ### Phase 1: Critical Integration Implementation

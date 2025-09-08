@@ -215,8 +215,8 @@ function initializeSignupForm() {
                     block: 'center' 
                 });
                 
-                // Start countdown and redirect after 4 seconds
-                let countdown = 4;
+                // Start countdown and redirect after 8 seconds
+                let countdown = 8;
                 const countdownTimer = setInterval(() => {
                     countdown--;
                     const countdownElement = document.getElementById('countdown');

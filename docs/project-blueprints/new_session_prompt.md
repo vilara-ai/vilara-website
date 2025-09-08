@@ -61,9 +61,9 @@ vilara.ai → Vercel (static site) → API proxy → Cloud Run (PHP backend) →
   - Region: `us-central1`.
   - Cloud SQL instance attached via `--add-cloudsql-instances`.
   - Env vars set for DB host/name/user/port; secret mapped for DB password.
-  - Service URL (dev): `https://website-1040930643556.us-central1.run.app`.
+  - Service URL (dev): `https://website-2donpjh2tq-uc.a.run.app`.
   - Invocation: public (the website service has roles/run.invoker for allUsers).
-  - **Status**: ✅ FULLY FUNCTIONAL - Signup and activation APIs working
+  - **Status**: ✅ FULLY FUNCTIONAL - Signup and activation APIs working with mobile-optimized UX and GitHub Actions automation
 
 - **Cloud SQL (PostgreSQL)**
   - Instance: **`vilara-dev-sql`** (Postgres 15), zone `us-central1-c`, tier `db-custom-1-3840`.
@@ -83,7 +83,7 @@ vilara.ai → Vercel (static site) → API proxy → Cloud Run (PHP backend) →
 - **DB access**: Unix socket `/cloudsql/<connectionName>` (no public IP).  
 - **Email**: SendGrid (secret `SENDGRID_API_KEY` in Secret Manager).  
 - **Tokens**: 64-hex (random bytes), **hash stored** in DB, 24h expiry, mark `used_at` on activation.  
-- **Rate Limiting**: App-level rate limiting (5 requests/IP/hour). Note: Cloud Armor requires an HTTPS Load Balancer + serverless NEG if we use it later.
+- **Rate Limiting**: App-level rate limiting (20 requests/IP/hour). Note: Cloud Armor requires an HTTPS Load Balancer + serverless NEG if we use it later.
 - **CORS**: Allow origins: `https://vilara.ai`, `https://www.vilara.ai`, localhost (dev).
 - **Monitoring**: Cloud Logging for all requests, Cloud Error Reporting for exceptions.
 - **Backup Strategy**: Configure Cloud SQL automated daily backups (7-day retention) and enable point-in-time recovery (to do).
