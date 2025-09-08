@@ -203,15 +203,25 @@ function initializeSignupForm() {
                         <div style="background: var(--success); color: white; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; font-size: 2rem;">🎉</div>
                         <h2 style="color: var(--success); margin-bottom: 1rem;">Account Created Successfully!</h2>
                         <p style="margin-bottom: 2rem; color: var(--text-light);">We've sent an activation link to your email address. Please check your inbox (and spam folder) to activate your account.</p>
-                        <p style="margin-bottom: 2rem; color: var(--text-light); font-size: 0.9rem;">Redirecting you to the activation page...</p>
+                        <p style="margin-bottom: 1rem; color: var(--text-light); font-size: 0.9rem;">Redirecting you to the activation page in <span id="countdown">4</span> seconds...</p>
+                        <button onclick="window.location.href='/activate.html'" class="btn btn-primary" style="margin-bottom: 1rem;">Go Now</button>
                         <div class="loading-spinner" style="margin: 0 auto; width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--success); border-radius: 50%; animation: spin 1s linear infinite;"></div>
                     </div>
                 `;
                 
-                // Redirect to activation page after a brief delay
-                setTimeout(() => {
-                    window.location.href = '/activate.html';
-                }, 2000);
+                // Start countdown and redirect after 4 seconds
+                let countdown = 4;
+                const countdownTimer = setInterval(() => {
+                    countdown--;
+                    const countdownElement = document.getElementById('countdown');
+                    if (countdownElement) {
+                        countdownElement.textContent = countdown;
+                    }
+                    if (countdown <= 0) {
+                        clearInterval(countdownTimer);
+                        window.location.href = '/activate.html';
+                    }
+                }, 1000);
                 
             } else {
                 // Show specific error message
