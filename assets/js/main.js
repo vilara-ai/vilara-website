@@ -209,6 +209,12 @@ function initializeSignupForm() {
                     </div>
                 `;
                 
+                // Scroll to success message (especially important on mobile)
+                document.getElementById('free-form').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+                
                 // Start countdown and redirect after 4 seconds
                 let countdown = 4;
                 const countdownTimer = setInterval(() => {

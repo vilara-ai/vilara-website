@@ -46,7 +46,7 @@ try {
     $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '';
     
     // Rate limiting check
-    if (!checkRateLimit($ip_address, 5, 3600)) { // 5 requests per hour
+    if (!checkRateLimit($ip_address, 20, 3600)) { // 20 requests per hour
         http_response_code(429);
         echo json_encode(['success' => false, 'error' => 'Too many requests. Please try again later.']);
         exit();
