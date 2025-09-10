@@ -51,15 +51,15 @@ Complete marketing website and backend system for Vilara AI Operating System. Fe
 
 ### User Flow
 ```
-vilara.ai → Vercel Static Site
+1. Customer visits vilara.ai → Marketing & signup
     ↓
-Contact Form Submission → api/universal-signup.php (Cloud Run)
+2. Sign up & authenticate → api/universal-signup.php (Cloud Run)
     ↓  
-PostgreSQL (Cloud SQL) + SendGrid Email
+3. Email activation → api/activate.php (Cloud Run)
     ↓
-User Clicks Activation Link → api/activate.php (Cloud Run)
+4. Click "Launch Vilara" → UI loads with Vilara-Core connection
     ↓
-Account Activated → Ready for app.vilara.ai
+5. Customer Integration Agent guides setup (within Vilara-Core)
 ```
 
 ## Project Structure
@@ -92,6 +92,8 @@ website/
 └── Documentation
     ├── docs/project-blueprints/  # Project documentation
     │   ├── README.md             # This file
+    │   └── CURRENT_ARCHITECTURE.md # Current system architecture
+    ├── docs/archive/             # Archived documents
     │   ├── BUSINESS_CONFIGURATION_WIZARD.md
     │   └── USER_ACTIVATION_ARCHITECTURE.md
     └── CLAUDE.md                 # Development guidelines
@@ -260,11 +262,12 @@ Backend requires these secrets in Google Secret Manager:
 - **Interactive Demo**: 10-slide showcase of capabilities
 - **Migration Tools**: ERP transition planning and cost analysis
 
-## Implementation Plans
+## Architecture Documents
+- **[Current Architecture](CURRENT_ARCHITECTURE.md)** - 🔴 **CURRENT** system architecture and flow
 - **[Architecture-Agnostic Onboarding Plan](../archive/architecture-agnostic-onboarding-plan.md)** - Original implementation plan
-- **[Complete Onboarding Bridge Plan](../archive/complete-onboarding-bridge-plan.md)** - Website-to-UI bridge specifications
-- **[Business Configuration Wizard](BUSINESS_CONFIGURATION_WIZARD.md)** - Next phase implementation
-- **[User Activation Architecture](USER_ACTIVATION_ARCHITECTURE.md)** - Technical activation flow details
+- **[Complete Onboarding Bridge Plan](../archive/complete-onboarding-bridge-plan.md)** - Website-to-UI bridge specifications  
+- **[Business Configuration Wizard](../archive/BUSINESS_CONFIGURATION_WIZARD.md)** - Archived - replaced by Vilara-Core Integration Agent
+- **[User Activation Architecture](../archive/USER_ACTIVATION_ARCHITECTURE.md)** - Archived - old activation flow
 
 ## Support & Maintenance
 - **Form Handling**: Formspree integration for contact forms
