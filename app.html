@@ -284,7 +284,9 @@
 
     <script>
         // Configuration
-        const API_URL = 'http://localhost:5006/api/message';
+        // For now, we'll disable the backend connection since it requires a local Python server
+        // In production, this would connect to a deployed backend service
+        const API_URL = null; // 'http://localhost:5006/api/message';
         let isFirstTime = true;
         let userToken = null;
         let companyData = null;
@@ -328,6 +330,18 @@
         }
 
         function initializeConnection() {
+            // Check if backend is configured
+            if (!API_URL) {
+                // No backend configured - show demo mode
+                document.getElementById('statusMessage').textContent = 'Welcome to Vilara! (Demo Mode - Backend not connected)';
+                document.getElementById('statusMessage').style.borderColor = '#f59e0b';
+                document.getElementById('statusMessage').style.background = '#fef3c7';
+                document.getElementById('statusMessage').style.color = '#92400e';
+                document.getElementById('userInput').disabled = false;
+                document.getElementById('sendButton').disabled = false;
+                return;
+            }
+            
             // Check backend availability
             fetch(API_URL.replace('/api/message', '/health'))
                 .then(response => {
@@ -380,6 +394,19 @@
             
             // Show loading
             document.getElementById('loading').classList.add('active');
+            
+            // Check if backend is configured
+            if (!API_URL) {
+                // Demo mode - show a demo response
+                setTimeout(() => {
+                    document.getElementById('loading').classList.remove('active');
+                    addMessage('assistant', 'This is a demo mode. To use the full Vilara system, you need to run the backend server locally. The backend provides natural language processing and ERP functionality.');
+                    input.disabled = false;
+                    document.getElementById('sendButton').disabled = false;
+                    input.focus();
+                }, 1000);
+                return;
+            }
             
             // Send to backend
             fetch(API_URL, {
