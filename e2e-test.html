@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>End-to-End Activation Flow Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-step {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 15px 0;
+            padding: 20px;
+            position: relative;
+        }
+        .test-step.running {
+            border-color: #3b82f6;
+            background: #f0f9ff;
+        }
+        .test-step.success {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+        .test-step.error {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+        .step-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .step-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .step-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .status-pending { background: #f3f4f6; color: #6b7280; }
+        .status-running { background: #dbeafe; color: #1e40af; }
+        .status-success { background: #d1fae5; color: #065f46; }
+        .status-error { background: #fee2e2; color: #991b1b; }
+        .step-details {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .step-result {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 5px;
+            border-left: 4px solid #d1d5db;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        .step-result.success {
+            background: #f0fdf4;
+            border-left-color: #10b981;
+        }
+        .step-result.error {
+            background: #fef2f2;
+            border-left-color: #ef4444;
+        }
+        .start-test-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .start-test-btn:hover {
+            background: #2563eb;
+        }
+        .start-test-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        .overall-result {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .overall-result.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .overall-result.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .debug-section {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+        }
+        .nav-btn:hover {
+            background: #f3f4f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>End-to-End Activation Flow Test</h1>
+        <p>This test simulates the complete user journey from signup to app launch, including email activation.</p>
+        
+        <div class="nav-buttons">
+            <a href="/contact.html" class="nav-btn">Go to Signup Form</a>
+            <a href="/activation-pending.html" class="nav-btn">Test Pending Page</a>
+            <a href="/activate.html" class="nav-btn">Test Activation Page</a>
+            <a href="/app.html" class="nav-btn">Test App Page</a>
+        </div>
+        
+        <button class="start-test-btn" onclick="startTest()" id="startBtn">
+            🚀 Start Complete Flow Test
+        </button>
+        
+        <div id="testResults">
+            <!-- Test steps will be populated here -->
+        </div>
+        
+        <div id="overallResult" class="overall-result" style="display: none;"></div>
+        
+        <div id="debugLog" class="debug-section" style="display: none;">
+            <h3>Debug Log</h3>
+            <div id="debugContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let testResults = [];
+        let debugLog = [];
+        
+        const testSteps = [
+            {
+                id: 'signup',
+                title: 'Step 1: Test Signup API',
+                description: 'Submit signup form data to create account',
+                test: testSignupAPI
+            },
+            {
+                id: 'pending',
+                title: 'Step 2: Test Pending Page',
+                description: 'Verify activation pending page loads correctly',
+                test: testPendingPage
+            },
+            {
+                id: 'activation',
+                title: 'Step 3: Test Activation API',
+                description: 'Validate activation token and process activation',
+                test: testActivationAPI
+            },
+            {
+                id: 'activated',
+                title: 'Step 4: Test Activated State',
+                description: 'Verify activation page shows success state',
+                test: testActivatedState
+            },
+            {
+                id: 'app',
+                title: 'Step 5: Test App Launch',
+                description: 'Verify app.html loads with user context',
+                test: testAppLaunch
+            }
+        ];
+        
+        function log(message) {
+            console.log(message);
+            debugLog.push(`${new Date().toLocaleTimeString()}: ${message}`);
+            updateDebugLog();
+        }
+        
+        function updateDebugLog() {
+            const debugContent = document.getElementById('debugContent');
+            debugContent.innerHTML = debugLog.map(log => `<div>${log}</div>`).join('');
+            debugContent.scrollTop = debugContent.scrollHeight;
+        }
+        
+        function createStepElement(step) {
+            return `
+                <div class="test-step" id="step-${step.id}">
+                    <div class="step-header">
+                        <div class="step-title">${step.title}</div>
+                        <div class="step-status status-pending" id="status-${step.id}">Pending</div>
+                    </div>
+                    <div class="step-details">${step.description}</div>
+                    <div class="step-result" id="result-${step.id}" style="display: none;"></div>
+                </div>
+            `;
+        }
+        
+        function updateStepStatus(stepId, status, message = '') {
+            const stepEl = document.getElementById(`step-${stepId}`);
+            const statusEl = document.getElementById(`status-${stepId}`);
+            const resultEl = document.getElementById(`result-${stepId}`);
+            
+            // Update step styling
+            stepEl.className = `test-step ${status}`;
+            
+            // Update status badge
+            statusEl.className = `step-status status-${status}`;
+            statusEl.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+            
+            // Show result if provided
+            if (message) {
+                resultEl.style.display = 'block';
+                resultEl.className = `step-result ${status}`;
+                resultEl.innerHTML = message;
+            }
+        }
+        
+        async function startTest() {
+            const startBtn = document.getElementById('startBtn');
+            const resultsEl = document.getElementById('testResults');
+            const debugEl = document.getElementById('debugLog');
+            
+            startBtn.disabled = true;
+            startBtn.textContent = '🔄 Running Tests...';
+            
+            // Clear previous results
+            testResults = [];
+            debugLog = [];
+            
+            // Show debug log
+            debugEl.style.display = 'block';
+            
+            // Create step elements
+            resultsEl.innerHTML = testSteps.map(createStepElement).join('');
+            
+            log('Starting end-to-end test suite...');
+            
+            let allPassed = true;
+            
+            for (const step of testSteps) {
+                updateStepStatus(step.id, 'running');
+                log(`Starting ${step.title}...`);
+                
+                try {
+                    const result = await step.test();
+                    testResults.push({ step: step.id, success: true, result });
+                    updateStepStatus(step.id, 'success', result);
+                    log(`✅ ${step.title} passed`);
+                } catch (error) {
+                    testResults.push({ step: step.id, success: false, error: error.message });
+                    updateStepStatus(step.id, 'error', `Error: ${error.message}`);
+                    log(`❌ ${step.title} failed: ${error.message}`);
+                    allPassed = false;
+                    
+                    // Continue with other tests even if one fails
+                }
+                
+                // Small delay between tests
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            
+            // Show overall result
+            const overallEl = document.getElementById('overallResult');
+            overallEl.style.display = 'block';
+            
+            if (allPassed) {
+                overallEl.className = 'overall-result success';
+                overallEl.textContent = '🎉 All tests passed! The activation flow is working correctly.';
+                log('🎉 All tests completed successfully!');
+            } else {
+                overallEl.className = 'overall-result error';
+                overallEl.textContent = '❌ Some tests failed. Check the results above for details.';
+                log('❌ Some tests failed. Review the details above.');
+            }
+            
+            startBtn.disabled = false;
+            startBtn.textContent = '🔄 Run Tests Again';
+        }
+        
+        // Individual test functions
+        async function testSignupAPI() {
+            const testData = {
+                email: `test${Date.now()}@example.com`,
+                firstName: 'Test',
+                lastName: 'User',
+                companyName: 'Test Company',
+                companySize: '1-4',
+                migrationContext: 'none'
+            };
+            
+            log(`Testing signup with email: ${testData.email}`);
+            
+            const response = await fetch('/api/universal-signup.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(testData)
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Signup API returned ${response.status}: ${response.statusText}`);
+            }
+            
+            const result = await response.json();
+            
+            if (!result.success) {
+                throw new Error(`Signup failed: ${result.message || result.error}`);
+            }
+            
+            // Store test data for later steps
+            window.testUserData = {
+                email: testData.email,
+                token: result.onboarding_token,
+                userData: result.user_data
+            };
+            
+            return `✅ Signup successful for ${testData.email}<br>Token: ${result.onboarding_token?.substring(0, 16)}...`;
+        }
+        
+        async function testPendingPage() {
+            const pendingUrl = `/activation-pending.html?email=${encodeURIComponent(window.testUserData.email)}`;
+            
+            const response = await fetch(pendingUrl);
+            
+            if (!response.ok) {
+                throw new Error(`Pending page returned ${response.status}: ${response.statusText}`);
+            }
+            
+            const html = await response.text();
+            
+            if (!html.includes('Check Your Email to Activate')) {
+                throw new Error('Pending page content is incorrect');
+            }
+            
+            return `✅ Pending page loads correctly<br>URL: <a href="${pendingUrl}" target="_blank">${pendingUrl}</a>`;
+        }
+        
+        async function testActivationAPI() {
+            if (!window.testUserData?.token) {
+                throw new Error('No token available from signup step');
+            }
+            
+            const activationUrl = `/api/activate.php?token=${window.testUserData.token}`;
+            log(`Testing activation with URL: ${activationUrl}`);
+            
+            const response = await fetch(activationUrl);
+            
+            if (!response.ok) {
+                throw new Error(`Activation API returned ${response.status}: ${response.statusText}<br>URL: ${activationUrl}`);
+            }
+            
+            const result = await response.json();
+            
+            if (!result.success) {
+                throw new Error(`Activation failed: ${result.error}<br>This might be because the token was already used or expired.`);
+            }
+            
+            window.testUserData.activatedUser = result.user;
+            
+            return `✅ Activation API successful<br>User: ${result.user.firstName} ${result.user.lastName}<br>Company: ${result.user.companyName}`;
+        }
+        
+        async function testActivatedState() {
+            if (!window.testUserData?.token) {
+                throw new Error('No token available for testing activated state');
+            }
+            
+            const activateUrl = `/activate.html?token=${window.testUserData.token}`;
+            
+            const response = await fetch(activateUrl);
+            
+            if (!response.ok) {
+                throw new Error(`Activate page returned ${response.status}: ${response.statusText}`);
+            }
+            
+            const html = await response.text();
+            
+            if (!html.includes('Account Activated Successfully') && !html.includes('Choose how you\'d like to use Vilara')) {
+                throw new Error('Activate page content is incorrect or missing success elements');
+            }
+            
+            return `✅ Activated state page loads correctly<br>URL: <a href="${activateUrl}" target="_blank">${activateUrl}</a>`;
+        }
+        
+        async function testAppLaunch() {
+            if (!window.testUserData?.token) {
+                throw new Error('No token available for app testing');
+            }
+            
+            const appUrl = `/app.html?token=${window.testUserData.token}&company=${encodeURIComponent('Test Company')}&firstName=Test`;
+            
+            const response = await fetch(appUrl);
+            
+            if (!response.ok) {
+                throw new Error(`App page returned ${response.status}: ${response.statusText}<br>This is likely because app.html doesn't exist in production yet - it needs to be deployed.`);
+            }
+            
+            const html = await response.text();
+            
+            if (!html.includes('Vilara') || !html.includes('Natural Language ERP Assistant')) {
+                throw new Error('App page content is incorrect');
+            }
+            
+            return `✅ App page loads correctly<br>URL: <a href="${appUrl}" target="_blank">${appUrl}</a>`;
+        }
+        
+        // Show debug log by default for transparency
+        document.getElementById('debugLog').style.display = 'block';
+        log('End-to-end test suite loaded and ready');
+    </script>
+</body>
+</html>

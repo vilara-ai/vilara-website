@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Debug Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .test-section {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .result {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        .error { color: #ef4444; }
+        .success { color: #10b981; }
+        .warning { color: #f59e0b; }
+    </style>
+</head>
+<body>
+    <h1>Backend API Debug Tool</h1>
+    <p>This tool helps debug the backend API endpoints to identify connectivity issues.</p>
+
+    <div class="test-section">
+        <h2>1. Test Backend Health/Debug Endpoint</h2>
+        <p>First, let's see if the backend is responding at all.</p>
+        <button onclick="testBackendHealth()">Test Backend Health</button>
+        <div id="health-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Test Activation API Endpoint</h2>
+        <p>Test if the activation endpoint exists (will fail without token, but should give us info).</p>
+        <button onclick="testActivationEndpoint()">Test Activation Endpoint</button>
+        <div id="activation-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Test Signup API</h2>
+        <p>Test a real signup to get a token for activation testing.</p>
+        <button onclick="testSignupAPI()">Test Signup API</button>
+        <div id="signup-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Direct Backend URLs</h2>
+        <p>Try hitting the backend directly (bypassing Vercel proxy).</p>
+        <button onclick="testDirectBackend()">Test Direct Backend</button>
+        <div id="direct-result" class="result"></div>
+    </div>
+
+    <script>
+        async function testBackendHealth() {
+            const resultEl = document.getElementById('health-result');
+            resultEl.textContent = 'Testing...';
+
+            try {
+                // Try multiple possible health endpoints
+                const endpoints = [
+                    '/debug.php',
+                    '/api/debug.php', 
+                    '/health',
+                    '/api/health'
+                ];
+
+                for (const endpoint of endpoints) {
+                    try {
+                        const response = await fetch(endpoint);
+                        const text = await response.text();
+                        
+                        resultEl.textContent += `\n✅ ${endpoint}: ${response.status} ${response.statusText}\n${text.substring(0, 200)}...\n`;
+                        
+                        if (response.ok) {
+                            resultEl.textContent += `\n🎉 Found working endpoint: ${endpoint}`;
+                            return;
+                        }
+                    } catch (error) {
+                        resultEl.textContent += `\n❌ ${endpoint}: ${error.message}\n`;
+                    }
+                }
+                
+                resultEl.textContent += '\n⚠️ No health endpoints responded successfully';
+                
+            } catch (error) {
+                resultEl.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        async function testActivationEndpoint() {
+            const resultEl = document.getElementById('activation-result');
+            resultEl.textContent = 'Testing activation endpoint...';
+
+            try {
+                // Test with invalid token to see if endpoint exists
+                const response = await fetch('/api/activate.php?token=invalid');
+                const text = await response.text();
+                
+                resultEl.textContent = `Status: ${response.status} ${response.statusText}\n\nResponse:\n${text}`;
+                
+                if (response.status === 404) {
+                    resultEl.textContent += '\n\n❌ 404 Error - The activation endpoint does not exist';
+                    resultEl.textContent += '\n💡 This suggests the backend is missing the activate.php file';
+                } else {
+                    resultEl.textContent += '\n\n✅ Endpoint exists (even though token is invalid)';
+                }
+                
+            } catch (error) {
+                resultEl.textContent = `Network Error: ${error.message}`;
+            }
+        }
+
+        async function testSignupAPI() {
+            const resultEl = document.getElementById('signup-result');
+            resultEl.textContent = 'Testing signup API...';
+
+            const testData = {
+                email: `debug${Date.now()}@example.com`,
+                firstName: 'Debug',
+                lastName: 'Test',
+                companyName: 'Debug Company',
+                companySize: '1-4',
+                migrationContext: 'none'
+            };
+
+            try {
+                const response = await fetch('/api/universal-signup.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testData)
+                });
+                
+                const text = await response.text();
+                resultEl.textContent = `Status: ${response.status} ${response.statusText}\n\nRequest:\n${JSON.stringify(testData, null, 2)}\n\nResponse:\n${text}`;
+                
+                if (response.ok) {
+                    try {
+                        const result = JSON.parse(text);
+                        if (result.success && result.onboarding_token) {
+                            resultEl.textContent += `\n\n✅ Signup successful!`;
+                            resultEl.textContent += `\n🎫 Token: ${result.onboarding_token}`;
+                            resultEl.textContent += `\n\nYou can now test activation with this token.`;
+                            
+                            // Store token for manual testing
+                            localStorage.setItem('debugToken', result.onboarding_token);
+                        }
+                    } catch (e) {
+                        resultEl.textContent += '\n\n⚠️ Response is not valid JSON';
+                    }
+                }
+                
+            } catch (error) {
+                resultEl.textContent = `Network Error: ${error.message}`;
+            }
+        }
+
+        async function testDirectBackend() {
+            const resultEl = document.getElementById('direct-result');
+            resultEl.textContent = 'Testing direct backend connection...';
+
+            const backendUrl = 'https://website-1040930643556.us-central1.run.app';
+            
+            try {
+                // Test direct backend endpoints
+                const endpoints = [
+                    '/debug.php',
+                    '/api/debug.php',
+                    '/api/activate.php?token=test'
+                ];
+
+                for (const endpoint of endpoints) {
+                    try {
+                        const response = await fetch(`${backendUrl}${endpoint}`);
+                        const text = await response.text();
+                        
+                        resultEl.textContent += `\n\n${endpoint}:`;
+                        resultEl.textContent += `\nStatus: ${response.status} ${response.statusText}`;
+                        resultEl.textContent += `\nResponse: ${text.substring(0, 300)}...`;
+                        
+                    } catch (error) {
+                        resultEl.textContent += `\n\n${endpoint}: ${error.message}`;
+                    }
+                }
+                
+            } catch (error) {
+                resultEl.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Show stored debug token if available
+        window.addEventListener('load', () => {
+            const token = localStorage.getItem('debugToken');
+            if (token) {
+                document.body.innerHTML += `
+                    <div class="test-section">
+                        <h2>Stored Debug Token</h2>
+                        <p>Token from previous signup test: <code>${token}</code></p>
+                        <button onclick="testStoredToken()">Test This Token</button>
+                        <div id="stored-token-result" class="result"></div>
+                    </div>
+                `;
+            }
+        });
+
+        function testStoredToken() {
+            const token = localStorage.getItem('debugToken');
+            const resultEl = document.getElementById('stored-token-result');
+            
+            if (!token) {
+                resultEl.textContent = 'No stored token found';
+                return;
+            }
+            
+            resultEl.textContent = 'Testing stored token...';
+            
+            fetch(`/api/activate.php?token=${token}`)
+                .then(response => response.text())
+                .then(text => {
+                    resultEl.textContent = `Status: ${response.status}\nResponse: ${text}`;
+                })
+                .catch(error => {
+                    resultEl.textContent = `Error: ${error.message}`;
+                });
+        }
+    </script>
+</body>
+</html>
