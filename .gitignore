@@ -5,6 +5,7 @@ node_modules/
 .env
 .env.local
 .claude/settings.local.json
+github-actions-key.json
 
 # IDE files
 .vscode/
@@ -29,4 +30,4 @@ npm-debug.log*
 .netlify/
 
 # Local documentation
-docs/instructions_to_test_locally
+docs/instructions/

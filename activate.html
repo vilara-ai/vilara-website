@@ -149,22 +149,45 @@
         // Try to load from URL parameters (if coming from external signup)
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token');
+        const status = urlParams.get('status');
+        const encodedData = urlParams.get('data');
+        
         if (token && !activationData.onboarding_token) {
-            // Load activation data from server using token
+            // If we have a token, validate it with the server
             loadActivationData(token);
+        } else if (status === 'success' && encodedData) {
+            // If coming from email activation, decode the data
+            try {
+                const decodedData = JSON.parse(atob(decodeURIComponent(encodedData)));
+                activationData = decodedData;
+                updateActivationDisplay();
+            } catch (e) {
+                console.error('Failed to decode activation data:', e);
+            }
         }
         
         function loadActivationData(token) {
-            fetch('/api/get-activation-data.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ token: token })
-            })
+            fetch('/api/activate.php?token=' + token)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    activationData = data;
+                    activationData = {
+                        onboarding_token: token,
+                        user_data: {
+                            company: data.user.companyName,
+                            email: data.user.email,
+                            firstName: data.user.firstName,
+                            lastName: data.user.lastName,
+                            companySize: data.user.companySize
+                        }
+                    };
                     updateActivationDisplay();
+                    
+                    // Store in localStorage for the app
+                    localStorage.setItem('vilaraActivation', JSON.stringify(activationData));
+                } else {
+                    console.error('Activation failed:', data.error);
+                    alert('Activation failed: ' + data.error);
                 }
             })
             .catch(error => {
@@ -197,15 +220,24 @@
         }
         
         function activateWebUI() {
-            if (activationData.ui_activation_methods && activationData.ui_activation_methods.web_ui) {
-                // Open web UI with activation token
-                const webURL = activationData.ui_activation_methods.web_ui;
-                window.open(webURL, '_blank');
-            } else {
-                // Fallback to default local web UI
-                const fallbackURL = 'http://localhost:5006/activate?token=' + (activationData.onboarding_token || 'demo');
-                window.open(fallbackURL, '_blank');
+            // Prepare user data for the app
+            const params = new URLSearchParams();
+            
+            if (activationData.onboarding_token) {
+                params.append('token', activationData.onboarding_token);
             }
+            if (activationData.user_data) {
+                if (activationData.user_data.company) {
+                    params.append('company', activationData.user_data.company);
+                }
+                if (activationData.user_data.firstName) {
+                    params.append('firstName', activationData.user_data.firstName);
+                }
+            }
+            
+            // Navigate to the Vilara app with user context
+            const appURL = '/app.html?' + params.toString();
+            window.location.href = appURL;
             
             // Track activation
             trackActivation('web_ui');
