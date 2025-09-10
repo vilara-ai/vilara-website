@@ -425,7 +425,8 @@
 
         function launchApp() {
             // Navigate to app with setup complete flag
-            window.location.href = `/app.html?token=${userToken}&setup=complete`;
+            // Note: Vercel's cleanUrls setting serves HTML files without .html extension
+            window.location.href = `/app?token=${userToken}&setup=complete`;
         }
     </script>
 </body>

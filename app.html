@@ -353,7 +353,8 @@
 
         function startBusinessSetup() {
             // Navigate to business configuration wizard
-            window.location.href = '/business-setup.html?token=' + userToken;
+            // Note: Vercel's cleanUrls setting serves HTML files without .html extension
+            window.location.href = '/business-setup?token=' + userToken;
         }
 
         function skipSetup() {

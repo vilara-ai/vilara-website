@@ -207,6 +207,12 @@
                 title: 'Step 5: Test App Launch',
                 description: 'Verify app.html loads with user context',
                 test: testAppLaunch
+            },
+            {
+                id: 'button',
+                title: 'Step 6: Test Launch Button Navigation',
+                description: 'Simulate clicking Launch Web Interface button',
+                test: testLaunchButtonNavigation
             }
         ];
         
@@ -486,6 +492,44 @@
             }
             
             return `✅ App page loads correctly<br>URL: <a href="${appUrl}" target="_blank">${appUrl}</a>`;
+        }
+        
+        async function testLaunchButtonNavigation() {
+            log('Testing the actual Launch Web Interface button navigation...');
+            
+            // First, load the activation page to get the button
+            const activateUrl = `/activate.html`;
+            const response = await fetch(activateUrl);
+            
+            if (!response.ok) {
+                throw new Error(`Cannot load activation page: ${response.status}`);
+            }
+            
+            const html = await response.text();
+            
+            // Parse the HTML to find the button and its onclick action
+            const buttonMatch = html.match(/onclick="activateWebUI\(\)"/);
+            if (!buttonMatch) {
+                throw new Error('Launch Web Interface button not found on activation page');
+            }
+            
+            // Find the activateWebUI function
+            const functionMatch = html.match(/function activateWebUI\(\)\s*{[\s\S]*?window\.location\.href\s*=\s*['"]([^'"]+)['"]/);
+            if (!functionMatch) {
+                throw new Error('activateWebUI function not found or malformed');
+            }
+            
+            const targetURL = functionMatch[1];
+            log(`Button would navigate to: ${targetURL}`);
+            
+            // Test if the target URL exists
+            const targetResponse = await fetch(targetURL.split('?')[0], { method: 'HEAD' });
+            
+            if (!targetResponse.ok) {
+                throw new Error(`Button navigation target returns ${targetResponse.status}. The URL ${targetURL} would cause a 404 error.`);
+            }
+            
+            return `✅ Launch button would navigate to: ${targetURL}<br>Target page exists and returns ${targetResponse.status}`;
         }
         
         // Show debug log by default for transparency
