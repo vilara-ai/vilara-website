@@ -38,6 +38,9 @@
                 <button class="btn btn-primary btn-large" onclick="activateWebUI()">
                     Launch Web Interface
                 </button>
+                <p style="margin-top: 10px; font-size: 0.9rem;">
+                    <a href="/app-launcher.html" style="color: #666; text-decoration: underline;">Having issues? Try alternative launcher</a>
+                </p>
                 <p class="option-note">Note: Alpha version with core features</p>
             </div>
             
@@ -261,6 +264,10 @@
         }
         
         function activateWebUI() {
+            // Debug logging
+            console.log('activateWebUI called');
+            console.log('activationData:', activationData);
+            
             // Prepare user data for the app
             const params = new URLSearchParams();
             
@@ -276,9 +283,28 @@
                 }
             }
             
-            // Navigate to the Vilara app with user context
-            const appURL = '/app.html?' + params.toString();
-            window.location.href = appURL;
+            // Build the full URL to ensure it works correctly
+            const appPath = '/app.html';
+            const appURL = appPath + '?' + params.toString();
+            
+            console.log('Navigating to:', appURL);
+            
+            // Check if the file exists first
+            fetch(appPath, { method: 'HEAD' })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('app.html exists, navigating...');
+                        window.location.href = appURL;
+                    } else {
+                        console.error('app.html returned status:', response.status);
+                        alert('The application page is not available yet. Status: ' + response.status + '\n\nThis might be a deployment issue. Please try again in a few moments or contact support.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking app.html:', error);
+                    // Try to navigate anyway
+                    window.location.href = appURL;
+                });
             
             // Track activation
             trackActivation('web_ui');
