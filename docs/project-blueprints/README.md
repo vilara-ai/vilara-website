@@ -109,6 +109,45 @@ docker build -t vilara-website .
 docker run -p 8080:8080 vilara-website
 ```
 
+### Local Testing of New Features
+
+#### Option 1: Quick Local Testing with Python Server
+```bash
+# Navigate to website directory
+cd /mnt/c/Users/grayt/Desktop/Vilara/website
+
+# Start a simple HTTP server
+python3 -m http.server 8000
+# Or with Python 2: python -m SimpleHTTPServer 8000
+
+# Open in browser: http://localhost:8000
+```
+
+#### Option 2: Test with Vercel Dev (Most Realistic)
+```bash
+# Simulates production environment
+npx vercel dev
+# Opens at http://localhost:3000
+```
+
+#### Option 3: Preview Deployment (Recommended for Pre-Production)
+1. **Push your feature branch** to GitHub
+   ```bash
+   git push -u origin your-feature-branch
+   ```
+2. **Create a Pull Request** on GitHub
+3. **Vercel automatically creates a preview URL** (e.g., `vilara-website-abc123.vercel.app`)
+4. **Test on the preview URL** - Full production environment without affecting main site
+5. **Merge PR if tests pass** - Automatically deploys to production
+6. **Close PR if issues found** - No impact on production
+
+#### Benefits of Preview Deployments:
+- ✅ Tests with real HTTPS and production environment
+- ✅ No risk to main site
+- ✅ Shareable link for team testing
+- ✅ Automatic deployment on PR creation
+- ✅ Easy rollback - just close the PR
+
 ### Testing APIs
 ```bash
 # Test signup API (replace with real email)
