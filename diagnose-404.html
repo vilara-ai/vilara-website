@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Diagnostic Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .check-item {
+            background: #f5f5f5;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #3b82f6;
+        }
+        .success { border-left-color: #10b981; background: #f0fdf4; }
+        .error { border-left-color: #ef4444; background: #fef2f2; }
+        .url-test {
+            padding: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>404 Diagnostic Tool</h1>
+    <p>This tool checks which files exist and which URLs are working.</p>
+
+    <div class="check-item">
+        <h3>Current Location</h3>
+        <p>You are at: <code id="current-url"></code></p>
+        <p>Base URL: <code id="base-url"></code></p>
+    </div>
+
+    <div class="check-item">
+        <h3>Check All Critical Files</h3>
+        <button onclick="checkAllFiles()">Run File Check</button>
+        <div id="file-results"></div>
+    </div>
+
+    <div class="check-item">
+        <h3>Test Activation Flow URLs</h3>
+        <button onclick="testActivationURLs()">Test URLs</button>
+        <div id="url-results"></div>
+    </div>
+
+    <div class="check-item">
+        <h3>Simulate Email Activation Link</h3>
+        <p>If your email link looks like this:</p>
+        <input type="text" id="email-link" placeholder="Paste the activation link from your email" style="width: 100%; padding: 8px; margin: 10px 0;">
+        <button onclick="analyzeEmailLink()">Analyze Link</button>
+        <div id="link-analysis"></div>
+    </div>
+
+    <script>
+        // Show current location
+        document.getElementById('current-url').textContent = window.location.href;
+        document.getElementById('base-url').textContent = window.location.origin;
+
+        async function checkAllFiles() {
+            const files = [
+                '/activate.html',
+                '/activation-pending.html',
+                '/app.html',
+                '/business-setup.html',
+                '/api/activate.php',
+                '/api/universal-signup.php',
+                '/contact.html',
+                '/index.html'
+            ];
+
+            const resultsEl = document.getElementById('file-results');
+            resultsEl.innerHTML = '<p>Checking files...</p>';
+            
+            let results = [];
+            for (const file of files) {
+                try {
+                    const response = await fetch(file, { method: 'HEAD' });
+                    const status = response.ok ? '✅' : '❌';
+                    const statusText = response.ok ? 'EXISTS' : `${response.status} ${response.statusText}`;
+                    results.push(`<div class="url-test ${response.ok ? 'success' : 'error'}">${status} ${file} - ${statusText}</div>`);
+                } catch (error) {
+                    results.push(`<div class="url-test error">❌ ${file} - Network Error</div>`);
+                }
+            }
+            
+            resultsEl.innerHTML = results.join('');
+        }
+
+        async function testActivationURLs() {
+            const resultsEl = document.getElementById('url-results');
+            resultsEl.innerHTML = '<p>Testing activation flow URLs...</p>';
+            
+            // Generate a test token
+            const testToken = 'a'.repeat(64);
+            
+            const tests = [
+                {
+                    name: 'Activation API (with test token)',
+                    url: `/api/activate.php?token=${testToken}`,
+                    method: 'GET'
+                },
+                {
+                    name: 'Activation Page (without token)',
+                    url: '/activate.html',
+                    method: 'GET'
+                },
+                {
+                    name: 'Activation Page (with token)',
+                    url: `/activate.html?token=${testToken}`,
+                    method: 'GET'
+                },
+                {
+                    name: 'App Page',
+                    url: '/app.html',
+                    method: 'GET'
+                },
+                {
+                    name: 'App Page (with params)',
+                    url: '/app.html?token=test&company=Test&firstName=User',
+                    method: 'GET'
+                }
+            ];
+            
+            let results = [];
+            for (const test of tests) {
+                try {
+                    const response = await fetch(test.url, { method: test.method });
+                    const status = response.status;
+                    let statusText = `${status} ${response.statusText}`;
+                    
+                    // Add interpretation
+                    if (status === 404) {
+                        statusText += ' - FILE NOT FOUND';
+                    } else if (status === 200) {
+                        statusText += ' - OK';
+                    } else if (status === 400) {
+                        statusText += ' - BAD REQUEST (likely invalid token)';
+                    }
+                    
+                    const isOk = status === 200 || (test.name.includes('API') && status === 400);
+                    results.push(`<div class="url-test ${isOk ? 'success' : 'error'}">${test.name}<br><code>${test.url}</code><br>Result: ${statusText}</div>`);
+                    
+                } catch (error) {
+                    results.push(`<div class="url-test error">${test.name}<br><code>${test.url}</code><br>Error: ${error.message}</div>`);
+                }
+            }
+            
+            resultsEl.innerHTML = results.join('');
+        }
+
+        function analyzeEmailLink() {
+            const link = document.getElementById('email-link').value;
+            const analysisEl = document.getElementById('link-analysis');
+            
+            if (!link) {
+                analysisEl.innerHTML = '<p class="error">Please paste the activation link</p>';
+                return;
+            }
+            
+            try {
+                const url = new URL(link);
+                
+                let analysis = '<h4>Link Analysis:</h4>';
+                analysis += `<p>Domain: <code>${url.hostname}</code></p>`;
+                analysis += `<p>Path: <code>${url.pathname}</code></p>`;
+                analysis += `<p>Query: <code>${url.search}</code></p>`;
+                
+                // Check for common issues
+                if (url.pathname === '/activate' && !url.pathname.includes('.html')) {
+                    analysis += '<p class="error">⚠️ Issue Found: Link is missing .html extension</p>';
+                    analysis += '<p>Should be: <code>/activate.html</code> not <code>/activate</code></p>';
+                    
+                    // Provide corrected link
+                    const correctedURL = new URL(link);
+                    correctedURL.pathname = '/activate.html';
+                    analysis += `<p>Corrected link: <a href="${correctedURL.href}" target="_blank">${correctedURL.href}</a></p>`;
+                }
+                
+                if (url.hostname === 'vilara.ai' || url.hostname === 'www.vilara.ai') {
+                    analysis += '<p class="error">⚠️ Issue: Link points to production, not preview</p>';
+                    
+                    // Convert to preview URL
+                    const previewURL = new URL(link);
+                    previewURL.hostname = window.location.hostname;
+                    previewURL.protocol = window.location.protocol;
+                    previewURL.port = window.location.port;
+                    analysis += `<p>Preview link: <a href="${previewURL.href}" target="_blank">${previewURL.href}</a></p>`;
+                }
+                
+                analysisEl.innerHTML = analysis;
+                
+            } catch (error) {
+                analysisEl.innerHTML = `<p class="error">Invalid URL: ${error.message}</p>`;
+            }
+        }
+
+        // Auto-run file check on load
+        window.addEventListener('load', () => {
+            checkAllFiles();
+        });
+    </script>
+</body>
+</html>

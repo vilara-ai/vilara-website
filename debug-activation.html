@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Activation Issue</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .result {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .error { color: #ef4444; }
+        .success { color: #10b981; }
+    </style>
+</head>
+<body>
+    <h1>Debug Activation Issue</h1>
+    <p>This will help us find where the localhost:5006 reference is coming from.</p>
+
+    <div class="test-section">
+        <h2>1. Check Current Page</h2>
+        <p>Current URL: <code id="current-url"></code></p>
+        <p>Base URL: <code id="base-url"></code></p>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Check localStorage</h2>
+        <button onclick="checkLocalStorage()">Check localStorage</button>
+        <div id="localStorage-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Load and Analyze activate.html</h2>
+        <button onclick="analyzeActivatePage()">Analyze Activation Page</button>
+        <div id="activate-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Simulate Button Click</h2>
+        <button onclick="simulateActivation()">Simulate Launch Web Interface</button>
+        <div id="simulate-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Check for Service Workers</h2>
+        <button onclick="checkServiceWorkers()">Check Service Workers</button>
+        <div id="sw-result" class="result"></div>
+    </div>
+
+    <script>
+        // Show current location
+        document.getElementById('current-url').textContent = window.location.href;
+        document.getElementById('base-url').textContent = window.location.origin;
+
+        function checkLocalStorage() {
+            const result = document.getElementById('localStorage-result');
+            let output = 'localStorage contents:\n';
+            
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                const value = localStorage.getItem(key);
+                output += `${key}: ${value}\n`;
+                
+                // Check for localhost references
+                if (value && value.includes('localhost:5006')) {
+                    output += '⚠️ WARNING: Found localhost:5006 in localStorage!\n';
+                }
+            }
+            
+            if (localStorage.length === 0) {
+                output = 'localStorage is empty';
+            }
+            
+            result.textContent = output;
+        }
+
+        async function analyzeActivatePage() {
+            const result = document.getElementById('activate-result');
+            result.textContent = 'Loading activate.html...';
+            
+            try {
+                const response = await fetch('/activate.html');
+                const html = await response.text();
+                
+                // Check for localhost:5006
+                if (html.includes('localhost:5006')) {
+                    result.textContent = '❌ ERROR: activate.html contains localhost:5006!\n';
+                    
+                    // Find the line
+                    const lines = html.split('\n');
+                    lines.forEach((line, index) => {
+                        if (line.includes('localhost:5006')) {
+                            result.textContent += `Line ${index + 1}: ${line.trim()}\n`;
+                        }
+                    });
+                } else {
+                    result.textContent = '✅ activate.html does NOT contain localhost:5006\n';
+                }
+                
+                // Find the activateWebUI function
+                const functionMatch = html.match(/function activateWebUI\(\)\s*{([\s\S]*?)^\s*}/m);
+                if (functionMatch) {
+                    result.textContent += '\nFound activateWebUI function:\n';
+                    result.textContent += functionMatch[0].substring(0, 500) + '...';
+                    
+                    // Check what URL it navigates to
+                    const urlMatch = functionMatch[0].match(/window\.location\.href\s*=\s*['"]([^'"]+)['"]/);
+                    if (urlMatch) {
+                        result.textContent += `\n\n✅ Button navigates to: ${urlMatch[1]}`;
+                    }
+                }
+                
+            } catch (error) {
+                result.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        function simulateActivation() {
+            const result = document.getElementById('simulate-result');
+            
+            // Create mock activation data
+            const activationData = {
+                onboarding_token: 'test_token',
+                user_data: {
+                    company: 'Test Company',
+                    firstName: 'Test',
+                    lastName: 'User'
+                }
+            };
+            
+            // Simulate what the button does
+            const params = new URLSearchParams();
+            if (activationData.onboarding_token) {
+                params.append('token', activationData.onboarding_token);
+            }
+            if (activationData.user_data) {
+                if (activationData.user_data.company) {
+                    params.append('company', activationData.user_data.company);
+                }
+                if (activationData.user_data.firstName) {
+                    params.append('firstName', activationData.user_data.firstName);
+                }
+            }
+            
+            const appURL = '/app?' + params.toString();
+            
+            result.textContent = `Simulated button click would navigate to:\n${appURL}\n\n`;
+            result.textContent += `Full URL would be:\n${window.location.origin}${appURL}\n\n`;
+            result.textContent += 'If you\'re seeing localhost:5006, it\'s NOT coming from the current code.';
+        }
+
+        function checkServiceWorkers() {
+            const result = document.getElementById('sw-result');
+            
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(registrations => {
+                    if (registrations.length > 0) {
+                        result.textContent = `Found ${registrations.length} service worker(s):\n`;
+                        registrations.forEach(reg => {
+                            result.textContent += `- ${reg.scope}\n`;
+                        });
+                        result.textContent += '\n⚠️ Service workers can cache old code! Try unregistering them.';
+                    } else {
+                        result.textContent = '✅ No service workers registered';
+                    }
+                });
+            } else {
+                result.textContent = 'Service workers not supported';
+            }
+        }
+
+        // Auto-run some checks
+        window.addEventListener('load', () => {
+            checkLocalStorage();
+        });
+    </script>
+</body>
+</html>

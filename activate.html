@@ -13,7 +13,7 @@
     <div class="activation-container">
         <div class="activation-header">
             <img src="assets/images/vilara_logo.png" alt="Vilara" class="logo">
-            <h1>🎉 Account Created Successfully!</h1>
+            <h1 id="main-title">🎉 Account Activated Successfully!</h1>
             <p class="welcome-message" id="welcome-message">Welcome to Vilara! Let's get you started.</p>
         </div>
 
@@ -135,44 +135,108 @@
     <script>
         // Load activation data from signup
         let activationData = {};
+        let isActivated = false;
         
-        // Try to load from localStorage (if coming from same-page signup)
-        try {
-            const storedData = localStorage.getItem('vilaraActivation');
-            if (storedData) {
-                activationData = JSON.parse(storedData);
-            }
-        } catch (e) {
-            console.warn('Could not load activation data from localStorage');
-        }
-        
-        // Try to load from URL parameters (if coming from external signup)
+        // Check URL parameters first
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token');
-        if (token && !activationData.onboarding_token) {
-            // Load activation data from server using token
-            loadActivationData(token);
-        }
+        const status = urlParams.get('status');
+        const encodedData = urlParams.get('data');
+        
+        // Initialize the page
+        window.addEventListener('load', () => {
+            if (token) {
+                // User clicked activation link from email - validate the token
+                document.getElementById('main-title').textContent = '⏳ Activating Your Account...';
+                document.getElementById('welcome-message').textContent = 'Please wait while we activate your account...';
+                document.querySelector('.activation-content').style.display = 'none';
+                document.querySelector('.next-steps-section').style.display = 'none';
+                
+                loadActivationData(token);
+            } else if (status === 'success' && encodedData) {
+                // Already activated, decode the data
+                try {
+                    const decodedData = JSON.parse(atob(decodeURIComponent(encodedData)));
+                    activationData = decodedData;
+                    isActivated = true;
+                    updateActivationDisplay();
+                } catch (e) {
+                    console.error('Failed to decode activation data:', e);
+                    showErrorState();
+                }
+            } else {
+                // No valid activation - redirect to pending page
+                window.location.href = '/activation-pending.html';
+            }
+        });
         
         function loadActivationData(token) {
-            fetch('/api/get-activation-data.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ token: token })
-            })
+            fetch('/api/activate.php?token=' + token)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    activationData = data;
+                    activationData = {
+                        onboarding_token: token,
+                        user_data: {
+                            company: data.user.companyName,
+                            email: data.user.email,
+                            firstName: data.user.firstName,
+                            lastName: data.user.lastName,
+                            companySize: data.user.companySize
+                        }
+                    };
+                    isActivated = true;
+                    
+                    // Store in localStorage for the app
+                    localStorage.setItem('vilaraActivation', JSON.stringify(activationData));
+                    
+                    // Show success state
+                    document.getElementById('main-title').textContent = '🎉 Account Activated Successfully!';
+                    document.querySelector('.activation-content').style.display = 'block';
+                    document.querySelector('.next-steps-section').style.display = 'block';
                     updateActivationDisplay();
+                } else {
+                    console.error('Activation failed:', data.error);
+                    showErrorState(data.error);
                 }
             })
             .catch(error => {
                 console.error('Failed to load activation data:', error);
+                showErrorState('Network error. Please try again.');
             });
         }
         
+        function showErrorState(errorMessage) {
+            document.getElementById('main-title').textContent = '❌ Activation Failed';
+            document.getElementById('welcome-message').textContent = errorMessage || 'There was an issue with your activation link.';
+            document.querySelector('.activation-content').style.display = 'none';
+            document.querySelector('.next-steps-section').style.display = 'none';
+            
+            // Add a help section
+            const container = document.querySelector('.activation-container');
+            if (!document.getElementById('error-help')) {
+                container.innerHTML += `
+                    <div id="error-help" style="text-align: center; margin-top: 30px;">
+                        <p style="margin-bottom: 20px;">Common issues:</p>
+                        <ul style="text-align: left; max-width: 400px; margin: 0 auto 30px; list-style-position: inside;">
+                            <li>The link may have expired (24 hours)</li>
+                            <li>The link may have already been used</li>
+                            <li>The link may be incomplete (check your email)</li>
+                        </ul>
+                        <a href="/activation-pending.html" class="btn btn-primary">Request New Activation Link</a>
+                        <p style="margin-top: 20px;">
+                            <a href="/contact.html" style="color: var(--primary-color);">Contact Support</a>
+                        </p>
+                    </div>
+                `;
+            }
+        }
+        
         function updateActivationDisplay() {
+            if (!isActivated) {
+                // Don't show options if not activated
+                return;
+            }
             // Update welcome message conditionally
             const welcomeElement = document.getElementById('welcome-message');
             if (activationData.user_data?.company) {
@@ -197,15 +261,25 @@
         }
         
         function activateWebUI() {
-            if (activationData.ui_activation_methods && activationData.ui_activation_methods.web_ui) {
-                // Open web UI with activation token
-                const webURL = activationData.ui_activation_methods.web_ui;
-                window.open(webURL, '_blank');
-            } else {
-                // Fallback to default local web UI
-                const fallbackURL = 'http://localhost:5006/activate?token=' + (activationData.onboarding_token || 'demo');
-                window.open(fallbackURL, '_blank');
+            // Prepare user data for the app
+            const params = new URLSearchParams();
+            
+            if (activationData.onboarding_token) {
+                params.append('token', activationData.onboarding_token);
             }
+            if (activationData.user_data) {
+                if (activationData.user_data.company) {
+                    params.append('company', activationData.user_data.company);
+                }
+                if (activationData.user_data.firstName) {
+                    params.append('firstName', activationData.user_data.firstName);
+                }
+            }
+            
+            // Navigate to the Vilara app with user context
+            // Note: Vercel's cleanUrls setting serves HTML files without .html extension
+            const appURL = '/app?' + params.toString();
+            window.location.href = appURL;
             
             // Track activation
             trackActivation('web_ui');

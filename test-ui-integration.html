@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test UI Integration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #5a67d8;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>UI Integration Test Suite</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Simulate Signup → Activation Flow</h2>
+        <p>This simulates a user completing signup and being redirected to activation.</p>
+        <button onclick="simulateSignup()">Simulate Signup</button>
+        <div id="test1-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Direct Activation with Token</h2>
+        <p>This simulates clicking an activation link from email.</p>
+        <input type="text" id="test-token" placeholder="Enter test token (64 hex chars)" style="width: 300px; padding: 5px;">
+        <button onclick="testDirectActivation()">Test Activation</button>
+        <div id="test2-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Launch App with Context</h2>
+        <p>This tests launching the app with user context.</p>
+        <button onclick="launchApp()">Launch App</button>
+        <div id="test3-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 4: Business Setup Flow</h2>
+        <p>This tests the business configuration wizard.</p>
+        <button onclick="testBusinessSetup()">Test Business Setup</button>
+        <div id="test4-result"></div>
+    </div>
+
+    <script>
+        function simulateSignup() {
+            // Create mock activation data
+            const mockData = {
+                onboarding_token: 'test_token_' + Date.now(),
+                user_data: {
+                    company: 'Test Company',
+                    email: 'test@example.com',
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    companySize: '1-4'
+                },
+                ui_activation_methods: {
+                    web_ui: '/app.html',
+                    desktop_app: {
+                        activation_code: 'TEST-CODE-1234'
+                    }
+                },
+                signup_source: 'test_suite'
+            };
+            
+            // Store in localStorage
+            localStorage.setItem('vilaraActivation', JSON.stringify(mockData));
+            
+            // Navigate to activation page
+            document.getElementById('test1-result').innerHTML = 
+                '<p class="success">✓ Mock data stored. Redirecting to activation page...</p>';
+            
+            setTimeout(() => {
+                window.location.href = '/activate.html';
+            }, 2000);
+        }
+        
+        function testDirectActivation() {
+            const token = document.getElementById('test-token').value;
+            if (!token) {
+                document.getElementById('test2-result').innerHTML = 
+                    '<p class="error">✗ Please enter a token</p>';
+                return;
+            }
+            
+            // Test the activation endpoint
+            fetch('/api/activate.php?token=' + token)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('test2-result').innerHTML = 
+                            '<p class="success">✓ Activation successful! User: ' + 
+                            data.user.firstName + ' ' + data.user.lastName + 
+                            ' (' + data.user.companyName + ')</p>';
+                    } else {
+                        document.getElementById('test2-result').innerHTML = 
+                            '<p class="error">✗ Activation failed: ' + data.error + '</p>';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('test2-result').innerHTML = 
+                        '<p class="error">✗ Network error: ' + error + '</p>';
+                });
+        }
+        
+        function launchApp() {
+            // Check if we have activation data
+            const storedData = localStorage.getItem('vilaraActivation');
+            if (!storedData) {
+                document.getElementById('test3-result').innerHTML = 
+                    '<p class="error">✗ No activation data found. Run Test 1 first.</p>';
+                return;
+            }
+            
+            const data = JSON.parse(storedData);
+            const params = new URLSearchParams({
+                token: data.onboarding_token,
+                company: data.user_data.company,
+                firstName: data.user_data.firstName
+            });
+            
+            document.getElementById('test3-result').innerHTML = 
+                '<p class="success">✓ Launching app with context...</p>';
+            
+            setTimeout(() => {
+                window.location.href = '/app.html?' + params.toString();
+            }, 2000);
+        }
+        
+        function testBusinessSetup() {
+            const storedData = localStorage.getItem('vilaraActivation');
+            if (!storedData) {
+                document.getElementById('test4-result').innerHTML = 
+                    '<p class="error">✗ No activation data found. Run Test 1 first.</p>';
+                return;
+            }
+            
+            const data = JSON.parse(storedData);
+            
+            document.getElementById('test4-result').innerHTML = 
+                '<p class="success">✓ Launching business setup...</p>';
+            
+            setTimeout(() => {
+                window.location.href = '/business-setup.html?token=' + data.onboarding_token;
+            }, 2000);
+        }
+        
+        // Check current state on load
+        window.addEventListener('load', () => {
+            const storedData = localStorage.getItem('vilaraActivation');
+            if (storedData) {
+                const data = JSON.parse(storedData);
+                console.log('Found stored activation data:', data);
+            }
+        });
+    </script>
+</body>
+</html>

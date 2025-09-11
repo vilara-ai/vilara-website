@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vilara ERP - Natural Language Business Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .vilara-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            padding: 40px;
+            position: relative;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .logo p {
+            color: #6b7280;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        .status {
+            background: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            color: #1e40af;
+            font-weight: 500;
+        }
+        
+        .input-container {
+            margin-bottom: 20px;
+        }
+        
+        .input-box {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .input-box:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .send-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .send-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .send-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .response-container {
+            background: #f9fafb;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .response-message {
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .user-message {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-left: 20%;
+            text-align: right;
+        }
+        
+        .assistant-message {
+            background: white;
+            border: 1px solid #e5e7eb;
+            margin-right: 20%;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e5e7eb;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .examples {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .examples h3 {
+            color: #4b5563;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .example-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .example-chip {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .example-chip:hover {
+            background: #e5e7eb;
+            border-color: #9ca3af;
+        }
+
+        .setup-wizard {
+            display: none;
+            background: #f9fafb;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .setup-wizard.active {
+            display: block;
+        }
+
+        .setup-step {
+            margin-bottom: 15px;
+        }
+
+        .setup-step h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .setup-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .setup-button:hover {
+            background: #5a67d8;
+        }
+    </style>
+</head>
+<body>
+    <div class="vilara-container">
+        <div class="logo">
+            <h1>Vilara</h1>
+            <p>Your Natural Language ERP Assistant</p>
+        </div>
+
+        <!-- Initial Setup Wizard -->
+        <div id="setupWizard" class="setup-wizard">
+            <div class="setup-step">
+                <h3>Welcome to Vilara! Let's get you set up.</h3>
+                <p>This quick setup will help you configure your workspace.</p>
+                <button class="setup-button" onclick="startBusinessSetup()">Start Business Setup</button>
+                <button class="setup-button" onclick="skipSetup()">Skip for Now</button>
+            </div>
+        </div>
+        
+        <div id="statusMessage" class="status">
+            Connecting to Vilara backend...
+        </div>
+        
+        <div class="input-container">
+            <input 
+                type="text" 
+                id="userInput" 
+                class="input-box" 
+                placeholder="Ask me anything about your business..."
+                disabled
+            />
+            <button 
+                id="sendButton" 
+                class="send-button" 
+                onclick="sendMessage()"
+                disabled
+            >
+                Send
+            </button>
+        </div>
+        
+        <div class="response-container" id="responseContainer">
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Processing your request...</p>
+            </div>
+        </div>
+        
+        <div class="examples">
+            <h3>Try these commands:</h3>
+            <div class="example-chips">
+                <div class="example-chip" onclick="setExample('Show my customers')">Show my customers</div>
+                <div class="example-chip" onclick="setExample('Create a new invoice')">Create a new invoice</div>
+                <div class="example-chip" onclick="setExample('What are my sales this month?')">Sales this month</div>
+                <div class="example-chip" onclick="setExample('Help')">Help</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        // For now, we'll disable the backend connection since it requires a local Python server
+        // In production, this would connect to a deployed backend service
+        const API_URL = null; // 'http://localhost:5006/api/message';
+        let isFirstTime = true;
+        let userToken = null;
+        let companyData = null;
+
+        // Check for activation token in URL
+        function checkActivation() {
+            const urlParams = new URLSearchParams(window.location.search);
+            userToken = urlParams.get('token');
+            const companyName = urlParams.get('company');
+            const firstName = urlParams.get('firstName');
+            
+            if (userToken) {
+                // User is coming from activation
+                companyData = {
+                    token: userToken,
+                    company: companyName,
+                    firstName: firstName
+                };
+                
+                // Show personalized welcome
+                document.getElementById('statusMessage').textContent = 
+                    `Welcome ${firstName ? firstName : ''}! Setting up ${companyName ? companyName : 'your workspace'}...`;
+                
+                // Show setup wizard for first-time users
+                document.getElementById('setupWizard').classList.add('active');
+                
+                // Store in localStorage for future sessions
+                localStorage.setItem('vilaraUserData', JSON.stringify(companyData));
+            } else {
+                // Check if returning user
+                const storedData = localStorage.getItem('vilaraUserData');
+                if (storedData) {
+                    companyData = JSON.parse(storedData);
+                    isFirstTime = false;
+                    document.getElementById('setupWizard').classList.remove('active');
+                }
+            }
+            
+            // Initialize connection
+            initializeConnection();
+        }
+
+        function initializeConnection() {
+            // Check if backend is configured
+            if (!API_URL) {
+                // No backend configured - show demo mode
+                document.getElementById('statusMessage').textContent = 'Welcome to Vilara! (Demo Mode - Backend not connected)';
+                document.getElementById('statusMessage').style.borderColor = '#f59e0b';
+                document.getElementById('statusMessage').style.background = '#fef3c7';
+                document.getElementById('statusMessage').style.color = '#92400e';
+                document.getElementById('userInput').disabled = false;
+                document.getElementById('sendButton').disabled = false;
+                return;
+            }
+            
+            // Check backend availability
+            fetch(API_URL.replace('/api/message', '/health'))
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('statusMessage').textContent = 'Connected to Vilara. Ready for your commands!';
+                        document.getElementById('statusMessage').style.borderColor = '#10b981';
+                        document.getElementById('statusMessage').style.background = '#f0fdf4';
+                        document.getElementById('statusMessage').style.color = '#166534';
+                        document.getElementById('userInput').disabled = false;
+                        document.getElementById('sendButton').disabled = false;
+                    } else {
+                        throw new Error('Backend not available');
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('statusMessage').textContent = 
+                        'Vilara backend is not running. Please start the backend server (python vilara-api-server.py).';
+                    document.getElementById('statusMessage').style.borderColor = '#ef4444';
+                    document.getElementById('statusMessage').style.background = '#fef2f2';
+                    document.getElementById('statusMessage').style.color = '#991b1b';
+                });
+        }
+
+        function startBusinessSetup() {
+            // Navigate to business configuration wizard
+            // Note: Vercel's cleanUrls setting serves HTML files without .html extension
+            window.location.href = '/business-setup?token=' + userToken;
+        }
+
+        function skipSetup() {
+            document.getElementById('setupWizard').classList.remove('active');
+            addMessage('assistant', 'No problem! You can set up your business details anytime. For now, try asking me questions or use the example commands below.');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Disable input while processing
+            input.disabled = true;
+            document.getElementById('sendButton').disabled = true;
+            
+            // Show user message
+            addMessage('user', message);
+            
+            // Clear input
+            input.value = '';
+            
+            // Show loading
+            document.getElementById('loading').classList.add('active');
+            
+            // Check if backend is configured
+            if (!API_URL) {
+                // Demo mode - show a demo response
+                setTimeout(() => {
+                    document.getElementById('loading').classList.remove('active');
+                    addMessage('assistant', 'This is a demo mode. To use the full Vilara system, you need to run the backend server locally. The backend provides natural language processing and ERP functionality.');
+                    input.disabled = false;
+                    document.getElementById('sendButton').disabled = false;
+                    input.focus();
+                }, 1000);
+                return;
+            }
+            
+            // Send to backend
+            fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: message,
+                    token: userToken,
+                    context: companyData
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading
+                document.getElementById('loading').classList.remove('active');
+                
+                // Show response
+                if (data.error) {
+                    addMessage('assistant', 'Error: ' + data.error);
+                } else {
+                    addMessage('assistant', data.response || data.message || 'Command processed successfully');
+                }
+                
+                // Re-enable input
+                input.disabled = false;
+                document.getElementById('sendButton').disabled = false;
+                input.focus();
+            })
+            .catch(error => {
+                // Hide loading
+                document.getElementById('loading').classList.remove('active');
+                
+                // Show error
+                addMessage('assistant', 'Failed to connect to Vilara backend. Please ensure the server is running.');
+                
+                // Re-enable input
+                input.disabled = false;
+                document.getElementById('sendButton').disabled = false;
+            });
+        }
+
+        function addMessage(type, text) {
+            const container = document.getElementById('responseContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `response-message ${type}-message`;
+            
+            // Format the text (preserve line breaks, etc.)
+            messageDiv.innerHTML = text.replace(/\n/g, '<br>');
+            
+            container.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function setExample(text) {
+            document.getElementById('userInput').value = text;
+            document.getElementById('userInput').focus();
+        }
+
+        // Handle Enter key
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !this.disabled) {
+                sendMessage();
+            }
+        });
+
+        // Initialize on load
+        window.addEventListener('load', checkActivation);
+    </script>
+</body>
+</html>

@@ -5,6 +5,41 @@ Complete marketing website and backend system for Vilara AI Operating System. Fe
 
 **Live Site**: https://vilara.ai
 
+## Implementation Status
+
+### ✅ Phase 1: Universal Activation System (COMPLETE)
+- **[activate.html](../../activate.html)** - Universal activation page with multi-deployment options
+- **[activation.css](../../assets/css/activation.css)** - Professional responsive styling
+- **[universal-signup.php](../../api/universal-signup.php)** - Token-based account creation API
+
+### ✅ Phase 2: Contact Form Integration (COMPLETE)
+- **[contact.html](../../contact.html)** - Enhanced with integrated signup form and dynamic plan selection
+- **[pricing.html](../../pricing.html)** - Updated with direct plan selection and "Can't Decide Yet?" section
+- **[main.js](../../assets/js/main.js)** - Form handling, plan detection, and dynamic UI updates
+- Complete signup flow from pricing → contact → activation with plan pre-selection
+
+### ✅ Phase 3: User Experience Enhancements (COMPLETE)
+- Unified "Choose Your Plan" sections with actual pricing
+- Dynamic form updates - Button text and copy changes based on selected plan
+- "Can't Decide Yet?" sections added to Contact and Pricing pages
+- Coming soon pages - Professional [videos.html](../../videos.html) and [office-hours.html](../../office-hours.html)
+- Smart Migration UX - Context-aware migration paths with dynamic CTAs
+
+### 🚀 Current Status: Production Ready
+**Frontend Complete:** Full onboarding flow implemented
+- Professional UI with responsive design
+- Multi-plan selection with dynamic pricing
+- Smart routing (Pricing → Contact → Activation)
+- Plan-specific form customization
+- Mobile-optimized throughout
+
+**Backend Complete:** Fully deployed on Google Cloud Platform
+- PostgreSQL database with complete schema
+- Secure token-based activation system
+- Rate limiting (5 requests/IP/hour)
+- SendGrid email integration ready
+- Auto-deployment via GitHub Actions
+
 ## Architecture
 
 ### Production Setup
@@ -14,24 +49,17 @@ Complete marketing website and backend system for Vilara AI Operating System. Fe
 - **Email**: SendGrid API
 - **Domain**: vilara.ai (unified domain)
 
-### Deployment Architecture
-```
-GitHub Repository (vilara-ai/vilara-website)
-├── Frontend Changes → Vercel (Auto-deploy)
-└── Backend Changes (api/**) → GitHub Actions → Google Cloud Run
-```
-
 ### User Flow
 ```
-vilara.ai → Vercel Static Site
+1. Customer visits vilara.ai → Marketing & signup
     ↓
-Contact Form Submission → api/universal-signup.php (Cloud Run)
+2. Sign up & authenticate → api/universal-signup.php (Cloud Run)
     ↓  
-PostgreSQL (Cloud SQL) + SendGrid Email
+3. Email activation → api/activate.php (Cloud Run)
     ↓
-User Clicks Activation Link → api/activate.php (Cloud Run)
+4. Click "Launch Vilara" → UI loads with Vilara-Core connection
     ↓
-Account Activated → Ready for app.vilara.ai
+5. Customer Integration Agent guides setup (within Vilara-Core)
 ```
 
 ## Project Structure
@@ -62,9 +90,13 @@ website/
 │   └── .gcloudignore             # Excludes frontend from container
 │
 └── Documentation
-    ├── docs/unified-onboarding-architecture.md
-    ├── CLAUDE.md                 # Development guidelines
-    └── README.md                 # This file
+    ├── docs/project-blueprints/  # Project documentation
+    │   ├── README.md             # This file
+    │   └── CURRENT_ARCHITECTURE.md # Current system architecture
+    ├── docs/archive/             # Archived documents
+    │   ├── BUSINESS_CONFIGURATION_WIZARD.md
+    │   └── USER_ACTIVATION_ARCHITECTURE.md
+    └── CLAUDE.md                 # Development guidelines
 ```
 
 ## Development
@@ -78,6 +110,45 @@ npx vercel dev
 docker build -t vilara-website .
 docker run -p 8080:8080 vilara-website
 ```
+
+### Local Testing of New Features
+
+#### Option 1: Quick Local Testing with Python Server
+```bash
+# Navigate to website directory
+cd /mnt/c/Users/grayt/Desktop/Vilara/website
+
+# Start a simple HTTP server
+python3 -m http.server 8000
+# Or with Python 2: python -m SimpleHTTPServer 8000
+
+# Open in browser: http://localhost:8000
+```
+
+#### Option 2: Test with Vercel Dev (Most Realistic)
+```bash
+# Simulates production environment
+npx vercel dev
+# Opens at http://localhost:3000
+```
+
+#### Option 3: Preview Deployment (Recommended for Pre-Production)
+1. **Push your feature branch** to GitHub
+   ```bash
+   git push -u origin your-feature-branch
+   ```
+2. **Create a Pull Request** on GitHub
+3. **Vercel automatically creates a preview URL** (e.g., `vilara-website-abc123.vercel.app`)
+4. **Test on the preview URL** - Full production environment without affecting main site
+5. **Merge PR if tests pass** - Automatically deploys to production
+6. **Close PR if issues found** - No impact on production
+
+#### Benefits of Preview Deployments:
+- ✅ Tests with real HTTPS and production environment
+- ✅ No risk to main site
+- ✅ Shareable link for team testing
+- ✅ Automatic deployment on PR creation
+- ✅ Easy rollback - just close the PR
 
 ### Testing APIs
 ```bash
@@ -101,7 +172,6 @@ curl -X POST https://vilara.ai/api/activate.php \
 - **Deploys**: All static files (HTML, CSS, JS, images)
 - **URL**: https://vilara.ai
 - **Time**: ~2-3 minutes
-- **Setup**: Connected via Vercel GitHub integration
 
 **Backend (Google Cloud Run)**
 - **Trigger**: Changes to `api/**` files only
@@ -111,31 +181,13 @@ curl -X POST https://vilara.ai/api/activate.php \
 - **Setup**: GitHub Actions workflow with Workload Identity Federation
 
 ### Manual Deployment (if needed)
-
-**Frontend:**
 ```bash
+# Frontend
 npx vercel --prod
-```
 
-**Backend:**
-```bash
-# Build and push Docker image
+# Backend
 gcloud builds submit --tag us-central1-docker.pkg.dev/vilara-dev/vilara-docker/website:latest --project vilara-dev
-
-# Deploy to Cloud Run
 gcloud run deploy website --image us-central1-docker.pkg.dev/vilara-dev/vilara-docker/website:latest --region us-central1 --project vilara-dev
-```
-
-### Backend (Manual)
-```bash
-# Set GCP project
-gcloud config set project vilara-dev
-
-# Build and deploy to Cloud Run
-gcloud builds submit --tag us-central1-docker.pkg.dev/vilara-dev/vilara-docker/website:latest .
-
-# Deploy to Cloud Run (if needed)
-gcloud run deploy website --image us-central1-docker.pkg.dev/vilara-dev/vilara-docker/website:latest --region us-central1 --port 8080
 ```
 
 ## Database Schema
@@ -193,25 +245,14 @@ Backend requires these secrets in Google Secret Manager:
 - `sendgrid-api-key`: SendGrid API key for emails
 
 ### GitHub Actions Setup
-The automatic backend deployment uses Workload Identity Federation:
-
 **Service Account**: `github-actions@vilara-dev.iam.gserviceaccount.com`
-**Permissions**: 
-- `roles/cloudbuild.builds.builder`
-- `roles/run.admin` 
-- `roles/iam.serviceAccountUser`
-
-**Workload Identity Pool**: `github-pool`
-**Provider**: Configured for repository `vilara-ai/vilara-website`
-
-**Required Repository Settings**:
-- Actions → General → Workflow permissions: "Read and write permissions"
-- Actions → General → "Allow GitHub Actions to create and approve pull requests" ✓
+**Permissions**: Cloud Build Builder, Cloud Run Admin, Service Account User
+**Workload Identity**: Configured for repository `vilara-ai/vilara-website`
 
 ### Domain Configuration
 - **vilara.ai**: Points to Vercel for frontend
-- **API requests**: Proxied from frontend JavaScript to Cloud Run backend
-- **SendGrid**: DNS records configured in GoDaddy for email authentication
+- **API requests**: Proxied from frontend to Cloud Run backend
+- **SendGrid**: DNS records configured for email authentication
 
 ## Key Features
 - **Unified Onboarding**: Single signup flow for all plan types
@@ -221,24 +262,20 @@ The automatic backend deployment uses Workload Identity Federation:
 - **Interactive Demo**: 10-slide showcase of capabilities
 - **Migration Tools**: ERP transition planning and cost analysis
 
-## Brand Guidelines
-- **Colors**: CSS variables in `:root` for consistent theming
-- **Typography**: System fonts for performance
-- **Messaging**: "$0 seat licenses" and "95% faster" value props
-- **Target Audience**: 1-250 employee companies seeking ERP solutions
-
-## Monitoring & Debugging
-- **Cloud Logging**: All API requests and errors logged
-- **Debug Endpoint**: `/debug.php` for backend diagnostics  
-- **Vercel Analytics**: Frontend performance monitoring
-- **Database Monitoring**: Cloud SQL insights and query analysis
+## Architecture Documents
+- **[Current Architecture](CURRENT_ARCHITECTURE.md)** - 🔴 **CURRENT** system architecture and flow
+- **[Architecture-Agnostic Onboarding Plan](../archive/architecture-agnostic-onboarding-plan.md)** - Original implementation plan
+- **[Complete Onboarding Bridge Plan](../archive/complete-onboarding-bridge-plan.md)** - Website-to-UI bridge specifications  
+- **[Business Configuration Wizard](../archive/BUSINESS_CONFIGURATION_WIZARD.md)** - Archived - replaced by Vilara-Core Integration Agent
+- **[User Activation Architecture](../archive/USER_ACTIVATION_ARCHITECTURE.md)** - Archived - old activation flow
 
 ## Support & Maintenance
 - **Form Handling**: Formspree integration for contact forms
 - **Email Templates**: HTML emails with SendGrid integration  
 - **Error Handling**: Comprehensive error responses and logging
 - **Performance**: Optimized for Core Web Vitals and mobile
+- **Monitoring**: Cloud Logging for APIs, Vercel Analytics for frontend
 
 ---
-**Last Updated**: September 5, 2025
+**Last Updated**: September 8, 2025
 **Production Status**: ✅ Live at https://vilara.ai

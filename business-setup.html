@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Setup - Vilara</title>
+    <meta name="description" content="Set up your business details in Vilara">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        .setup-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .setup-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .setup-header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .setup-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e0e0;
+            z-index: -1;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .progress-step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .progress-step.active .progress-step-circle {
+            background: var(--primary-color);
+        }
+
+        .progress-step.completed .progress-step-circle {
+            background: #10b981;
+        }
+
+        .progress-step-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .setup-section {
+            display: none;
+        }
+
+        .setup-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn-back {
+            background: #f3f4f6;
+            color: #333;
+        }
+
+        .btn-back:hover {
+            background: #e5e7eb;
+        }
+
+        .quick-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .quick-option {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .quick-option:hover {
+            border-color: var(--primary-color);
+            background: #f9fafb;
+        }
+
+        .quick-option.selected {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .help-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="setup-container">
+        <div class="setup-header">
+            <img src="assets/images/vilara_logo.png" alt="Vilara" style="height: 50px; margin-bottom: 20px;">
+            <h1>Let's Set Up Your Business</h1>
+            <p>This will only take a few minutes and helps Vilara understand your needs</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-step active" id="step1">
+                <div class="progress-step-circle">1</div>
+                <div class="progress-step-label">Business Info</div>
+            </div>
+            <div class="progress-step" id="step2">
+                <div class="progress-step-circle">2</div>
+                <div class="progress-step-label">Industry</div>
+            </div>
+            <div class="progress-step" id="step3">
+                <div class="progress-step-circle">3</div>
+                <div class="progress-step-label">Features</div>
+            </div>
+            <div class="progress-step" id="step4">
+                <div class="progress-step-circle">4</div>
+                <div class="progress-step-label">Complete</div>
+            </div>
+        </div>
+
+        <!-- Step 1: Business Information -->
+        <div class="setup-section active" id="section1">
+            <h2>Business Information</h2>
+            <div class="form-group">
+                <label for="businessName">Business Name *</label>
+                <input type="text" id="businessName" placeholder="ACME Corporation" required>
+            </div>
+            <div class="form-group">
+                <label for="businessAddress">Business Address</label>
+                <textarea id="businessAddress" placeholder="123 Main Street&#10;City, State 12345"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="businessPhone">Business Phone</label>
+                <input type="tel" id="businessPhone" placeholder="(555) 123-4567">
+            </div>
+            <div class="form-group">
+                <label for="businessWebsite">Website</label>
+                <input type="url" id="businessWebsite" placeholder="https://www.example.com">
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="skipSetup()">Skip Setup</button>
+                <button class="btn btn-primary" onclick="nextStep(2)">Next: Industry</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Industry Selection -->
+        <div class="setup-section" id="section2">
+            <h2>What industry are you in?</h2>
+            <div class="quick-options">
+                <div class="quick-option" onclick="selectIndustry(this, 'retail')">
+                    <strong>Retail</strong>
+                    <p>Physical or online stores</p>
+                </div>
+                <div class="quick-option" onclick="selectIndustry(this, 'services')">
+                    <strong>Services</strong>
+                    <p>Consulting, agencies, etc.</p>
+                </div>
+                <div class="quick-option" onclick="selectIndustry(this, 'manufacturing')">
+                    <strong>Manufacturing</strong>
+                    <p>Products & production</p>
+                </div>
+                <div class="quick-option" onclick="selectIndustry(this, 'distribution')">
+                    <strong>Distribution</strong>
+                    <p>Wholesale & logistics</p>
+                </div>
+                <div class="quick-option" onclick="selectIndustry(this, 'healthcare')">
+                    <strong>Healthcare</strong>
+                    <p>Medical & wellness</p>
+                </div>
+                <div class="quick-option" onclick="selectIndustry(this, 'other')">
+                    <strong>Other</strong>
+                    <p>Different industry</p>
+                </div>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary btn-back" onclick="previousStep(1)">Back</button>
+                <button class="btn btn-primary" onclick="nextStep(3)">Next: Features</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Feature Selection -->
+        <div class="setup-section" id="section3">
+            <h2>What features do you need most?</h2>
+            <p class="help-text">Select all that apply - you can always add more later</p>
+            <div class="quick-options">
+                <div class="quick-option" onclick="toggleFeature(this, 'invoicing')">
+                    <strong>Invoicing</strong>
+                    <p>Create & send invoices</p>
+                </div>
+                <div class="quick-option" onclick="toggleFeature(this, 'inventory')">
+                    <strong>Inventory</strong>
+                    <p>Track products & stock</p>
+                </div>
+                <div class="quick-option" onclick="toggleFeature(this, 'crm')">
+                    <strong>CRM</strong>
+                    <p>Manage customers</p>
+                </div>
+                <div class="quick-option" onclick="toggleFeature(this, 'accounting')">
+                    <strong>Accounting</strong>
+                    <p>Books & finances</p>
+                </div>
+                <div class="quick-option" onclick="toggleFeature(this, 'projects')">
+                    <strong>Projects</strong>
+                    <p>Project management</p>
+                </div>
+                <div class="quick-option" onclick="toggleFeature(this, 'hr')">
+                    <strong>HR</strong>
+                    <p>Employee management</p>
+                </div>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary btn-back" onclick="previousStep(2)">Back</button>
+                <button class="btn btn-primary" onclick="completeSetup()">Complete Setup</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Complete -->
+        <div class="setup-section" id="section4">
+            <div style="text-align: center;">
+                <h2>🎉 Setup Complete!</h2>
+                <p style="font-size: 1.2rem; color: #666; margin: 20px 0;">
+                    Your business workspace is ready. Vilara is now configured for your needs.
+                </p>
+                <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 30px 0;">
+                    <h3 style="color: #1e40af; margin-bottom: 15px;">What's Next?</h3>
+                    <ul style="text-align: left; max-width: 400px; margin: 0 auto; list-style: none;">
+                        <li style="padding: 8px 0;">✓ Start creating invoices</li>
+                        <li style="padding: 8px 0;">✓ Add your customers</li>
+                        <li style="padding: 8px 0;">✓ Track your inventory</li>
+                        <li style="padding: 8px 0;">✓ View reports & insights</li>
+                    </ul>
+                </div>
+                <button class="btn btn-primary btn-large" onclick="launchApp()">Launch Vilara</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let setupData = {
+            industry: null,
+            features: []
+        };
+
+        // Get token from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const userToken = urlParams.get('token');
+
+        function nextStep(step) {
+            // Validate current step
+            if (step === 2) {
+                const businessName = document.getElementById('businessName').value;
+                if (!businessName) {
+                    alert('Please enter your business name');
+                    return;
+                }
+                setupData.businessName = businessName;
+                setupData.businessAddress = document.getElementById('businessAddress').value;
+                setupData.businessPhone = document.getElementById('businessPhone').value;
+                setupData.businessWebsite = document.getElementById('businessWebsite').value;
+            }
+
+            showStep(step);
+        }
+
+        function previousStep(step) {
+            showStep(step);
+        }
+
+        function showStep(step) {
+            // Hide all sections
+            document.querySelectorAll('.setup-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show target section
+            document.getElementById(`section${step}`).classList.add('active');
+            
+            // Update progress bar
+            document.querySelectorAll('.progress-step').forEach((stepEl, index) => {
+                if (index < step) {
+                    stepEl.classList.add('completed');
+                    stepEl.classList.remove('active');
+                } else if (index === step - 1) {
+                    stepEl.classList.add('active');
+                    stepEl.classList.remove('completed');
+                } else {
+                    stepEl.classList.remove('active', 'completed');
+                }
+            });
+        }
+
+        function selectIndustry(element, industry) {
+            // Clear previous selection
+            document.querySelectorAll('#section2 .quick-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Select new
+            element.classList.add('selected');
+            setupData.industry = industry;
+        }
+
+        function toggleFeature(element, feature) {
+            element.classList.toggle('selected');
+            
+            if (element.classList.contains('selected')) {
+                if (!setupData.features.includes(feature)) {
+                    setupData.features.push(feature);
+                }
+            } else {
+                setupData.features = setupData.features.filter(f => f !== feature);
+            }
+        }
+
+        function completeSetup() {
+            if (!setupData.industry) {
+                alert('Please select your industry');
+                return;
+            }
+            
+            if (setupData.features.length === 0) {
+                alert('Please select at least one feature');
+                return;
+            }
+
+            // Save setup data
+            fetch('/api/save-business-setup.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    token: userToken,
+                    setupData: setupData
+                })
+            }).then(() => {
+                // Show completion
+                showStep(4);
+            }).catch(() => {
+                // Still show completion even if save fails
+                showStep(4);
+            });
+        }
+
+        function skipSetup() {
+            if (confirm('You can always set this up later. Skip for now?')) {
+                launchApp();
+            }
+        }
+
+        function launchApp() {
+            // Navigate to app with setup complete flag
+            // Note: Vercel's cleanUrls setting serves HTML files without .html extension
+            window.location.href = `/app?token=${userToken}&setup=complete`;
+        }
+    </script>
+</body>
+</html>
