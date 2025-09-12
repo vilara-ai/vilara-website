@@ -40,14 +40,21 @@ Complete marketing website and backend system for Vilara AI Operating System. Fe
 - SendGrid email integration ready
 - Auto-deployment via GitHub Actions
 
-## Architecture
+## Current Architecture (September 2025)
 
-### Production Setup
+### Website + Authentication (✅ COMPLETE)
 - **Frontend**: Vercel (static HTML/CSS/JS)
 - **Backend**: Google Cloud Run (PHP + PostgreSQL)  
 - **Database**: Google Cloud SQL (PostgreSQL)
 - **Email**: SendGrid API
 - **Domain**: vilara.ai (unified domain)
+
+### Customer Implementation (🚧 NEXT PHASE)
+- **Container Platform**: Incus (single container per customer)
+- **Container Contents**: UI + Vilara-Core + PostgreSQL
+- **Customer Access**: Port-based URLs (vilara-host.com:8001, 8002, etc.)
+- **Environments**: Demo, Test (disposable), Live (protected)
+- **Communication**: Direct Python ↔ Nushell (no API calls)
 
 ### User Flow
 ```
@@ -57,10 +64,33 @@ Complete marketing website and backend system for Vilara AI Operating System. Fe
     ↓  
 3. Email activation → api/activate.php (Cloud Run)
     ↓
-4. Click "Launch Vilara" → UI loads with Vilara-Core connection
+4. Click "Launch Vilara" → Container provisioning triggered
     ↓
-5. Customer Integration Agent guides setup (within Vilara-Core)
+5. Customer gets their own Vilara world: vilara-host.com:8001
+    ├── 🎮 Demo Environment (sample data)
+    ├── 🧪 Test Environment(s) (full ERP, disposable)
+    └── 🏢 Live Environment (pristine production)
 ```
+
+## Implementation Status
+
+### ✅ Phase 1: Website & Authentication (COMPLETE)
+- Complete signup and activation flow
+- Production-ready backend infrastructure
+- Email integration and rate limiting
+- Mobile-optimized user experience
+
+### 🚧 Phase 2: Container Provisioning (IN PROGRESS)
+- Container provisioning API (`api/provision-container.php`)
+- Website handoff update (`activate.html` modification)
+- Incus infrastructure setup
+- Port-based customer routing
+
+### 📋 Phase 3: UI + Vilara-Core Integration (PLANNED)
+- Combined container with UI + Vilara-Core
+- Direct Python ↔ Nushell communication
+- Multi-environment management (Demo/Test/Live)
+- Customer Integration Agent enhancement
 
 ## Project Structure
 ```

@@ -1,5 +1,5 @@
 # Vilara System Architecture
-*Last Updated: January 2025*
+*Last Updated: September 11, 2025*
 
 ## Overview
 Vilara consists of three distinct components that work together to provide a complete ERP solution:
@@ -23,38 +23,38 @@ Customer Journey:
 5. Customer Integration Agent guides setup (within Vilara-Core)
 ```
 
-## Component Responsibilities
+## Component Responsibilities & Ownership
 
-### Website (vilara.ai)
+### Website (vilara.ai) - **YOUR RESPONSIBILITY**
 - **Purpose**: Marketing, lead generation, authentication
 - **Technology**: HTML/CSS/JS + PHP backend
-- **Deployment**: Vercel (frontend) + Cloud Run (PHP backend)
+- **Deployment**: ✅ **DEPLOYED** - Vercel (frontend) + Cloud Run (PHP backend)
 - **Responsibilities**:
   - Marketing pages & content
   - User signup/authentication
   - Account activation via email
   - Launch point for UI
+- **Status**: Complete and functional
 
-### UI Layer
-- **Purpose**: User interface for Vilara system
-- **Technology**: HTML + Python API server
-- **Deployment**: To be deployed on Cloud Run
-- **Responsibilities**:
-  - Display interface to users
-  - Handle user inputs
-  - Communicate with Vilara-Core
-  - Session management
-
-### Vilara-Core
-- **Purpose**: Business logic and ERP functionality
-- **Technology**: Nushell + PostgreSQL
-- **Deployment**: To be containerized and deployed
-- **Responsibilities**:
-  - Customer Integration Agent (setup wizard)
-  - Business logic processing
-  - Data management
-  - ERP operations
-  - Natural language processing
+### Combined UI + Vilara-Core Container - **JOINT RESPONSIBILITY**
+- **Purpose**: Complete Vilara system (UI + Core) per customer
+- **Technology**: HTML + Python API server + Vilara-Core (Nushell + PostgreSQL)
+- **Deployment**: 🚧 **TO DEPLOY** - Incus containers (one per customer)
+- **Container Architecture**: Single container with both UI and Core
+- **Your Responsibilities**:
+  - UI layer: web interface, session management, response formatting
+  - Container integration: combine UI with Vilara-Core
+  - Direct communication: Python ↔ Nushell (no API calls)
+  - Handle authentication handoff from Website
+- **Business Partner's Responsibilities**:
+  - Vilara-Core: business logic, ERP functionality, Nushell commands
+  - Customer Integration Agent within Vilara-Core
+  - PostgreSQL schema and data management
+  - Command execution and validation
+- **Shared Deployment**:
+  - Incus container per customer
+  - Combined codebase deployment
+  - Joint container maintenance
 
 ## Integration Points
 
@@ -71,20 +71,38 @@ function launchVilara() {
 }
 ```
 
-### UI → Vilara-Core
-The UI connects to Vilara-Core through API calls:
+### UI → Vilara-Core (Direct Integration)
+Within the same container, UI connects directly to Vilara-Core:
 ```python
-# UI (vilara-api-server.py)
-def connect_to_core():
-    # Establish connection to Vilara-Core
-    core_connection = VilaraCore.connect(
-        user_token=token,
-        company_id=company_id
+# UI (vilara-api-server.py) - YOUR CODE
+import subprocess
+
+def execute_vilara_command(user_command):
+    """
+    Direct communication within same container:
+    - Receive command from UI
+    - Execute Vilara-Core Nushell command directly
+    - Return response to UI (no API calls)
+    """
+    result = subprocess.run(
+        ['nu', '-c', user_command],
+        cwd='/app/vilara-core',
+        capture_output=True,
+        text=True,
+        env=vilara_env
     )
-    
-    # Initialize Customer Integration Agent
+    return result.stdout
+
+def handle_first_time_user():
+    """
+    Your responsibility: Detect and handle new users
+    - Check if user is first-time
+    - Execute Customer Integration Agent via direct Nushell call
+    - Display agent responses
+    """
     if is_first_time_user:
-        core_connection.start_integration_agent()
+        # Direct execution of Customer Integration Agent
+        return execute_vilara_command('stk_integration start')
 ```
 
 ## Customer Integration Agent (Within Vilara-Core)
@@ -120,32 +138,63 @@ Production Environment:
 │                          └──────────────┘  │
 │                                              │
 │  ┌─────────────────────────────────────┐   │
-│  │      Cloud Run (To Deploy)          │   │
+│  │      Incus Container Host           │   │
 │  ├─────────────────────────────────────┤   │
-│  │   UI Layer    │   Vilara-Core       │   │
-│  │   (Python)    │   (Nushell)         │   │
+│  │ ┌─────────────────────────────────┐ │   │
+│  │ │  Customer A Container (Incus)   │ │   │
+│  │ │  ┌──────────┬──────────────┐   │ │   │
+│  │ │  │UI Layer  │ Vilara-Core  │   │ │   │
+│  │ │  │(Python)  │ (Nushell +   │   │ │   │
+│  │ │  │          │  PostgreSQL) │   │ │   │
+│  │ │  └──────────┴──────────────┘   │ │   │
+│  │ └─────────────────────────────────┘ │   │
+│  │                                     │   │
+│  │ ┌─────────────────────────────────┐ │   │
+│  │ │  Customer B Container (Incus)   │ │   │
+│  │ │  ┌──────────┬──────────────┐   │ │   │
+│  │ │  │UI Layer  │ Vilara-Core  │   │ │   │
+│  │ │  │(Python)  │ (Nushell +   │   │ │   │
+│  │ │  │          │  PostgreSQL) │   │ │   │
+│  │ │  └──────────┴──────────────┘   │ │   │
+│  │ └─────────────────────────────────┘ │   │
 │  └─────────────────────────────────────┘   │
-│                                              │
 └──────────────────────────────────────────────┘
 ```
 
-## Next Steps
+## Implementation Plan
 
-### Immediate Priority
-1. **Deploy UI to Cloud Run**
-   - Containerize Python UI server
-   - Set up Cloud Run service
-   - Configure environment variables
+### Your Tasks (UI Integration)
+1. **Create Combined Container**
+   - Create Dockerfile that includes both UI and Vilara-Core
+   - Configure direct Python ↔ Nushell communication
+   - Set up container-local PostgreSQL for each customer
 
-2. **Deploy Vilara-Core**
-   - Containerize Vilara-Core
-   - Include Customer Integration Agent
-   - Set up API endpoints
+2. **Implement Direct Integration**
+   - Replace API calls with direct subprocess execution
+   - Handle Vilara-Core responses and format for UI
+   - Manage authentication handoff from Website
 
-3. **Connect Components**
-   - Update UI to connect to deployed Vilara-Core
-   - Pass authentication from Website to UI
-   - Initialize Customer Integration Agent for new users
+3. **Test Container Locally**
+   - Test combined UI + Core functionality
+   - Verify customer isolation
+   - Test authentication and session management
+
+### Business Partner's Tasks (Vilara-Core)
+1. **Vilara-Core Development**
+   - Nushell command modules and business logic
+   - Customer Integration Agent implementation
+   - PostgreSQL schema and data management
+
+2. **Container Integration Support**
+   - Provide Vilara-Core installation/setup scripts
+   - Ensure Nushell commands work in container environment
+   - Database initialization and migration scripts
+
+### Joint Tasks (Deployment)
+1. **Incus Container Setup**
+   - Configure Incus for customer containers
+   - Set up per-customer container provisioning
+   - Configure networking and isolation
 
 ### Future Enhancements
 - Multi-tenant architecture
