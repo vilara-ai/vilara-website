@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - Get Started | Vilara</title>
-    <meta name="description" content="Start with Vilara: Free for small teams, personalized consultation for larger companies. Choose your path to modern ERP.">
+    <meta name="description" content="Start with Vilara: 30-day free trial on all plans. Choose your path to modern ERP with personalized consultation available.">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="icon" type="image/png" href="assets/images/vilara_logo.png">
 </head>
@@ -41,8 +41,8 @@
                 <h1>Get Started with Vilara</h1>
                 <p class="hero-subtitle">Choose the path that's right for your company size</p>
                 <p class="hero-description">
-                    Small team? Start free instantly. Larger company? Get personalized guidance. 
-                    Either way, we're here to help you succeed.
+                    Start with a 30-day free trial on any plan. Need personalized guidance?
+                    Schedule a consultation. Either way, we're here to help you succeed.
                 </p>
             </div>
         </div>
@@ -53,26 +53,9 @@
         <div class="container">
             <div class="section-header">
                 <h2>Choose Your Plan</h2>
-                <p>Scale with confidence - upgrade automatically as you grow</p>
+                <p>Choose the plan that fits your business - all with 30-day free trial</p>
             </div>            
-            <div class="pricing-grid">
-                <!-- Free Tier -->
-                <div class="path-card" data-form="free">
-                    <h3 style="text-align: center; margin-bottom: 1rem;">Free Starter</h3>
-                    <div style="text-align: center; margin-bottom: 2rem;">
-                        <div style="font-size: 3rem; font-weight: 700; color: var(--primary-gradient-start);">$0</div>
-                        <div style="color: var(--text-light);">Forever</div>
-                    </div>
-                    <ul style="margin-bottom: 2rem;">
-                        <li>1,000 transactions/mo</li>
-                        <li>Core ERP modules</li>
-                        <li>Natural language interface</li>
-                        <li>Basic reporting</li>
-                        <li>Community support</li>
-                    </ul>
-                    <button class="btn btn-secondary" style="width: 100%; text-align: center; display: block; padding: 0.75rem 1.5rem; box-sizing: border-box;" onclick="showForm('free'); showPlanInfo('starter');">Start Free<br>Today</button>
-                </div>
-
+            <div class="pricing-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
                 <!-- Professional -->
                 <div class="path-card" data-form="free" style="border: 2px solid var(--success); position: relative;">
                     <div style="position: absolute; top: 0; left: 0; right: 0; background: var(--success); color: white; text-align: center; padding: 0.5rem; border-radius: 1rem 1rem 0 0;">
@@ -82,6 +65,7 @@
                     <div style="text-align: center; margin-bottom: 2rem;">
                         <div style="font-size: 3rem; font-weight: 700; color: var(--primary-gradient-start);">$12K</div>
                         <div style="color: var(--text-light);">per year</div>
+                        <div style="color: var(--success); font-weight: 600; margin-top: 0.5rem;">30-day free trial</div>
                     </div>
                     <ul style="margin-bottom: 2rem;">
                         <li>1-49 employees</li>
@@ -92,7 +76,7 @@
                         <li>Email support</li>
                         <li>Cloud hosting included</li>
                     </ul>
-                    <button class="btn btn-secondary" style="width: 100%; text-align: center; display: block; padding: 0.75rem 1.5rem; box-sizing: border-box;" onclick="showForm('free'); showPlanInfo('professional');">Start Professional<br>Today</button>
+                    <button class="btn btn-secondary" style="width: 100%; text-align: center; display: block; padding: 0.75rem 1.5rem; box-sizing: border-box;" onclick="showForm('free'); showPlanInfo('professional');">Start Free Trial</button>
                 </div>
 
                 <!-- Business -->
@@ -101,6 +85,7 @@
                     <div style="text-align: center; margin-bottom: 2rem;">
                         <div style="font-size: 3rem; font-weight: 700; color: var(--primary-gradient-start);">$25K</div>
                         <div style="color: var(--text-light);">per year</div>
+                        <div style="color: var(--success); font-weight: 600; margin-top: 0.5rem;">30-day free trial</div>
                     </div>
                     <ul style="margin-bottom: 2rem;">
                         <li>50-100 employees</li>
@@ -111,7 +96,7 @@
                         <li>Custom integrations</li>
                         <li>Dedicated success manager</li>
                     </ul>
-                    <button class="btn btn-secondary" style="width: 100%; text-align: center; display: block; padding: 0.75rem 1.5rem; box-sizing: border-box;" onclick="showForm('free'); showPlanInfo('business');">Start Business<br>Today</button>
+                    <button class="btn btn-secondary" style="width: 100%; text-align: center; display: block; padding: 0.75rem 1.5rem; box-sizing: border-box;" onclick="showForm('free'); showPlanInfo('business');">Start Free Trial</button>
                 </div>
 
                 <!-- Enterprise -->
@@ -120,6 +105,7 @@
                     <div style="text-align: center; margin-bottom: 2rem;">
                         <div style="font-size: 3rem; font-weight: 700; color: var(--primary-gradient-start);">Custom</div>
                         <div style="color: var(--text-light);">tailored pricing</div>
+                        <div style="color: var(--success); font-weight: 600; margin-top: 0.5rem;">30-day free trial</div>
                     </div>
                     <ul style="margin-bottom: 2rem;">
                         <li>100+ employees</li>
@@ -186,8 +172,8 @@
             <div class="calculator-container">
                 <!-- Free Form -->
                 <div id="free-form" class="contact-form" style="display: none;">
-                    <h2 style="text-align: center; margin-bottom: 2rem; color: var(--success);">Start Free Today</h2>
-                    <p id="free-form-subtitle" style="text-align: center; margin-bottom: 2rem; color: var(--text-light);">Get instant access to Vilara with 1,000 free transactions per month</p>
+                    <h2 style="text-align: center; margin-bottom: 2rem; color: var(--success);">Start Your 30-Day Free Trial</h2>
+                    <p id="free-form-subtitle" style="text-align: center; margin-bottom: 2rem; color: var(--text-light);">Get instant access to Vilara with full features for 30 days</p>
                     <form id="free-signup-form">
                         <input type="hidden" name="form_type" value="free">
                         
@@ -264,8 +250,8 @@
                             <textarea id="free-goals" name="goals" rows="3" placeholder="Example: Reduce manual data entry, improve reporting accuracy, streamline order processing..." required></textarea>
                         </div>
                         
-                        <button type="submit" class="btn btn-primary" id="free-submit-btn" style="width: 100%; background: var(--success);">Get Free Access</button>
-                        <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">No credit card required • Instant setup • Free forever</p>
+                        <button type="submit" class="btn btn-primary" id="free-submit-btn" style="width: 100%; background: var(--success);">Start Free Trial</button>
+                        <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">No credit card required • 30-day free trial • Cancel anytime</p>
                     </form>
                 </div>
 
@@ -454,13 +440,13 @@
             
             <div style="max-width: 800px; margin: 0 auto;">
                 <div style="background: white; border-radius: 1rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    <h3 style="margin-bottom: 1rem; color: var(--primary-gradient-start);">Is the free version really free?</h3>
-                    <p style="color: var(--text-light);">Yes, completely free forever for companies under 5 employees that don't need all the features. No credit card required, no time limits. Includes core ERP modules and community support.</p>
+                    <h3 style="margin-bottom: 1rem; color: var(--primary-gradient-start);">How does the free trial work?</h3>
+                    <p style="color: var(--text-light);">You get 30 days of full access to all features in your selected plan. No credit card required to start. After 30 days, you can choose to continue with a paid subscription or cancel.</p>
                 </div>
                 
                 <div style="background: white; border-radius: 1rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    <h3 style="margin-bottom: 1rem; color: var(--primary-gradient-start);">What happens when we grow past 5 employees or want the full 'blow my mind' features?</h3>
-                    <p style="color: var(--text-light);">You can upgrade to the Professional plan anytime, just let us know when you're ready and we'll make sure you have a smooth transition to nirvana.</p>
+                    <h3 style="margin-bottom: 1rem; color: var(--primary-gradient-start);">What happens after the 30-day trial?</h3>
+                    <p style="color: var(--text-light);">Before your trial ends, we'll remind you to choose a plan that fits your needs. You can continue with your selected plan or cancel anytime. Your data is always yours to export.</p>
                 </div>
                 
                 <div style="background: white; border-radius: 1rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
@@ -470,7 +456,7 @@
                 
                 <div style="background: white; border-radius: 1rem; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     <h3 style="margin-bottom: 1rem; color: var(--primary-gradient-start);">How quickly can we get started?</h3>
-                    <p style="color: var(--text-light);">Small teams can start immediately with the free version. Larger companies can begin after consultation, typically within 1-2 weeks with full implementation support.</p>
+                    <p style="color: var(--text-light);">You can start your 30-day free trial immediately. Larger companies can also schedule a consultation for personalized onboarding, typically within 1-2 weeks with full implementation support.</p>
                 </div>
             </div>
         </div>
