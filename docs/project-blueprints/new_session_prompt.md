@@ -1,6 +1,6 @@
-# Session Start Prompt - Phase 1: Workspace Provisioning
+# Session Start Prompt - Current State: Container Implementation
 
-Vilara's complete marketing website and backend infrastructure is **LIVE IN PRODUCTION** at vilara.ai. The next phase is implementing workspace provisioning and the actual Vilara AI application system.
+Vilara's complete marketing website and backend infrastructure is **LIVE IN PRODUCTION** at vilara.ai. The architecture is clearly defined with single-container Incus deployment. Ready for implementation of container provisioning and customer handoff.
 
 **✅ PRODUCTION INFRASTRUCTURE COMPLETE:**
 1. ✅ **vilara.ai domain** - Fully operational with Vercel + Cloud Run architecture
@@ -96,56 +96,48 @@ vilara.ai → Vercel (static site) → API proxy → Cloud Run (PHP backend) →
   - Env vars often set as: `set PROJECT_ID=vilara-dev` (session) or `setx` (persist).
   - Always verify with `gcloud config set account tim@vilara.ai` and `gcloud config set project vilara-dev`.
 
-## 🚀 PHASE 1 GOALS: Workspace Provisioning & App Integration
+## 🚀 CURRENT PHASE: Container Provisioning Implementation
 
-**Objective**: Build the actual Vilara AI application system that activated users access after completing signup.
+**Status**: Architecture fully defined. Ready for implementation of customer container provisioning.
 
-### **🎯 Critical Architecture Decisions Needed:**
+### **✅ Architecture Decisions Made:**
 
-#### 1. **Workspace Provisioning Strategy**
-- **Question**: How should we create and manage individual customer workspaces?
-- **Options**: 
-  - Shared database with workspace_id isolation
-  - Database-per-customer for enterprise security
-  - Hybrid approach based on plan type
-- **Impact**: Affects scalability, security, and operational complexity
+#### ✅ Customer Implementation Strategy: **Single Container per Customer**
+- **Approach**: Incus containers with UI + Vilara-Core + PostgreSQL combined
+- **Isolation**: Complete customer separation at container level
+- **Communication**: Direct Python ↔ Nushell (no API calls)
+- **Access**: Port-based URLs (vilara-host.com:8001, 8002, etc.)
 
-#### 2. **Transaction Definition & Metering**
-- **Question**: What constitutes a "transaction" for billing purposes?
-- **Considerations**:
-  - Natural language command processing = 1 transaction?
-  - Database operations vs business logic operations?
-  - Multi-step workflows = multiple transactions?
-- **Impact**: Core to pricing model and usage analytics
+#### ✅ Customer Environment Structure: **Demo/Test/Live**
+- **Demo Environment**: Sample data for exploration
+- **Test Environment(s)**: Full ERP, disposable, spin up/destroy at will
+- **Live Environment**: Pristine production data, never contaminated with tests
+- **Management**: Test environments are disposable, Live is protected
 
-#### 3. **App Hosting Architecture** 
-- **Question**: Where and how should `app.vilara.ai` be deployed?
-- **Options**:
-  - Same Cloud Run service with different routing
-  - Separate Cloud Run service for app vs marketing
-  - Different GCP project for app vs marketing
-- **Impact**: Performance, security isolation, deployment complexity
+#### ✅ Container Contents: **Everything Included**
+- **UI Layer**: Python API server with web interface (port 5006)
+- **Vilara-Core**: Nushell modules with business logic
+- **PostgreSQL**: Customer database with Demo/Test/Live separation
+- **Customer Integration Agent**: Setup and onboarding within Vilara-Core
 
-#### 4. **Session & Authentication Management**
-- **Question**: How do users transition from vilara.ai to app.vilara.ai?
-- **Considerations**:
-  - JWT tokens vs server-side sessions
-  - Session duration and renewal
-  - Cross-domain authentication (vilara.ai ↔ app.vilara.ai)
-- **Impact**: User experience and security model
+#### ✅ Handoff Process: **Container Provisioning**
+- **Trigger**: Customer clicks "Launch Vilara" after email activation
+- **Process**: Website calls container provisioning API
+- **Result**: Customer gets unique URL to their complete Vilara world
+- **Timeline**: Target < 30 seconds from click to working environment
 
-### **📋 Phase 1 Implementation Scope:**
-1. **Workspace Creation API** - Provision new customer environments post-activation
-2. **User Authentication System** - Seamless login across marketing and app domains  
-3. **Transaction Tracking** - Define and implement usage metering
-4. **Basic App Framework** - Core structure for app.vilara.ai
-5. **Vilara-Core Integration** - Connect to core Vilara AI Operating System backend
+### **📋 Implementation Scope (Ready to Code):**
+1. **Container Provisioning API** (`/api/provision-container.php`)
+2. **Website Handoff Update** (modify `activateWebUI()` in `activate.html`)
+3. **Combined Container Setup** (Dockerfile with UI + Vilara-Core)
+4. **Incus Infrastructure** (container template and port management)
+5. **Direct Integration** (Python ↔ Nushell communication)
 
-### **⚡ Immediate Next Steps:**
-1. **Define transaction model** - What gets counted and how?
-2. **Design workspace architecture** - Shared vs isolated database approach
-3. **Plan app.vilara.ai hosting** - Same Cloud Run or separate service?
-4. **Architect user session flow** - Marketing site → App transition
+### **⚡ Immediate Implementation Steps:**
+1. **Create provisioning API** - Handle container creation when customer clicks "Launch Vilara"
+2. **Update website handoff** - Modify activation flow to trigger provisioning
+3. **Build container template** - Combine UI + Vilara-Core in single container
+4. **Set up Incus infrastructure** - Container hosting and port management
 
 ## Useful IDs / Defaults
 - GCP Organization: `vilara.ai`
@@ -194,18 +186,26 @@ gcloud organizations add-iam-policy-binding 269052776008 --member=user:tim@vilar
 
 
 
-## 💡 **Success Metrics for Phase 1:**
-- **Workspace Provisioning**: < 30 seconds from activation to working app environment
-- **User Experience**: Seamless transition from vilara.ai → app.vilara.ai
-- **Transaction Tracking**: Accurate usage metering with plan upgrade prompts
-- **System Performance**: Support 100+ concurrent workspaces with sub-second response
-- **Integration Quality**: Reliable connection to Vilara-Core processing system
+## 💡 **Success Metrics for Container Implementation:**
+- **Container Provisioning**: < 30 seconds from "Launch Vilara" to working customer environment
+- **User Experience**: Seamless transition from vilara.ai → customer's Vilara world
+- **Customer Isolation**: Complete separation between customer containers
+- **Environment Management**: Easy switching between Demo/Test/Live environments
+- **System Performance**: Support 100+ customer containers with sub-second response
 
-## 🔗 **Integration Context:**
-The marketing website (vilara.ai) handles lead generation and account creation. Phase 1 builds the actual Vilara AI Operating System (app.vilara.ai) where users interact with business operations through natural language - whether augmenting existing ERPs or using Vilara as a complete ERP+ solution.
+## 🔗 **Current Integration Context:**
+The marketing website (vilara.ai) handles lead generation and account creation. Container implementation creates customer's complete Vilara world where they interact with business operations through natural language - whether augmenting existing ERPs or using Vilara as a complete ERP+ solution.
 
-**Key Integration Point**: Users flow from vilara.ai signup → account activation → app.vilara.ai workspace with full Vilara AI capabilities.
+**Key Integration Point**: Users flow from vilara.ai signup → account activation → their own containerized Vilara implementation with Demo/Test/Live environments.
+
+## 📋 **Available Resources:**
+- **Vilara-Core**: Fully functional in `/mnt/c/Users/grayt/Desktop/Vilara/vilara-core/`
+- **UI Components**: Complete web interface in `/mnt/c/Users/grayt/Desktop/Vilara/UI/`
+- **Architecture Docs**: Detailed blueprints in `/website/docs/project-blueprints/`
+- **Implementation Guide**: `/website/docs/project-blueprints/IMPLEMENTATION_NEXT_STEPS.md`
 
 ---
 
-Please help me architect and implement Phase 1 workspace provisioning and app integration system using Google Cloud Platform best practices. The marketing infrastructure is complete - now we need to build the actual Vilara AI Operating System that can integrate with existing business processes or function as a complete ERP+ solution.
+**Current Status**: Ready to implement container provisioning. All architecture decisions made. No blockers from Vilara-Core - can proceed with existing code.
+
+Please help implement the container provisioning system using Incus containers with the single-container approach (UI + Vilara-Core + PostgreSQL per customer).
