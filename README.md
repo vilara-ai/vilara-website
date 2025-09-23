@@ -71,12 +71,11 @@ website/
 
 ### Local Development
 ```bash
-# Frontend development (static files)
-npx vercel dev
+# Deploy to preview for testing (easiest method)
+npx vercel      # Creates a preview URL with everything working
 
-# Backend development (requires Docker)
-docker build -t vilara-website .
-docker run -p 8080:8080 vilara-website
+# Or for quick local viewing (HTML/CSS/JS only, no API)
+python -m http.server 8000      # Then open http://localhost:8000
 ```
 
 ### Testing APIs
@@ -90,6 +89,38 @@ curl -X POST https://vilara.ai/api/universal-signup.php \
 curl -X POST https://vilara.ai/api/activate.php \
   -H "Content-Type: application/json" \
   -d '{"token":"your-64-char-hex-token-here"}'
+```
+
+## Testing Changes on a Branch
+
+### Preview Deployments
+Vercel automatically creates preview deployments for every branch push:
+1. Push your branch to GitHub: `git push origin your-branch-name`
+2. Vercel will automatically build and deploy a preview
+3. Check the deployment URL in:
+   - GitHub PR comments (if you create a PR)
+   - Vercel dashboard: https://vercel.com/dashboard
+   - Terminal output after pushing
+
+### Local Testing
+```bash
+# Test changes locally before pushing
+npx vercel dev         # Runs on http://localhost:3000
+
+# Or use any static server
+npx live-server        # If you have it installed
+python3 -m http.server 8000  # Python's built-in server
+```
+
+### Manual Preview Deployment
+```bash
+# Deploy current branch to a preview URL without pushing to GitHub
+npx vercel            # Creates a preview deployment
+                     # Returns a unique URL like https://project-abc123.vercel.app
+
+# Deploy a specific branch
+git checkout feature-branch
+npx vercel            # Deploys that branch to preview
 ```
 
 ## Deployment
