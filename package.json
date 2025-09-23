@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Vilara.ai - The AI-augmented ERP system",
   "scripts": {
+    "build": "echo 'Static site - no build required'",
     "dev": "live-server",
     "deploy": "vercel --prod"
   },

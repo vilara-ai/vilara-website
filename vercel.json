@@ -1,6 +1,7 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "outputDirectory": ".",
   "rewrites": [
     { "source": "/demo", "destination": "/demo.html" },
     { "source": "/api/:path*", "destination": "https://website-1040930643556.us-central1.run.app/api/:path*" }
