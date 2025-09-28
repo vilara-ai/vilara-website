@@ -38,32 +38,113 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>Run your entire business with natural language</h1>
+                <h1>The ERP that speaks your language</h1>
                 <p class="hero-subtitle">
-                    The AI operating system that adapts instantly to your processes and turns words into work.
+                    Natural language commands. Instant results. No consultants needed.
                 </p>
 
                 <div class="hero-callout">Type it. Done.</div>
+            </div>
+        </div>
+    </section>
 
-                <div class="hero-examples">
-                    <div class="example-item">
-                        <span class="example-command">"Invoice all December orders"</span>
-                        <span class="example-time">5 seconds flat</span>
+    <!-- UI Showcase Section -->
+    <section class="ui-showcase-section">
+        <div class="ui-showcase">
+                    <div class="ui-mockup">
+                        <!-- Header -->
+                        <div class="ui-header">
+                            <div class="ui-logo">
+                                <img src="assets/images/vilara_logo.png" alt="Vilara">
+                            </div>
+                            <div class="ui-breadcrumb">
+                                <span id="ui-breadcrumb-text">Dashboard / Invoices / All Invoices</span>
+                            </div>
+                            <div class="ui-header-actions">
+                                <button class="ui-header-btn">🔔</button>
+                                <button class="ui-header-btn">👤 User</button>
+                                <button class="ui-header-btn ui-ai-toggle">💬 AI</button>
+                            </div>
+                        </div>
+
+                        <div class="ui-body">
+                            <!-- Sidebar -->
+                            <div class="ui-sidebar">
+                                <div class="ui-sidebar-item">🏠 Dashboard</div>
+                                <div class="ui-sidebar-item ui-active" id="ui-active-section">📄 Invoices</div>
+                                <div class="ui-sidebar-item">👥 Customers</div>
+                                <div class="ui-sidebar-item">📦 Inventory</div>
+                                <div class="ui-sidebar-item">📊 Reports</div>
+                            </div>
+
+                            <!-- Main Content -->
+                            <div class="ui-main">
+                                <div class="ui-content-header">
+                                    <h3 id="ui-content-title">Invoices</h3>
+                                    <div class="ui-content-actions">
+                                        <button class="ui-btn-secondary">Export</button>
+                                        <button class="ui-btn-primary">+ Add Invoice</button>
+                                    </div>
+                                </div>
+
+                                <div class="ui-content-area" id="ui-content-area">
+                                    <!-- Dynamic content will be inserted here -->
+                                </div>
+                            </div>
+
+                            <!-- AI Panel -->
+                            <div class="ui-ai-panel">
+                                <div class="ui-ai-header">
+                                    <span>AI Assistant</span>
+                                    <span class="ui-ai-status"></span>
+                                </div>
+
+                                <div class="ui-ai-chat" id="ui-ai-chat">
+                                    <div class="ui-ai-message assistant">
+                                        👋 Hi! I can help you manage your business operations. Try asking me something!
+                                    </div>
+                                </div>
+
+                                <div class="ui-ai-suggestions">
+                                    <div class="ui-suggestion-title">Quick Actions</div>
+                                    <div class="ui-suggestion-chips">
+                                        <div class="ui-suggestion-chip">Generate report</div>
+                                        <div class="ui-suggestion-chip">Email customer</div>
+                                        <div class="ui-suggestion-chip">Create invoice</div>
+                                        <div class="ui-suggestion-chip">Export data</div>
+                                    </div>
+                                </div>
+
+                                <div class="ui-ai-input">
+                                    <textarea id="ui-ai-input" placeholder="Ask Vilara anything..." rows="1"></textarea>
+                                    <button class="ui-ai-send">Send</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="example-item">
-                        <span class="example-command">"Approve all POs from Acme under $5K"</span>
-                        <span class="example-time">3 seconds, no clicks</span>
-                    </div>
-                    <div class="example-item">
-                        <span class="example-command">"Why are shipping costs up 30%?"</span>
-                        <span class="example-time">15 seconds with full analysis</span>
-                    </div>
-                    <div class="example-item">
-                        <span class="example-command">"Auto-email invoices when orders ship"</span>
-                        <span class="example-time">Instantly updated process</span>
+
+                    <!-- Example Navigation -->
+                    <div class="example-nav">
+                        <div class="example-indicators">
+                            <span class="example-dot active" data-example="0"></span>
+                            <span class="example-dot" data-example="1"></span>
+                            <span class="example-dot" data-example="2"></span>
+                            <span class="example-dot" data-example="3"></span>
+                        </div>
+                        <div class="example-info">
+                            <span class="example-current">1 of 4:</span>
+                            <span class="example-title" id="example-title">"Invoice all December orders"</span>
+                            <span class="example-time" id="example-time">⚡ 5 seconds flat</span>
+                        </div>
                     </div>
                 </div>
+        </div>
+    </section>
 
+    <!-- Hero Stats & CTA Section -->
+    <section class="hero-stats-section">
+        <div class="container">
+            <div class="hero-content">
                 <p class="hero-helper">
                     Keep your ERP and add AI superpowers — or replace it entirely. No consultants. No per-seat fees. Set up in days, not months.
                 </p>

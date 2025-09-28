@@ -548,3 +548,288 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// UI Showcase functionality
+function initializeUIShowcase() {
+    const examples = [
+        {
+            command: "Invoice all December orders",
+            time: "⚡ 5 seconds flat",
+            breadcrumb: "Dashboard / Invoices / All Invoices",
+            section: "📄 Invoices",
+            title: "Invoices",
+            userMessage: "Invoice all December orders",
+            assistantMessage: "✅ Processing all December orders for invoicing...\n\n• Found 47 completed orders from December\n• Generated invoices: INV-2024-1201 through INV-2024-1247\n• Total value: $127,450\n• All invoices sent to customers automatically\n\nDone! All December orders have been invoiced.",
+            content: `
+                <div class="ui-table">
+                    <div class="ui-table-header">
+                        <div>Invoice #</div>
+                        <div>Customer</div>
+                        <div>Amount</div>
+                        <div>Status</div>
+                    </div>
+                    <div class="ui-table-row">
+                        <div>INV-2024-1247</div>
+                        <div>Acme Corporation</div>
+                        <div>$4,250</div>
+                        <div><span class="ui-status-new">Just Created</span></div>
+                    </div>
+                    <div class="ui-table-row">
+                        <div>INV-2024-1246</div>
+                        <div>Tech Solutions Inc</div>
+                        <div>$2,150</div>
+                        <div><span class="ui-status-new">Just Created</span></div>
+                    </div>
+                    <div class="ui-table-row">
+                        <div>INV-2024-1245</div>
+                        <div>Global Traders</div>
+                        <div>$1,890</div>
+                        <div><span class="ui-status-new">Just Created</span></div>
+                    </div>
+                </div>
+            `
+        },
+        {
+            command: "Approve all POs from Acme under $5K",
+            time: "⚡ 3 seconds, no clicks",
+            breadcrumb: "Dashboard / Purchase Orders / Pending Approval",
+            section: "📋 Purchase Orders",
+            title: "Purchase Orders",
+            userMessage: "Approve all POs from Acme under $5K",
+            assistantMessage: "✅ Reviewing Acme purchase orders under $5,000...\n\n• Found 8 POs from Acme Corporation under $5K\n• Total value: $22,340\n• All POs automatically approved\n• Notifications sent to procurement team\n\nDone! 8 purchase orders approved and processed.",
+            content: `
+                <div class="ui-table">
+                    <div class="ui-table-header">
+                        <div>PO #</div>
+                        <div>Vendor</div>
+                        <div>Amount</div>
+                        <div>Status</div>
+                    </div>
+                    <div class="ui-table-row">
+                        <div>PO-2024-0891</div>
+                        <div>Acme Corporation</div>
+                        <div>$3,200</div>
+                        <div><span class="ui-status-approved">Just Approved</span></div>
+                    </div>
+                    <div class="ui-table-row">
+                        <div>PO-2024-0889</div>
+                        <div>Acme Corporation</div>
+                        <div>$4,750</div>
+                        <div><span class="ui-status-approved">Just Approved</span></div>
+                    </div>
+                    <div class="ui-table-row">
+                        <div>PO-2024-0887</div>
+                        <div>Acme Corporation</div>
+                        <div>$1,450</div>
+                        <div><span class="ui-status-approved">Just Approved</span></div>
+                    </div>
+                </div>
+            `
+        },
+        {
+            command: "Why are shipping costs up 30%?",
+            time: "⚡ 15 seconds with full analysis",
+            breadcrumb: "Dashboard / Analytics / Shipping Analysis",
+            section: "📊 Reports",
+            title: "Shipping Cost Analysis",
+            userMessage: "Why are shipping costs up 30%?",
+            assistantMessage: "📊 Analyzing shipping cost increase...\n\n**Root Causes Identified:**\n• Fuel surcharges increased 18% (Q4 2024)\n• Regional carrier rate changes (+12%)\n• Package weight distribution shifted to heavier items\n• 23% increase in expedited shipping requests\n\n**Recommendations:**\n• Negotiate bulk rates with primary carrier\n• Implement weight-based shipping tiers\n• Review expedited shipping policies",
+            content: `
+                <div class="ui-chart-container">
+                    <div class="ui-chart-title">Shipping Costs Trend (Last 6 Months)</div>
+                    <div class="ui-chart">
+                        <div class="ui-chart-bar" style="height: 60%;">
+                            <span>Jul</span>
+                            <div>$8.2K</div>
+                        </div>
+                        <div class="ui-chart-bar" style="height: 65%;">
+                            <span>Aug</span>
+                            <div>$8.9K</div>
+                        </div>
+                        <div class="ui-chart-bar" style="height: 70%;">
+                            <span>Sep</span>
+                            <div>$9.4K</div>
+                        </div>
+                        <div class="ui-chart-bar" style="height: 80%;">
+                            <span>Oct</span>
+                            <div>$10.1K</div>
+                        </div>
+                        <div class="ui-chart-bar" style="height: 90%;">
+                            <span>Nov</span>
+                            <div>$11.2K</div>
+                        </div>
+                        <div class="ui-chart-bar ui-highlight" style="height: 100%;">
+                            <span>Dec</span>
+                            <div>$12.7K</div>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+        {
+            command: "Auto-email invoices when orders ship",
+            time: "⚡ Instantly updated process",
+            breadcrumb: "Dashboard / Automation / Workflow Rules",
+            section: "⚙️ Automation",
+            title: "Workflow Automation",
+            userMessage: "Auto-email invoices when orders ship",
+            assistantMessage: "⚙️ Creating new automation rule...\n\n**New Rule Created:**\n• Trigger: Order status changes to 'Shipped'\n• Action: Send invoice email to customer\n• Template: Professional invoice with tracking info\n• Active immediately for all future orders\n\n✅ Automation is now live! Customers will automatically receive invoices when their orders ship.",
+            content: `
+                <div class="ui-automation-flow">
+                    <div class="ui-flow-step">
+                        <div class="ui-flow-icon">📦</div>
+                        <div class="ui-flow-text">Order Ships</div>
+                    </div>
+                    <div class="ui-flow-arrow">→</div>
+                    <div class="ui-flow-step">
+                        <div class="ui-flow-icon">🔄</div>
+                        <div class="ui-flow-text">Trigger Detected</div>
+                    </div>
+                    <div class="ui-flow-arrow">→</div>
+                    <div class="ui-flow-step ui-active">
+                        <div class="ui-flow-icon">📧</div>
+                        <div class="ui-flow-text">Invoice Sent</div>
+                    </div>
+                    <div class="ui-rule-status">
+                        <div class="ui-status-active">✅ Rule Active</div>
+                        <div class="ui-rule-details">Applied to all new orders</div>
+                    </div>
+                </div>
+            `
+        }
+    ];
+
+    let currentExample = 0;
+    let isAnimating = false;
+
+    function updateExample(index, animate = true) {
+        if (isAnimating) return;
+
+        const example = examples[index];
+
+        if (animate) {
+            isAnimating = true;
+        }
+
+        // Update navigation
+        document.querySelectorAll('.example-dot').forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+
+        document.getElementById('example-title').textContent = `"${example.command}"`;
+        document.getElementById('example-time').textContent = example.time;
+
+        // Update UI elements
+        document.getElementById('ui-breadcrumb-text').textContent = example.breadcrumb;
+        document.getElementById('ui-active-section').textContent = example.section;
+        document.getElementById('ui-content-title').textContent = example.title;
+        document.getElementById('ui-content-area').innerHTML = example.content;
+
+        // Clear and update chat
+        const chatContainer = document.getElementById('ui-ai-chat');
+        chatContainer.innerHTML = '<div class="ui-ai-message assistant">👋 Hi! I can help you manage your business operations. Try asking me something!</div>';
+
+        // Update input field with command
+        const inputField = document.getElementById('ui-ai-input');
+
+        // Auto-resize function for textarea
+        function autoResizeTextarea(textarea) {
+            textarea.style.height = 'auto';
+            const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight);
+            const padding = parseFloat(getComputedStyle(textarea).paddingTop) + parseFloat(getComputedStyle(textarea).paddingBottom);
+            const minHeight = 36; // 2.25rem in pixels
+
+            // Calculate number of lines needed
+            const scrollHeight = textarea.scrollHeight;
+            const newHeight = Math.max(minHeight, scrollHeight);
+
+            textarea.style.height = newHeight + 'px';
+        }
+
+        if (animate) {
+            // Simulate typing the command
+            inputField.value = '';
+            inputField.style.height = 'auto';
+            let charIndex = 0;
+            const typingInterval = setInterval(() => {
+                if (charIndex < example.command.length) {
+                    inputField.value += example.command[charIndex];
+                    autoResizeTextarea(inputField);
+                    charIndex++;
+                } else {
+                    clearInterval(typingInterval);
+
+                    // Simulate "sending" the message
+                    setTimeout(() => {
+                        // Add user message
+                        chatContainer.innerHTML += `<div class="ui-ai-message user">${example.userMessage}</div>`;
+                        inputField.value = '';
+                        inputField.style.height = 'auto';
+
+                        // Show "typing" indicator
+                        chatContainer.innerHTML += '<div class="ui-ai-message assistant ui-typing">Vilara is thinking...</div>';
+
+                        // Add assistant response after delay
+                        setTimeout(() => {
+                            const typingMsg = chatContainer.querySelector('.ui-typing');
+                            typingMsg.remove();
+                            chatContainer.innerHTML += `<div class="ui-ai-message assistant">${example.assistantMessage}</div>`;
+                            chatContainer.scrollTop = chatContainer.scrollHeight;
+                            isAnimating = false;
+                        }, 1500);
+                    }, 500);
+                }
+            }, 50);
+        } else {
+            // No animation, just set the values
+            inputField.value = example.command;
+            autoResizeTextarea(inputField);
+            chatContainer.innerHTML += `<div class="ui-ai-message user">${example.userMessage}</div>`;
+            chatContainer.innerHTML += `<div class="ui-ai-message assistant">${example.assistantMessage}</div>`;
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    }
+
+    // Initialize with first example
+    updateExample(0, false);
+
+    // Auto-rotate examples
+    setInterval(() => {
+        if (!isAnimating) {
+            currentExample = (currentExample + 1) % examples.length;
+            updateExample(currentExample);
+        }
+    }, 8000);
+
+    // Manual navigation
+    document.querySelectorAll('.example-dot').forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            if (!isAnimating && index !== currentExample) {
+                currentExample = index;
+                updateExample(currentExample);
+            }
+        });
+    });
+}
+
+// Initialize UI showcase when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if we're on the homepage (has ui-showcase element)
+    if (document.querySelector('.ui-showcase')) {
+        initializeUIShowcase();
+
+        // Add auto-resize functionality to the textarea
+        const textarea = document.getElementById('ui-ai-input');
+        if (textarea) {
+            function autoResize() {
+                textarea.style.height = 'auto';
+                textarea.style.height = textarea.scrollHeight + 'px';
+            }
+
+            textarea.addEventListener('input', autoResize);
+            textarea.addEventListener('paste', function() {
+                setTimeout(autoResize, 0);
+            });
+        }
+    }
+});
