@@ -3,2282 +3,760 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vilara - The ERP Time Challenge</title>
+    <title>Vilara - Interactive ERP Demo | Try 15+ Business Scenarios</title>
+    <meta name="description" content="Experience Vilara's AI-powered ERP through 15+ interactive business scenarios. See how natural language commands transform operations across industries.">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="icon" type="image/png" href="assets/images/vilara_logo.png">
     <style>
-        * {
+        /* Demo-specific styles */
+        body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #ffffff;
-            overflow-x: hidden;
             min-height: 100vh;
         }
-        
-        .presentation-container {
-            position: relative;
-            width: 100%;
+
+        .demo-container {
+            padding: 2rem 0;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-        
-        /* Corner Navigation for both desktop and mobile */
-        .slide-nav {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            gap: 10px;
-            z-index: 100;
-        }
-        
-        .slide-nav-top {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: block;
-            z-index: 100;
-        }
-        
-        .slide-progress {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            display: block;
-        }
-        
-        .nav-btn {
-            background: rgba(0, 0, 0, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-        
-        .nav-btn:hover {
-            background: rgba(0, 0, 0, 0.6);
-            border-color: rgba(255, 255, 255, 0.6);
-            transform: scale(1.05);
-        }
-        
-        .nav-btn.exit {
-            background: rgba(102, 126, 234, 0.8);
-            border-color: rgba(102, 126, 234, 0.8);
-        }
-        
-        /* Calculation Note for Slide 6 */
-        .calculation-note {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.6);
-            font-style: italic;
-            max-width: 250px;
+
+        .demo-header {
             text-align: center;
-            z-index: 50;
+            margin-bottom: 2rem;
+            color: white;
         }
-        
-        /* Special padding for slide 6 on desktop only */
-        @media (min-width: 769px) {
-            #slide6 {
-                padding-top: 100px;
-            }
-        }
-        
-        .slide {
-            position: absolute;
-            width: 100%;
-            min-height: 100vh;
-            display: none;
-            padding: 40px 40px 120px;
-            animation: fadeIn 0.8s ease-in-out;
-            overflow-y: auto;
-        }
-        
-        .slide.active {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative; /* Needed for corner navigation positioning */
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Opening Slide Styles */
-        .logo-container {
-            position: relative;
-            margin-bottom: 40px;
-            animation: pulseGlow 2s ease-in-out infinite;
-        }
-        
-        @keyframes pulseGlow {
-            0%, 100% { filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.6)); }
-            50% { filter: drop-shadow(0 0 40px rgba(102, 126, 234, 0.9)); }
-        }
-        
-        .logo-text {
-            font-size: 80px;
+
+        .demo-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -2px;
         }
-        
-        .tagline {
-            font-size: 32px;
-            color: #ffffff;
-            margin-bottom: 30px;
-            animation: slideUp 1s ease-out 0.5s backwards;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .timer-icon {
-            width: 120px;
-            height: 120px;
-            border: 4px solid #667eea;
-            border-radius: 50%;
-            position: relative;
-            animation: rotate 2s linear infinite;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .timer-hand {
-            position: absolute;
-            width: 2px;
-            height: 40px;
-            background: #667eea;
-            left: 50%;
-            top: 50%;
-            transform-origin: bottom;
-            transform: translateX(-50%) translateY(-100%);
-        }
-        
-        /* Split Screen Comparison Styles */
-        .split-container {
-            display: flex;
-            width: 100%;
-            min-height: 70vh;
-            gap: 40px;
-            position: relative;
-        }
-        
-        .split-side {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            padding: 30px;
-            position: relative;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .split-side.traditional {
-            border-top: 4px solid #ff5252;
-        }
-        
-        .split-side.vilara {
-            border-top: 4px solid #667eea;
-        }
-        
-        .system-label {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .traditional .system-label {
-            color: #ff5252;
-        }
-        
-        .vilara .system-label {
-            color: #667eea;
-        }
-        
-        .task-display {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            position: relative;
-            min-height: 0;
-        }
-        
-        .screen-mockup {
-            width: 100%;
-            max-width: 400px;
-            background: #1e1e1e;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        }
-        
-        .menu-navigation {
-            background: #2a2a2a;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            font-size: 14px;
-            color: #888;
-            min-height: 60px;
-        }
-        
-        .click-indicator {
-            display: inline-block;
-            background: #ff5252;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            margin: 2px;
-            animation: blink 0.5s ease-in-out;
-        }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        /* Vilara Chat UI Styles */
-        .vilara-ui-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 450px;
-            padding: 25px;
-            margin: 0 auto 15px auto;
-            display: flex;
-            flex-direction: column;
-            min-height: 0;
-            max-height: 500px;
-            flex-shrink: 0;
-        }
-        
-        .vilara-logo-section {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .vilara-logo-text {
-            color: #667eea;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        
-        .vilara-subtitle {
-            color: #6b7280;
-            font-size: 0.9rem;
-        }
-        
-        .chat-window {
-            flex: 1;
-            overflow-y: auto;
-            border: 2px solid #f3f4f6;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            background: #fafafa;
-            min-height: 200px;
-            max-height: 300px;
-        }
-        
-        .chat-message {
-            margin-bottom: 12px;
-            padding: 10px 14px;
-            border-radius: 10px;
-            max-width: 95%;
-            opacity: 0;
-            transform: translateY(10px);
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            white-space: normal;
-        }
-        
-        .chat-message.show {
-            animation: messageSlide 0.4s ease-out forwards;
-        }
-        
-        @keyframes messageSlide {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .typing-text {
-            color: white;
-            font-size: 14px;
-            display: inline;
-        }
-        
-        @keyframes blinkCursor {
-            from, to { border-color: transparent; }
-            50% { border-color: rgba(255, 255, 255, 0.7); }
-        }
-        
-        .chat-message.user {
-            background: #667eea;
-            color: white !important;
-            margin-left: auto;
-            text-align: right;
-        }
-        
-        .chat-message.user .typing-text {
-            color: white !important;
-        }
-        
-        .chat-message.vilara-response {
-            background: #10b981;
-            color: white;
-            margin-right: auto;
-        }
-        
-        .clickable-action:hover {
-            background: #059669 !important;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            transition: all 0.2s ease;
-        }
-        
-        .chat-message.thinking {
-            background: #f59e0b;
-            color: white;
-            margin-right: auto;
-            font-style: italic;
-        }
-        
-        .vilara-input-form {
-            position: relative;
-            margin-top: 15px;
-        }
-        
-        .vilara-input {
-            width: 100%;
-            padding: 12px 50px 12px 18px;
-            border: 2px solid #e5e7eb;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            outline: none;
-            color: #333 !important;
-            background: white !important;
-            box-sizing: border-box;
-        }
-        
-        .vilara-input:focus {
-            border-color: #667eea;
-        }
-        
-        .vilara-send-icon {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            fill: none;
-        }
-        
-        .vilara-send-icon:hover {
-            transform: translateY(-50%) scale(1.1);
-        }
-        
-        .vilara-send-icon:hover path {
-            stroke: #5a6fd8;
-        }
-        
-        .watch-demo-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            padding: 12px 24px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            margin: 15px auto;
-            display: block;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
-            animation: watchButtonPulse 2s ease-in-out infinite;
-        }
-        
-        .watch-demo-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        @keyframes watchButtonPulse {
-            0% {
-                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-                transform: scale(1);
-            }
-            50% {
-                box-shadow: 0 4px 25px rgba(102, 126, 234, 0.6), 0 0 0 10px rgba(102, 126, 234, 0);
-                transform: scale(1.05);
-            }
-            100% {
-                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-                transform: scale(1);
-            }
-        }
-        
-        .command-line {
-            background: #0a0e27;
-            padding: 20px;
-            border-radius: 5px;
-            font-family: 'Courier New', monospace;
-            font-size: 16px;
-            color: #667eea;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .command-text {
-            animation: typing 2s steps(40, end);
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: 2px solid #667eea;
-        }
-        
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-        
-        .metrics-container {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: auto;
-            margin-bottom: 0;
-            text-align: center;
-            font-size: 14px;
-            flex-shrink: 0;
-        }
-        
-        .metric-item {
-            display: inline-block;
-            margin: 0 10px;
-        }
-        
-        .metric-value {
-            font-size: 22px;
-            font-weight: 700;
-            color: #ffffff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .metric-label {
-            font-size: 12px;
-            color: #ffffff;
-            margin-top: 3px;
+
+        .demo-header p {
+            font-size: 1.2rem;
             opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
         }
-        
-        .traditional .metric-value {
-            color: #ff5252;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Task Title */
-        .task-title {
-            position: absolute;
-            top: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 36px;
-            font-weight: 600;
-            color: #ffffff;
-            text-align: center;
-            z-index: 10;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
-            width: 100%;
-            max-width: 800px;
-        }
-        
-        /* Savings Visualization */
-        .savings-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            width: 100%;
-            max-width: 1020px;
-            margin-top: 17px;
-            margin-bottom: 85px;
-        }
-        
-        .savings-card {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 17px;
-            padding: 17px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: slideInUp 0.8s ease-out backwards;
-        }
-        
-        .savings-card:nth-child(1) { animation-delay: 0.2s; }
-        .savings-card:nth-child(2) { animation-delay: 0.4s; }
-        .savings-card:nth-child(3) { animation-delay: 0.6s; }
-        
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .company-size {
-            font-size: 20px;
-            color: #ffffff;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        
-        .task-count {
-            font-size: 12px;
-            color: #e0e0e0;
-            margin-bottom: 17px;
-            font-style: italic;
-        }
-        
-        .hours-saved {
-            font-size: 41px;
-            font-weight: 700;
-            color: #ffffff;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
-            margin-bottom: 8px;
-        }
-        
-        .dollar-saved {
-            font-size: 31px;
-            color: #4caf50;
-            font-weight: 600;
-            margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        .weeks-equivalent {
-            font-size: 18px;
-            color: #e0e0e0;
-        }
-        
-        /* Hide mobile notes on desktop */
-        .mobile-note {
-            display: none;
-        }
-        
-        /* Process Change Slide */
-        .process-comparison {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
+
+        /* Industry Selector */
+        .industry-selector {
             max-width: 1200px;
-            margin-top: 40px;
-            gap: 40px;
+            margin: 0 auto 3rem auto;
+            padding: 0 2rem;
         }
-        
-        .process-column {
-            flex: 1;
-            text-align: center;
+
+        .industry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
-        
-        .process-header {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 30px;
-        }
-        
-        .traditional-process .process-header {
-            color: #ff5252;
-        }
-        
-        .vilara-process .process-header {
-            color: #00bcd4;
-        }
-        
-        .process-flow {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            padding: 30px;
-            min-height: 300px;
-        }
-        
-        .process-step {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 10px;
-            font-size: 16px;
-            position: relative;
-            color: #ffffff;
-        }
-        
-        .process-step::after {
-            content: '↓';
-            position: absolute;
-            bottom: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 20px;
-            color: #666;
-        }
-        
-        .process-step:last-child::after {
-            display: none;
-        }
-        
-        .process-cost {
-            font-size: 32px;
-            font-weight: 700;
-            margin-top: 30px;
-        }
-        
-        .traditional-process .process-cost {
-            color: #ff5252;
-        }
-        
-        .vilara-process .process-cost {
-            color: #4caf50;
-        }
-        
-        .process-time {
-            font-size: 20px;
-            color: #ffffff;
-            margin-top: 10px;
-        }
-        
-        /* Closing Slide */
-        .benefits-list {
-            list-style: none;
-            font-size: 28px;
-            margin: 20px 0 40px 0;
-        }
-        
-        .benefit-item {
-            margin: 20px 0;
-            display: flex;
-            align-items: center;
-            animation: slideInLeft 0.8s ease-out backwards;
-        }
-        
-        .benefit-item:nth-child(1) { animation-delay: 0.2s; }
-        .benefit-item:nth-child(2) { animation-delay: 0.4s; }
-        .benefit-item:nth-child(3) { animation-delay: 0.6s; }
-        .benefit-item:nth-child(4) { animation-delay: 0.8s; }
-        
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        .checkmark {
-            color: #4caf50;
-            margin-right: 20px;
-            font-size: 32px;
-        }
-        
-        .cta-button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            font-size: 24px;
-            font-weight: 600;
-            padding: 20px 60px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            animation: pulse 2s ease-in-out infinite;
-            margin-top: 40px;
-            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
-            transition: transform 0.3s ease;
-        }
-        
-        .cta-button:hover {
-            transform: scale(1.05);
-        }
-        
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3); }
-            50% { box-shadow: 0 10px 60px rgba(102, 126, 234, 0.5); }
-        }
-        
-        /* Navigation Controls */
-        .navigation {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 15px 30px;
-            border-radius: 50px;
+
+        .industry-card {
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            z-index: 100;
-        }
-        
-        .nav-button {
-            background: rgba(0, 0, 0, 0.4);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 12px 24px;
-            border-radius: 25px;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
             cursor: pointer;
-            font-size: 16px;
-            backdrop-filter: blur(10px);
             transition: all 0.3s ease;
+            color: white;
         }
-        
-        .nav-button:hover {
-            background: rgba(0, 0, 0, 0.6);
-            transform: translateY(-2px);
+
+        .industry-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .industry-card.selected {
+            background: rgba(255, 255, 255, 0.25);
             border-color: rgba(255, 255, 255, 0.5);
         }
-        
-        .nav-button:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
+
+        .industry-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
-        
-        .slide-counter {
-            color: #ffffff;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-        }
-        
-        /* Chart Styles */
-        .chart-container {
-            width: 100%;
-            max-width: 680px;
-            height: 340px;
-            margin: 35px auto;
-            position: relative;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            padding: 17px 17px 68px 17px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .bar-chart {
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 68px;
-            height: 255px;
-            width: 100%;
-            padding: 17px 34px;
-            border-left: 2px solid rgba(255, 255, 255, 0.3);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-            position: relative;
-        }
-        
-        .bar-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            position: relative;
-        }
-        
-        .bar {
-            width: 68px;
-            background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 100%);
-            border-radius: 5px 5px 0 0;
-            transition: height 1s ease-out;
-            position: relative;
-            margin: 0 8px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-            min-height: 5px;
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-        }
-        
-        .bar-value {
-            position: absolute;
-            top: -35px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 15px;
+
+        .industry-name {
+            font-size: 1.3rem;
             font-weight: 600;
-            color: #ffffff;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-            white-space: nowrap;
+            margin-bottom: 0.5rem;
         }
-        
-        .bar-label {
-            position: absolute;
-            bottom: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 12px;
-            color: #ffffff;
+
+        .industry-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Enhanced UI Showcase for Demo */
+        .demo-ui-showcase {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: none;
+        }
+
+        .demo-ui-showcase.active {
+            display: block;
+        }
+
+        /* Scenario Navigation */
+        .scenario-nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
             text-align: center;
-            font-weight: 500;
-            white-space: nowrap;
-            width: 110px;
+            color: white;
         }
-        
-        /* Animated Icons */
-        .icon-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 20px;
-            max-width: 800px;
-            margin: 40px auto;
+
+        .scenario-nav h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1.2rem;
         }
-        
-        .icon-item {
-            text-align: center;
-            animation: fadeInScale 0.8s ease-out backwards;
-        }
-        
-        .icon-item:nth-child(1) { animation-delay: 0.1s; }
-        .icon-item:nth-child(2) { animation-delay: 0.2s; }
-        .icon-item:nth-child(3) { animation-delay: 0.3s; }
-        .icon-item:nth-child(4) { animation-delay: 0.4s; }
-        
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        
-        .icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 15px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid #ffffff;
-            border-radius: 20px;
+
+        .scenario-buttons {
             display: flex;
-            align-items: center;
+            gap: 1rem;
             justify-content: center;
-            font-size: 36px;
+            flex-wrap: wrap;
         }
-        
-        .icon-label {
-            font-size: 14px;
-            color: #ffffff;
-            font-weight: 500;
+
+        .scenario-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.7rem 1.2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
-        
-        /* Mobile Responsive Styles */
+
+        .scenario-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .scenario-btn.active {
+            background: rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Back to Industries Button */
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
         @media (max-width: 768px) {
-            /* Move calculation note to left on mobile to avoid nav button overlap */
-            .calculation-note {
-                left: 20px;
-                right: auto;
-                transform: none;
-                text-align: left;
-                bottom: 20px;
-                max-width: 60%;
+            .demo-header h1 {
+                font-size: 2rem;
             }
-            
-            /* Ensure slide 6 has normal padding on mobile */
-            #slide6 {
-                padding-top: 40px !important;
-            }
-            body {
-                overflow-y: auto;
-            }
-            
-            .slide {
-                position: relative;
-                min-height: auto;
-                padding: 20px 15px;
-                overflow-y: visible;
-            }
-            
-            .presentation-container {
-                min-height: auto;
-                overflow-y: auto;
-            }
-            
-            /* Mobile: Hide split-screen, show only Vilara side */
-            .split-container {
-                flex-direction: column;
-                gap: 20px;
-                min-height: auto;
-            }
-            
-            .split-side.traditional {
-                display: none; /* Hide traditional ERP side on mobile */
-            }
-            
-            .mobile-note {
-                display: block !important;
-            }
-            
-            /* Ensure the mobile message is visible */
-            .slide .mobile-note {
-                display: block !important;
-                background: rgba(102, 126, 234, 0.2);
-                padding: 12px;
-                border-radius: 10px;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 16px;
-                color: #ffffff;
-                border: 1px solid rgba(102, 126, 234, 0.4);
-            }
-            
-            .split-side.vilara {
-                width: 100%;
-                max-width: 500px;
-                margin: 0 auto;
-                padding: 20px;
-            }
-            
-            .task-title {
-                position: static;
-                transform: none;
-                font-size: 24px;
-                margin-top: 50px;
-                margin-bottom: 20px;
-                text-align: center;
-            }
-            
-            /* Mobile Hero adjustments */
-            .logo-text {
-                font-size: 48px;
-            }
-            
-            .tagline {
-                font-size: 20px;
-                margin-bottom: 20px;
-            }
-            
-            .timer-icon {
-                width: 80px;
-                height: 80px;
-            }
-            
-            /* Mobile Vilara UI */
-            .vilara-ui-container {
-                max-width: 100%;
-                padding: 20px;
-                margin-bottom: 20px;
-            }
-            
-            .vilara-logo-text {
-                font-size: 1.5rem;
-            }
-            
-            .chat-window {
-                max-height: 250px;
-                min-height: 150px;
-            }
-            
-            .watch-demo-btn {
-                padding: 15px 20px;
-                font-size: 16px;
-                margin: 20px auto;
-                min-height: 44px;
-                touch-action: manipulation;
-            }
-            
-            .vilara-input {
-                padding: 15px 18px;
-                font-size: 16px;
-                min-height: 44px;
-                touch-action: manipulation;
-            }
-            
-            .vilara-send-icon {
-                width: 28px;
-                height: 28px;
-                right: 15px;
-            }
-            
-            /* Improve touch interactions on mobile */
-            .chat-message {
-                font-size: 15px;
-                padding: 12px 16px;
-                margin-bottom: 15px;
-            }
-            
-            .clickable-action {
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                touch-action: manipulation;
-            }
-            
-            /* Mobile savings grid */
-            .savings-grid {
+
+            .industry-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
-                margin-top: 20px;
-                margin-bottom: 50px;
             }
-            
-            .savings-card {
-                padding: 15px;
-            }
-            
-            .company-size {
-                font-size: 20px;
-            }
-            
-            .hours-saved {
-                font-size: 36px;
-            }
-            
-            .dollar-saved {
-                font-size: 28px;
-            }
-            
-            /* Mobile process comparison */
-            .process-comparison {
+
+            .scenario-buttons {
                 flex-direction: column;
-                gap: 20px;
-                margin-top: 20px;
-            }
-            
-            .process-header {
-                font-size: 22px;
-            }
-            
-            .process-flow {
-                padding: 20px;
-                min-height: 200px;
-            }
-            
-            .process-cost {
-                font-size: 24px;
-            }
-            
-            /* Mobile icons grid */
-            .icon-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 15px;
-                margin: 20px auto;
-                max-width: 100%;
-                padding: 0 10px;
-            }
-            
-            /* Special handling for slide 9 on mobile */
-            #slide9 .icon-grid {
-                display: grid;
-                grid-template-columns: repeat(6, 1fr);
-                gap: 15px;
-                justify-items: center;
-            }
-            
-            /* First row spans 2 columns each, centered */
-            #slide9 .icon-item:nth-child(1) {
-                grid-column: 1 / 3;
-            }
-            
-            #slide9 .icon-item:nth-child(2) {
-                grid-column: 3 / 5;
-            }
-            
-            #slide9 .icon-item:nth-child(3) {
-                grid-column: 5 / 7;
-            }
-            
-            /* Second row: 2 items centered */
-            #slide9 .icon-item:nth-child(4) {
-                grid-column: 2 / 4;
-            }
-            
-            #slide9 .icon-item:nth-child(5) {
-                grid-column: 4 / 6;
-            }
-            
-            /* Fix slide 9 text on mobile */
-            #slide9 .slide9-closing-text {
-                margin: 25px auto 20px !important;
-                padding: 0 15px;
-            }
-            
-            #slide9 .slide9-closing-text p {
-                font-size: 16px !important;
-                margin: 0 !important;
-                line-height: 1.5 !important;
-            }
-            
-            /* Show mobile text, hide desktop text */
-            #slide9 .desktop-text {
-                display: none;
-            }
-            
-            #slide9 .mobile-text {
-                display: inline !important;
-            }
-            
-            .icon {
-                width: 60px;
-                height: 60px;
-                font-size: 24px;
-            }
-            
-            /* Smaller icons for slide 9 mobile */
-            #slide9 .icon {
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
-            }
-            
-            .icon-label {
-                font-size: 12px;
-            }
-            
-            /* Smaller labels for slide 9 mobile */
-            #slide9 .icon-label {
-                font-size: 11px;
-                line-height: 1.3;
-            }
-            
-            /* Mobile benefits list */
-            .benefits-list {
-                font-size: 20px;
-                margin: 15px 0 30px 0;
-            }
-            
-            .benefit-item {
-                margin: 15px 0;
-            }
-            
-            .checkmark {
-                font-size: 24px;
-                margin-right: 15px;
-            }
-            
-            /* Mobile CTA button */
-            .cta-button {
-                font-size: 18px;
-                padding: 15px 40px;
-                margin-top: 30px;
-                min-height: 44px;
-                touch-action: manipulation;
-            }
-            
-            /* Mobile navigation */
-            .navigation {
-                position: fixed;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                display: flex;
                 align-items: center;
-                justify-content: center;
-                gap: 10px;
-                background: rgba(0, 0, 0, 0.6);
-                padding: 12px 20px;
-                border-radius: 30px;
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .scenario-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            /* Mobile Navigation */
+            nav > div > div {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav > div > div > div {
+                display: flex;
+                gap: 1rem;
                 flex-wrap: wrap;
-                max-width: 90vw;
+                justify-content: center;
             }
-            
-            .nav-button {
-                padding: 12px 20px;
-                font-size: 14px;
-                min-height: 44px;
-                touch-action: manipulation;
+
+            nav {
+                position: relative !important;
             }
-            
-            .slide-counter {
-                font-size: 12px;
-                padding: 0 15px;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
+
+            .demo-container {
+                padding-top: 2rem !important;
             }
-            
-            /* Mobile chart */
-            .chart-container {
-                height: 300px;
-                padding: 15px 15px 60px 15px;
-                margin: 30px auto;
+
+            /* Mobile CTA Grid */
+            #post-demo-cta div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
             }
-            
-            .bar-chart {
-                height: 200px;
-                padding: 15px 20px;
-                gap: 40px;
+
+            #post-demo-cta div[style*="display: flex"] {
+                flex-direction: column !important;
+                align-items: center !important;
             }
-            
-            .bar {
-                width: 60px;
-            }
-            
-            .bar-label {
-                font-size: 12px;
-                width: 100px;
-            }
-        }
-        
-        /* Desktop navigation - keep text labels visible */
-        @media (min-width: 769px) {
-            .nav-button::after {
-                content: attr(title);
-                margin-left: 8px;
-                font-size: 14px;
-            }
-            
-            .nav-button {
-                border-radius: 8px;
-                padding: 12px 20px;
-                min-width: 100px;
-            }
-        }
-        
-        /* Mobile-first demo layout */
-        @media (max-width: 768px) {
-            .split-container {
-                flex-direction: column;
-                gap: 0;
-            }
-            
-            .split-side {
+
+            #post-demo-cta a[style*="padding: 0.9rem"] {
                 width: 100% !important;
-            }
-            
-            .split-side.traditional {
-                display: block; /* Always visible on mobile */
-                margin-top: 20px;
-                border-top: 2px solid rgba(255, 255, 255, 0.2);
-                padding-top: 20px;
-            }
-            
-            .mobile-note {
-                display: block !important;
-                background: rgba(102, 126, 234, 0.1);
-                border-left: 4px solid #667eea;
-                padding: 12px;
-                margin-bottom: 20px;
-                font-size: 14px;
-                color: #667eea;
-                border-radius: 4px;
-            }
-            
-            /* Mobile navigation improvements */
-            .navigation {
-                flex-wrap: wrap;
-                gap: 10px;
-                padding: 15px;
-            }
-            
-            .nav-button {
-                min-height: 50px; /* Touch-friendly */
-                min-width: 50px;
-                padding: 12px;
-                font-size: 20px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex: 0 0 auto;
-            }
-            
-            .nav-button.nav-text {
-                border-radius: 8px;
-                padding: 12px 16px;
-                font-size: 14px;
-                flex: 1;
-                min-width: 100px;
-            }
-            
-            .slide-counter {
-                order: -1;
-                width: 100%;
-                text-align: center;
-                margin-bottom: 10px;
-                font-size: 14px;
-            }
-        }
-        
-        /* Extra small screens */
-        @media (max-width: 480px) {
-            .slide {
-                padding: 15px 10px 100px;
-            }
-            
-            .task-title {
-                font-size: 20px;
-            }
-            
-            .logo-text {
-                font-size: 36px;
-            }
-            
-            .tagline {
-                font-size: 18px;
-            }
-            
-            .vilara-ui-container {
-                padding: 15px;
-            }
-            
-            .chat-window {
-                padding: 12px;
-                max-height: 200px;
-            }
-            
-            .icon-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-            
-            /* Keep slide 9 as 3 over 2 even on very small screens */
-            #slide9 .icon-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 12px;
-                padding: 0 5px;
-            }
-            
-            #slide9 .icon {
-                width: 45px;
-                height: 45px;
-                font-size: 18px;
-            }
-            
-            #slide9 .icon-label {
-                font-size: 10px;
-            }
-            
-            .benefits-list {
-                font-size: 18px;
-            }
-            
-            .navigation {
-                bottom: 15px;
-                gap: 8px;
-            }
-            
-            .nav-button {
-                padding: 10px 15px;
-                font-size: 12px;
-            }
-            
-            .slide-counter {
-                font-size: 11px;
-                padding: 0 10px;
+                max-width: 300px !important;
+                text-align: center !important;
             }
         }
     </style>
 </head>
 <body>
-    <div class="presentation-container">
-        <!-- Slide 1: Opening Hook -->
-        <div class="slide active" id="slide1">
-            
-            <div class="logo-container">
-                <a href="/" style="display: inline-block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                    <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 120px; width: auto; cursor: pointer;">
+    <!-- Navigation -->
+    <nav style="position: absolute; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.2);">
+        <div style="max-width: 1400px; margin: 0 auto; padding: 1rem 2rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <a href="/" style="display: flex; align-items: center; text-decoration: none; color: white;">
+                    <img src="assets/images/vilara_logo.png" alt="Vilara Logo" style="height: 32px;">
                 </a>
-            </div>
-            <h2 class="tagline">The ERP Time Challenge</h2>
-            <div class="timer-icon">
-                <div class="timer-hand"></div>
-            </div>
-            <p style="margin-top: 40px; font-size: 20px; color: #ffffff; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);">
-                Let's see how Vilara compares to a traditional ERP in real-world business tasks.
-            </p>
-        </div>
-        
-        <!-- Slide 2: Task 1 - Invoice Run -->
-        <div class="slide" id="slide2">
-            <h2 class="task-title">Task 1: Invoice Run</h2>
-            <div class="split-container">
-                <div class="split-side traditional">
-                    <div class="system-label">Traditional ERP</div>
-                    <div class="task-display">
-                        <div class="task-label" style="background: rgba(255, 255, 255, 0.1); padding: 8px 12px; border-radius: 6px; margin-bottom: 15px; font-size: 14px; color: #ffffff; text-align: center;">Invoice all approved orders</div>
-                        <div class="screen-mockup">
-                            <div class="menu-navigation">
-                                <span class="click-indicator">Step 1</span> Finance Menu<br>
-                                <span class="click-indicator">Step 2</span> Billing<br>
-                                <span class="click-indicator">Step 3</span> Invoice Management<br>
-                                <span class="click-indicator">Step 4</span> Batch Processing<br>
-                                <span class="click-indicator">Step 5</span> Select Orders<br>
-                                <span class="click-indicator">Step 6</span> Apply filters<br>
-                                <span class="click-indicator">Step 7</span> Review selection<br>
-                                <span class="click-indicator">Step 8</span> Generate invoices
-                            </div>
-                            <div style="margin-top: 20px; color: #888; font-size: 14px;">
-                                + 18 more clicks through filters, confirmations, and processing screens...
-                            </div>
-                        </div>
-                        <div class="metrics-container">
-                            <div class="metric-item">
-                                <div class="metric-value">8</div>
-                                <div class="metric-label">Steps</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">3:00</div>
-                                <div class="metric-label">Minutes</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="split-side vilara">
-                    <div class="task-display">
-                        <div class="vilara-ui-container">
-                            <div class="vilara-logo-section">
-                                <a href="/" style="display: inline-block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                                    <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px; cursor: pointer;">
-                                </a>
-                                <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
-                            </div>
-                            <button class="watch-demo-btn" id="watchBtn1">🎬 Now watch Vilara do it</button>
-                            <div class="chat-window" id="chat1">
-                                <div class="chat-message user" data-message="Invoice all approved orders"><span class="typing-text"></span></div>
-                                <div class="chat-message thinking">🤔 Processing your request...</div>
-                                <div class="chat-message vilara-response">✅ Created 23 invoices for approved orders</div>
-                                <div class="chat-message vilara-response">💾 Saved to system and synced with QuickBooks</div>
-                                <div class="chat-message vilara-response clickable-action" data-action="email-invoices" style="cursor: pointer; border: 1px solid rgba(255,255,255,0.3);">📋 Ready to email to customers - click to send</div>
-                            </div>
-                            <div class="vilara-input-form">
-                                <input type="text" class="vilara-input" id="input1" placeholder="What would you like to do?">
-                                <svg class="vilara-send-icon" id="sendBtn1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M22 2L11 13" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="metrics-container">
-                            <div class="metric-item">
-                                <div class="metric-value">1</div>
-                                <div class="metric-label">Commands</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">0:05</div>
-                                <div class="metric-label">Minutes</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        <!-- Slide 3: Task 2 - Purchase Order Approval -->
-        <div class="slide" id="slide3">
-            <h2 class="task-title">Task 2: Purchase Order Approval</h2>
-            <div class="split-container">
-                <div class="split-side traditional">
-                    <div class="system-label">Traditional ERP</div>
-                    <div class="task-display">
-                        <div class="task-label" style="background: rgba(255, 255, 255, 0.1); padding: 8px 12px; border-radius: 6px; margin-bottom: 15px; font-size: 14px; color: #ffffff; text-align: center;">Approve all POs from Acme Corp under $5,000</div>
-                        <div class="screen-mockup">
-                            <div class="menu-navigation">
-                                <span class="click-indicator">Step 1</span> Navigate to PO module<br>
-                                <span class="click-indicator">Step 2</span> Filter by vendor<br>
-                                <span class="click-indicator">Step 3</span> Sort by amount<br>
-                                <span class="click-indicator">Step 4</span> Select each PO<br>
-                                <span class="click-indicator">Step 5</span> Review details<br>
-                                <div style="color: #ff9800; font-size: 12px; margin-left: 40px; margin-bottom: 5px;">(⚠️ error-prone)</div>
-                                <span class="click-indicator">Step 6</span> Click approve...
-                            </div>
-                            <div style="margin-top: 20px; color: #888; font-size: 14px;">
-                                Repeat for each PO individually...
-                            </div>
-                        </div>
-                        <div class="metrics-container">
-                            <div class="metric-item">
-                                <div class="metric-value">12</div>
-                                <div class="metric-label">Steps</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">2:15</div>
-                                <div class="metric-label">Minutes</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="split-side vilara">
-                    <div class="task-display">
-                        <div class="vilara-ui-container">
-                            <div class="vilara-logo-section">
-                                <a href="/" style="display: inline-block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                                    <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px; cursor: pointer;">
-                                </a>
-                                <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
-                            </div>
-                            <button class="watch-demo-btn" id="watchBtn2">🎬 Now watch Vilara do it</button>
-                            <div class="chat-window" id="chat2">
-                                <div class="chat-message user" data-message="Approve all POs from Acme Corp under $5,000"><span class="typing-text"></span></div>
-                                <div class="chat-message thinking">🤔 Reviewing purchase orders...</div>
-                                <div class="chat-message vilara-response">✅ Found 8 POs from Acme Corp under $5,000</div>
-                                <div class="chat-message vilara-response">✅ All 8 POs approved per business rules (error-free)</div>
-                                <div class="chat-message vilara-response clickable-action" data-action="notify-acme" style="cursor: pointer; border: 1px solid rgba(255,255,255,0.3);">📋 Ready to notify Acme Corp - click to send confirmation</div>
-                            </div>
-                            <div class="vilara-input-form">
-                                <input type="text" class="vilara-input" id="input2" placeholder="What would you like to do?">
-                                <svg class="vilara-send-icon" id="sendBtn2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M22 2L11 13" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="metrics-container">
-                            <div class="metric-item">
-                                <div class="metric-value">1</div>
-                                <div class="metric-label">Commands</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">0:03</div>
-                                <div class="metric-label">Minutes</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        <!-- Slide 4: Task 3 - Sales Report -->
-        <div class="slide" id="slide4">
-            <h2 class="task-title">Task 3: Sales Variance Analysis</h2>
-            <div class="split-container">
-                <div class="split-side traditional">
-                    <div class="system-label">Traditional ERP</div>
-                    <div class="task-display">
-                        <div class="task-label" style="background: rgba(255, 255, 255, 0.1); padding: 8px 12px; border-radius: 6px; margin-bottom: 15px; font-size: 14px; color: #ffffff; text-align: center;">Explain sales variance in APAC last quarter</div>
-                        <div class="screen-mockup">
-                            <div class="menu-navigation">
-                                <span class="click-indicator">1-8</span> Generate APAC sales report<br>
-                                <span class="click-indicator">9-12</span> Export to Excel for analysis<br>
-                                <span class="click-indicator">13-18</span> Cross-reference shipping reports<br>
-                                <div style="color: #ffc107; font-size: 12px; margin-left: 40px; margin-bottom: 5px;">(💡 time intensive)</div>
-                                <span class="click-indicator">19-22</span> Check logistics system for delays<br>
-                                <div style="color: #ffc107; font-size: 12px; margin-left: 40px; margin-bottom: 5px;">(💡 time intensive)</div>
-                                <span class="click-indicator">23-25</span> Review news for external factors<br>
-                                <div style="color: #ffc107; font-size: 12px; margin-left: 40px; margin-bottom: 5px;">(💡 time intensive)</div>
-                                <span class="click-indicator">26-30</span> Calculate variance impact<br>
-                                <span class="click-indicator">31-35</span> Document findings<br>
-                                <div style="color: #ffc107; font-size: 12px; margin-left: 40px;">(💡 time intensive)</div>
-                            </div>
-                        </div>
-                        <div class="metrics-container">
-                            <div class="metric-item">
-                                <div class="metric-value">35+</div>
-                                <div class="metric-label">Steps</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">2-4</div>
-                                <div class="metric-label">Hours</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="split-side vilara">
-                    <div class="task-display">
-                        <div class="vilara-ui-container">
-                            <div class="vilara-logo-section">
-                                <a href="/" style="display: inline-block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                                    <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px; cursor: pointer;">
-                                </a>
-                                <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
-                            </div>
-                            <button class="watch-demo-btn" id="watchBtn3">🎬 Now watch Vilara do it</button>
-                            <div class="chat-window" id="chat3">
-                                <div class="chat-message user" data-message="Explain sales variance in APAC last quarter"><span class="typing-text"></span></div>
-                                <div class="chat-message thinking">🤔 Analyzing APAC variance...</div>
-                                <div class="chat-message vilara-response">📊 APAC Q4 Variance: -12% vs Q3</div>
-                                <div class="chat-message vilara-response">🔍 Key factor: Sales recognition timing due to large shipment delay caused by dockworker strike in Japan</div>
-                                <div class="chat-message vilara-response">📈 Bright spots: Australia +18% growth and Japan shipment will be recognized in current quarter</div>
-                                <div class="chat-message vilara-response clickable-action" data-action="email-report" style="cursor: pointer; border: 1px solid rgba(255,255,255,0.3);">📋 Ready to share - click to email stakeholders</div>
-                            </div>
-                            <div class="vilara-input-form">
-                                <input type="text" class="vilara-input" id="input3" placeholder="What would you like to do?">
-                                <svg class="vilara-send-icon" id="sendBtn3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M22 2L11 13" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="metrics-container">
-                            <div class="metric-item">
-                                <div class="metric-value">1</div>
-                                <div class="metric-label">Commands</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">0:03</div>
-                                <div class="metric-label">Minutes</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        <!-- Slide 5: Task 4 - Customer Onboarding -->
-        <div class="slide" id="slide5">
-            <h2 class="task-title">Task 4: Customer Onboarding</h2>
-            <div class="split-container">
-                <div class="split-side traditional">
-                    <div class="system-label">Traditional ERP</div>
-                    <div class="task-display">
-                        <div class="task-label" style="background: rgba(255, 255, 255, 0.1); padding: 8px 12px; border-radius: 6px; margin-bottom: 15px; font-size: 14px; color: #ffffff; text-align: center;">Add customer Delta Industries with contact Sarah Lee, email sarah@delta.com, net 30 terms</div>
-                        <div class="screen-mockup">
-                            <div class="menu-navigation">
-                                <span class="click-indicator">1</span> Email form to customer<br>
-                                <span class="click-indicator">2</span> Wait for response<br>
-                                <div style="color: #ff9800; font-size: 12px; margin-left: 40px; margin-bottom: 5px;">(⏱️ 1-3 days)</div>
-                                <span class="click-indicator">3</span> Follow up if needed<br>
-                                <span class="click-indicator">4</span> Open returned form<br>
-                                <span class="click-indicator">5</span> Navigate to Customer Management<br>
-                                <span class="click-indicator">6</span> Click New Customer<br>
-                                <span class="click-indicator">7-12</span> Manually copy company info<br>
-                                <div style="color: #ff9800; font-size: 12px; margin-left: 40px; margin-bottom: 5px;">(⚠️ error-prone)</div>
-                                <span class="click-indicator">13-16</span> Add contact details<br>
-                                <span class="click-indicator">17-19</span> Set payment terms<br>
-                                <span class="click-indicator">20</span> Save & verify data entry
-                            </div>
-                        </div>
-                        <div class="metrics-container">
-                            <div class="metric-item">
-                                <div class="metric-value">15</div>
-                                <div class="metric-label">Steps</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">2-3</div>
-                                <div class="metric-label">Days (total)</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="split-side vilara">
-                    <div class="task-display">
-                        <div class="vilara-ui-container">
-                            <div class="vilara-logo-section">
-                                <a href="/" style="display: inline-block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                                    <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px; cursor: pointer;">
-                                </a>
-                                <div class="vilara-subtitle">AI-Augmented ERP Assistant</div>
-                            </div>
-                            <button class="watch-demo-btn" id="watchBtn4">🎬 Now watch Vilara do it</button>
-                            <div class="chat-window" id="chat4">
-                                <div class="chat-message user" data-message="Add customer Delta Industries with contact Sarah Lee, email sarah@delta.com, net 30 terms"><span class="typing-text"></span></div>
-                                <div class="chat-message thinking">🤔 Creating customer profile...</div>
-                                <div class="chat-message vilara-response">✅ Customer Delta Industries added</div>
-                                <div class="chat-message vilara-response">👤 Contact: Sarah Lee</div>
-                                <div class="chat-message vilara-response">💳 Payment terms: Net 30</div>
-                                <div class="chat-message vilara-response">📧 Return email auto-processed, new customer approved per work instructions</div>
-                                <div class="chat-message vilara-response clickable-action" data-action="send-welcome" style="cursor: pointer; border: 1px solid rgba(255,255,255,0.3);">📋 Ready to send welcome email - click to confirm</div>
-                            </div>
-                            <div class="vilara-input-form">
-                                <input type="text" class="vilara-input" id="input4" placeholder="What would you like to do?">
-                                <svg class="vilara-send-icon" id="sendBtn4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M22 2L11 13" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="metrics-container">
-                            <div class="metric-item">
-                                <div class="metric-value">1</div>
-                                <div class="metric-label">Commands</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">0:05</div>
-                                <div class="metric-label">Minutes</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        <!-- Slide 6: Annual Time & Cost Savings -->
-        <div class="slide" id="slide6">
-            <h2 class="task-title">Annual Time & Cost Savings</h2>
-            <div class="chart-container">
-                <div class="bar-chart">
-                    <div class="bar-group">
-                        <div class="bar traditional-bar" id="traditionalBar" style="height: 10px;">
-                            <span class="bar-value">6 min</span>
-                        </div>
-                        <div class="bar-label">Average ERP Task<br>(time required)</div>
-                    </div>
-                    <div class="bar-group">
-                        <div class="bar vilara-bar" id="vilaraBar" style="height: 10px; background: linear-gradient(180deg, #4caf50 0%, #388e3c 100%);">
-                            <span class="bar-value" style="color: #4caf50; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">0.17 min</span>
-                        </div>
-                        <div class="bar-label">Vilara<br>(time required)</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="savings-grid">
-                <div class="savings-card">
-                    <div class="company-size">10-Person Company</div>
-                    <div class="task-count">(Avg. of 24,500 ERP tasks per year)</div>
-                    <div class="hours-saved">2,330 hrs</div>
-                    <div class="dollar-saved">$116,500</div>
-                </div>
-                <div class="savings-card">
-                    <div class="company-size">100-Person Company</div>
-                    <div class="task-count">(Avg. of 245,000 ERP tasks per year)</div>
-                    <div class="hours-saved">23,275 hrs</div>
-                    <div class="dollar-saved">$1,163,750</div>
-                </div>
-                <div class="savings-card">
-                    <div class="company-size">1,000-Person Company</div>
-                    <div class="task-count">(Avg. of 2,450,000 ERP tasks per year)</div>
-                    <div class="hours-saved">232,750 hrs</div>
-                    <div class="dollar-saved">$11,637,500</div>
-                </div>
-            </div>
-            
-            <!-- Calculation Note positioned at bottom middle -->
-            <div class="calculation-note">
-                * Based on 6 min avg per ERP task<br>100 daily tasks × 245 business days<br>Hourly rate: $50/hour
-            </div>
-        </div>
-        
-        <!-- Slide 7: Process Change Challenge -->
-        <div class="slide" id="slide7">
-            <h2 class="task-title">Process Change Example</h2>
-            <div class="process-comparison">
-                <div class="process-column traditional-process">
-                    <div class="process-header">Traditional ERP</div>
-                    <div class="process-flow">
-                        <div class="process-step">Submit change request</div>
-                        <div class="process-step">Create dev ticket</div>
-                        <div class="process-step">Wait for sprint planning</div>
-                        <div class="process-step">Development & testing</div>
-                        <div class="process-step">Deploy to production</div>
-                    </div>
-                    <div class="process-cost">$1,000-$100,000+</div>
-                    <div class="process-time">2-12 weeks per change</div>
-                </div>
-                
-                <div class="process-column vilara-process">
-                    <div class="process-header">Vilara</div>
-                    <div class="process-flow">
-                        <div class="process-step">Type your change:<br>
-                            <span style="color: #ffffff; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 8px; display: inline-block; margin-top: 10px; font-family: monospace; font-size: 14px;">
-                                "From now on, auto-email invoices to customers at shipping confirmation"
-                            </span>
-                        </div>
-                        <div class="process-step">Approve</div>
-                        <div class="process-step">✓ Done</div>
-                    </div>
-                    <div class="process-cost">$0</div>
-                    <div class="process-time">Instant</div>
+                <div style="display: flex; gap: 2rem; align-items: center;">
+                    <a href="/pricing.html" style="color: white; text-decoration: none; opacity: 0.9;">Pricing</a>
+                    <a href="/how-it-works.html" style="color: white; text-decoration: none; opacity: 0.9;">How It Works</a>
+                    <a href="/contact.html" style="background: rgba(255, 255, 255, 0.2); color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.3);">Get Started</a>
                 </div>
             </div>
         </div>
-        
-        <!-- Slide 8: More Process Changes -->
-        <div class="slide" id="slide8">
-            <h2 class="task-title">Instant Process Adaptations</h2>
-            <div style="max-width: 600px; margin: 0 auto;">
-                <div class="vilara-ui-container" style="margin-bottom: 30px;">
-                    <div class="vilara-logo-section">
-                        <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 60px; width: auto; margin-bottom: 10px;">
-                        <div class="vilara-subtitle">Instant Business Process Changes</div>
-                    </div>
-                    <div class="chat-window" id="chat8" style="height: 400px;">
-                        <div class="chat-message user" data-message="Require manager approval for all POs over $10K"><span class="typing-text"></span></div>
-                        <div class="chat-message vilara-response">🔐 Verifying authorization... You have CFO-level permissions</div>
-                        <div class="chat-message vilara-response">✅ Approval workflow updated</div>
-                        
-                        <div class="chat-message user" data-message="Switch monthly billing to weekly for Acme Corp"><span class="typing-text"></span></div>
-                        <div class="chat-message vilara-response">✅ Billing schedule changed for Acme Corp</div>
-                        
-                        <div class="chat-message user" data-message="Add discount rule for orders over $50K"><span class="typing-text"></span></div>
-                        <div class="chat-message vilara-response">✅ 5% discount rule applied for orders > $50K</div>
-                        
-                        <div class="chat-message user" data-message="Auto-email invoices when orders ship"><span class="typing-text"></span></div>
-                        <div class="chat-message vilara-response">✅ Automated invoice workflow created</div>
-                    </div>
-                    <div class="vilara-input-form">
-                        <input type="text" class="vilara-input" placeholder="Change any business process instantly...">
-                        <svg class="vilara-send-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M22 2L11 13" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
+    </nav>
+
+    <div class="demo-container" style="padding-top: 5rem;">
+        <!-- Demo Header -->
+        <div class="demo-header">
+            <h1>Experience Vilara in Action</h1>
+            <p>Choose your industry to see how natural language commands transform complex business operations into simple conversations.</p>
+        </div>
+
+        <!-- Industry Selector -->
+        <div id="industry-selector" class="industry-selector">
+            <div class="industry-grid">
+                <div class="industry-card" data-industry="manufacturing">
+                    <div class="industry-icon">🏭</div>
+                    <div class="industry-name">Manufacturing</div>
+                    <div class="industry-description">Production scheduling, quality control, supply chain management</div>
                 </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 30px; font-size: 24px; color: #ffffff;">
-                From approval chains to billing rules, Vilara adapts instantly.
+                <div class="industry-card" data-industry="retail">
+                    <div class="industry-icon">🛍️</div>
+                    <div class="industry-name">Retail & E-commerce</div>
+                    <div class="industry-description">Inventory management, customer orders, multi-channel operations</div>
+                </div>
+                <div class="industry-card" data-industry="services">
+                    <div class="industry-icon">💼</div>
+                    <div class="industry-name">Professional Services</div>
+                    <div class="industry-description">Project management, client billing, resource allocation</div>
+                </div>
+                <div class="industry-card" data-industry="finance">
+                    <div class="industry-icon">💰</div>
+                    <div class="industry-name">Finance & Operations</div>
+                    <div class="industry-description">Budget approvals, financial reporting, audit preparation</div>
+                </div>
             </div>
         </div>
-        
-        <!-- Slide 9: Key Features Icons -->
-        <div class="slide" id="slide9">
-            <h2 class="task-title">Why Vilara</h2>
-            <p style="font-size: 20px; color: #ffffff; text-align: center; max-width: 800px; margin: 15px auto 40px; line-height: 1.6; font-weight: 300;">
-                Vilara combines proven operational best practices with your specific work instructions to drive performance excellence throughout your organization.
-            </p>
-            <div class="icon-grid" style="grid-template-columns: repeat(5, 1fr); gap: 20px;">
-                <div class="icon-item">
-                    <div class="icon">⚡</div>
-                    <div class="icon-label">95% Faster<br>Operations</div>
-                </div>
-                <div class="icon-item">
-                    <div class="icon">💰</div>
-                    <div class="icon-label">No Seat<br>License Costs</div>
-                </div>
-                <div class="icon-item">
-                    <div class="icon">🚀</div>
-                    <div class="icon-label">No Dev<br>Delays</div>
-                </div>
-                <div class="icon-item">
-                    <div class="icon">💵</div>
-                    <div class="icon-label">No Costly<br>Implementations</div>
-                </div>
-                <div class="icon-item">
-                    <div class="icon">🔄</div>
-                    <div class="icon-label">Works With<br>Current System</div>
+
+        <!-- Interactive UI Demo -->
+        <div id="ui-demo" class="demo-ui-showcase">
+            <a href="#" class="back-btn" onclick="showIndustrySelector()">← Back to Industries</a>
+
+            <div class="scenario-nav">
+                <h3 id="current-industry-title">Manufacturing Scenarios</h3>
+                <p style="margin: 0 0 1.5rem 0; font-size: 0.9rem; opacity: 0.8;">Try different scenarios to see how Vilara handles complex business operations</p>
+                <div class="scenario-buttons" id="scenario-buttons">
+                    <!-- Scenario buttons will be populated dynamically -->
                 </div>
             </div>
-            
-            <div class="slide9-closing-text" style="max-width: 800px; margin: 40px auto; text-align: center;">
-                <p style="font-size: 20px; line-height: 1.6; color: #ffffff; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);">
-                    <span class="desktop-text">
-                        Stop clicking through menus. Stop waiting for developers.<br>
-                        Stop spending valuable time on tasks that AI can automate.<br>
-                        Just tell Vilara what you need, and it's done.<br>
-                        Works alongside your existing systems.<br>
-                        Start small, scale instantly.
-                    </span>
-                    <span class="mobile-text" style="display: none;">
-                        Stop clicking through menus. Stop waiting for developers. Stop spending valuable time on tasks that AI can automate. Just tell Vilara what you need, and it's done. Works alongside your existing systems. Start small, scale instantly.
-                    </span>
+
+            <div class="ui-mockup">
+                <!-- UI Header -->
+                <div class="ui-header">
+                    <div class="ui-logo">
+                        <img src="assets/images/vilara_logo.png" alt="Vilara">
+                    </div>
+                    <div class="ui-breadcrumb">
+                        <span id="ui-breadcrumb-text">Dashboard / Operations / Management</span>
+                    </div>
+                    <div class="ui-header-actions">
+                        <button class="ui-header-btn">🔔</button>
+                        <button class="ui-header-btn">👤 User</button>
+                        <button class="ui-header-btn ui-ai-toggle">💬 AI</button>
+                    </div>
+                </div>
+
+                <div class="ui-body">
+                    <!-- Sidebar -->
+                    <div class="ui-sidebar">
+                        <div class="ui-sidebar-item">🏠 <span>Dashboard</span></div>
+                        <div class="ui-sidebar-item ui-active" id="ui-active-section">📋 <span>Operations</span></div>
+                        <div class="ui-sidebar-item">👥 <span>Customers</span></div>
+                        <div class="ui-sidebar-item">📦 <span>Inventory</span></div>
+                        <div class="ui-sidebar-item">📊 <span>Reports</span></div>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="ui-main">
+                        <div class="ui-content-header">
+                            <h3 id="ui-content-title">Operations Management</h3>
+                            <div class="ui-content-actions">
+                                <button class="ui-btn-secondary">Export</button>
+                                <button class="ui-btn-primary">+ New Task</button>
+                            </div>
+                        </div>
+
+                        <div class="ui-content-area" id="ui-content-area">
+                            <!-- Dynamic content will be inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- AI Panel -->
+                    <div class="ui-ai-panel">
+                        <div class="ui-ai-header">
+                            <span>AI Assistant</span>
+                            <span class="ui-ai-status"></span>
+                        </div>
+
+                        <div class="ui-ai-chat" id="ui-ai-chat">
+                            <div class="ui-ai-message assistant">
+                                👋 Hi! I can help you manage your business operations. Try asking me something!
+                            </div>
+                        </div>
+
+                        <div class="ui-ai-suggestions">
+                            <div class="ui-suggestion-title">Quick Actions</div>
+                            <div class="ui-suggestion-chips" id="ui-suggestion-chips">
+                                <div class="ui-suggestion-chip">Generate report</div>
+                                <div class="ui-suggestion-chip">Schedule task</div>
+                                <div class="ui-suggestion-chip">Check status</div>
+                                <div class="ui-suggestion-chip">Export data</div>
+                            </div>
+                        </div>
+
+                        <div class="ui-ai-input">
+                            <textarea id="ui-ai-input" placeholder="Ask Vilara anything..." rows="1"></textarea>
+                            <button class="ui-ai-send">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Post-Demo CTA Section -->
+        <div id="post-demo-cta" class="post-demo-cta" style="display: none;">
+            <div style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 1rem; padding: 3rem 2rem; margin: 3rem auto 0 auto; max-width: 800px; text-align: center; color: white;">
+                <h2 style="margin: 0 0 1rem 0; font-size: 2rem;">Ready to Transform Your Business?</h2>
+                <p style="margin: 0 0 2rem 0; font-size: 1.1rem; opacity: 0.9;">
+                    You've seen how Vilara turns complex operations into simple conversations.
+                    Now let's discuss how it can work for your specific business needs.
+                </p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                    <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 0.8rem; padding: 1.5rem;">
+                        <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;">💡 See How It Works</h3>
+                        <p style="margin: 0 0 1rem 0; font-size: 0.9rem; opacity: 0.8;">Deep dive into Vilara's architecture and capabilities</p>
+                        <a href="/how-it-works.html" style="background: rgba(255, 255, 255, 0.2); color: white; padding: 0.6rem 1.2rem; border-radius: 0.4rem; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.3); display: inline-block;">Learn More</a>
+                    </div>
+
+                    <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 0.8rem; padding: 1.5rem;">
+                        <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;">💰 View Pricing</h3>
+                        <p style="margin: 0 0 1rem 0; font-size: 0.9rem; opacity: 0.8;">See transparent pricing and cost comparisons</p>
+                        <a href="/pricing.html" style="background: rgba(255, 255, 255, 0.2); color: white; padding: 0.6rem 1.2rem; border-radius: 0.4rem; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.3); display: inline-block;">See Pricing</a>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="/contact.html#free" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.9rem 2rem; border-radius: 0.5rem; text-decoration: none; font-weight: 600; border: 2px solid rgba(255, 255, 255, 0.3);">Start Free Trial</a>
+                    <a href="/contact.html#consultation" style="background: rgba(255, 255, 255, 0.2); color: white; padding: 0.9rem 2rem; border-radius: 0.5rem; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.4);">Schedule Consultation</a>
+                </div>
+
+                <p style="margin: 1.5rem 0 0 0; font-size: 0.8rem; opacity: 0.7;">
+                    Free tier available for companies under 5 employees • No credit card required
                 </p>
             </div>
         </div>
-        
-        <!-- Slide 10: Closing & CTA -->
-        <div class="slide" id="slide10" style="padding-bottom: 120px;">
-            <div class="logo-container">
-                <a href="/" style="display: inline-block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                    <img src="assets/Vilara_logo_transparent.png" alt="Vilara" style="height: 120px; width: auto; cursor: pointer;">
-                </a>
-            </div>
-            <h2 class="tagline">The operating system that adapts instantly</h2>
-            
-            <ul class="benefits-list">
-                <li class="benefit-item">
-                    <span class="checkmark">✓</span>
-                    <span>95% faster operations</span>
-                </li>
-                <li class="benefit-item">
-                    <span class="checkmark">✓</span>
-                    <span>No seat license costs</span>
-                </li>
-                <li class="benefit-item">
-                    <span class="checkmark">✓</span>
-                    <span>No dev delays</span>
-                </li>
-                <li class="benefit-item">
-                    <span class="checkmark">✓</span>
-                    <span>Works with your current system</span>
-                </li>
-            </ul>
-            
-            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
-                <a href="/contact.html" class="cta-button" style="text-decoration: none;">Start Your Free Trial</a>
-                <a href="/pricing.html" class="cta-button" style="text-decoration: none; background: transparent; border: 2px solid #667eea;">View Pricing</a>
-                <a href="/" class="cta-button" style="text-decoration: none; background: transparent; border: 2px solid #667eea;">Explore Vilara</a>
-            </div>
-            
-            <p style="margin-top: 20px; margin-bottom: 0; font-size: 18px; color: #e0e0e0;">
-                Enterprise efficiency without the enterprise complexity.
-            </p>
-        </div>
     </div>
-    
-    
-    
+
+    <script src="assets/js/main.js"></script>
     <script>
-        let currentSlide = 1;
-        const totalSlides = 10;
-        let animationTimeouts = [];
-        
-        function clearAnimationTimeouts() {
-            animationTimeouts.forEach(timeout => clearTimeout(timeout));
-            animationTimeouts = [];
-        }
-        
-        function typeText(element, text, callback) {
-            element.textContent = text;
-            element.classList.add('active', 'typing');
-            
-            // Remove typing animation after it completes
-            animationTimeouts.push(setTimeout(() => {
-                element.classList.remove('active', 'typing');
-                element.style.width = 'auto';
-                element.style.maxWidth = 'none';
-                if (callback) callback();
-            }, 3000));
-        }
-        
-        function setupWatchButton(chatId, inputId, watchBtnId) {
-            const watchBtn = document.getElementById(watchBtnId);
-            if (!watchBtn) return;
-            
-            // Check if already has event listener (avoid duplicates)
-            if (watchBtn.hasAttribute('data-listener-added')) return;
-            
-            // Add click event listener to watch button
-            const handleWatchClick = () => {
-                watchBtn.style.display = 'none'; // Hide the button after clicking
-                animateChatSequence(chatId, inputId);
-            };
-            
-            watchBtn.addEventListener('click', handleWatchClick);
-            watchBtn.setAttribute('data-listener-added', 'true');
-        }
-        
-        function animateChatSequence(chatId, inputId) {
-            const chatWindow = document.getElementById(chatId);
-            const inputField = document.getElementById(inputId);
-            if (!chatWindow) return;
-            
-            const messages = chatWindow.querySelectorAll('.chat-message');
-            
-            // Hide all messages initially
-            messages.forEach(msg => {
-                msg.classList.remove('show');
-                msg.style.opacity = '0';
-            });
-            
-            // Get the user message
-            const userMessage = messages[0];
-            const messageText = userMessage.dataset.message;
-            const typingSpan = userMessage.querySelector('.typing-text');
-            
-            if (inputField && messageText) {
-                // Simulate typing in the input field
-                let charIndex = 0;
-                function typeInInput() {
-                    if (charIndex <= messageText.length) {
-                        inputField.value = messageText.substring(0, charIndex);
-                        charIndex++;
-                        animationTimeouts.push(setTimeout(typeInInput, 30));
-                    } else {
-                        // After typing is complete, "send" the message
-                        animationTimeouts.push(setTimeout(() => {
-                            inputField.value = '';
-                            
-                            // Show user message in chat
-                            typingSpan.textContent = messageText;
-                            userMessage.style.opacity = '1';
-                            userMessage.classList.add('show');
-                            
-                            // Show thinking message
-                            animationTimeouts.push(setTimeout(() => {
-                                if (messages[1] && messages[1].classList.contains('thinking')) {
-                                    messages[1].style.opacity = '1';
-                                    messages[1].classList.add('show');
-                                    
-                                    // Hide thinking and show responses
-                                    animationTimeouts.push(setTimeout(() => {
-                                        messages[1].style.opacity = '0';
-                                        messages[1].classList.remove('show');
-                                        
-                                        // Show each response message
-                                        for (let i = 2; i < messages.length; i++) {
-                                            animationTimeouts.push(setTimeout(() => {
-                                                messages[i].style.opacity = '1';
-                                                messages[i].classList.add('show');
-                                                // Auto-scroll chat window
-                                                chatWindow.scrollTop = chatWindow.scrollHeight;
-                                                
-                                                // Add click listener to clickable actions after they appear
-                                                if (messages[i].classList.contains('clickable-action')) {
-                                                    addClickableActionListener(messages[i], chatWindow);
-                                                }
-                                            }, (i - 2) * 400));
-                                        }
-                                    }, 1500));
-                                }
-                            }, 500));
-                        }, 500));
-                    }
+        // Industry-specific scenarios with detailed business contexts
+        const industryScenarios = {
+            manufacturing: [
+                {
+                    title: "Production Schedule Optimization",
+                    context: "Material shortage requires production rescheduling",
+                    command: "Reschedule Widget A production for next Tuesday due to steel shortage",
+                    response: "✅ Production rescheduled for March 12th\n📋 Alternative suppliers contacted for expedited steel delivery\n⚠️ Customer notifications prepared for 2-day delay\n📊 Updated delivery commitments: 47 orders affected",
+                    breadcrumb: "Production / Scheduling / Line Management",
+                    activeSection: "📅 Scheduling",
+                    contentTitle: "Production Schedule",
+                    suggestions: ["Reschedule production", "Check material status", "Contact suppliers", "Update customers"]
+                },
+                {
+                    title: "Quality Control Integration",
+                    context: "Failed quality inspection needs immediate action",
+                    command: "Hold all Batch 247 products pending quality review",
+                    response: "🛑 Batch 247 placed on immediate hold\n🔍 Quality team notified for urgent review\n📦 Shipping blocked for 2,847 units\n📋 Root cause analysis initiated\n📞 Customer service team briefed",
+                    breadcrumb: "Quality / Control / Batch Management",
+                    activeSection: "🔍 Quality",
+                    contentTitle: "Quality Control Dashboard",
+                    suggestions: ["Hold batch", "Review quality", "Analyze issues", "Update procedures"]
+                },
+                {
+                    title: "Supply Chain Management",
+                    context: "Critical component shortage across multiple lines",
+                    command: "Find alternative suppliers for Part X-7429 needed for tomorrow's production",
+                    response: "🔍 Found 3 alternative suppliers:\n✅ MegaCorp Industries - 500 units available, $2.40/unit\n✅ Precision Parts Ltd - 300 units, $2.60/unit\n⚠️ Budget Impact: +15% cost increase\n📞 Purchasing team contacted for approval",
+                    breadcrumb: "Supply Chain / Procurement / Parts",
+                    activeSection: "🚚 Supply Chain",
+                    contentTitle: "Supplier Management",
+                    suggestions: ["Find suppliers", "Check inventory", "Compare prices", "Place orders"]
+                },
+                {
+                    title: "Inventory Optimization",
+                    context: "Warehouse space optimization needed",
+                    command: "Optimize warehouse layout for Q2 production increase",
+                    response: "📊 Warehouse optimization complete:\n📦 Storage capacity increased by 23%\n🚛 Loading dock efficiency improved by 18%\n📋 New layout assigns high-velocity items to prime locations\n⏱️ Pick time reduced by average 2.3 minutes",
+                    breadcrumb: "Warehouse / Layout / Optimization",
+                    activeSection: "📦 Warehouse",
+                    contentTitle: "Warehouse Management",
+                    suggestions: ["Optimize layout", "Check capacity", "Analyze flow", "Update assignments"]
+                },
+                {
+                    title: "Compliance Reporting",
+                    context: "Automated regulatory compliance documentation",
+                    command: "Generate EPA compliance report for February manufacturing",
+                    response: "📑 EPA Compliance Report Generated:\n✅ All emission standards met (98.7% efficiency)\n📊 Waste reduction: 12% vs January\n🔍 Zero safety incidents recorded\n📧 Report submitted to regulatory portal automatically",
+                    breadcrumb: "Compliance / EPA / Monthly Reports",
+                    activeSection: "📋 Compliance",
+                    contentTitle: "Regulatory Dashboard",
+                    suggestions: ["Generate reports", "Check compliance", "Review standards", "Submit filings"]
                 }
-                typeInInput();
-            }
-        }
-        
-        function animateProcessChanges() {
-            const chatWindow = document.getElementById('chat8');
-            if (!chatWindow) return;
-            
-            const messages = chatWindow.querySelectorAll('.chat-message');
-            messages.forEach(msg => {
-                msg.classList.remove('show');
-                msg.style.opacity = '0';
-            });
-            
-            let messageIndex = 0;
-            
-            function showNextPair() {
-                if (messageIndex < messages.length) {
-                    const userMsg = messages[messageIndex];
-                    
-                    if (userMsg && userMsg.classList.contains('user')) {
-                        const messageText = userMsg.dataset.message;
-                        const typingSpan = userMsg.querySelector('.typing-text');
-                        
-                        // Type the user message
-                        typingSpan.textContent = '';
-                        userMsg.style.opacity = '1';
-                        userMsg.classList.add('show');
-                        
-                        typeText(typingSpan, messageText, () => {
-                            // Show all response messages until next user message
-                            animationTimeouts.push(setTimeout(() => {
-                                let nextIndex = messageIndex + 1;
-                                
-                                // Show all response messages for this user input
-                                function showResponses() {
-                                    if (nextIndex < messages.length && !messages[nextIndex].classList.contains('user')) {
-                                        const responseMsg = messages[nextIndex];
-                                        responseMsg.style.opacity = '1';
-                                        responseMsg.classList.add('show');
-                                        
-                                        // Scroll immediately as message appears
-                                        animationTimeouts.push(setTimeout(() => {
-                                            const chatRect = chatWindow.getBoundingClientRect();
-                                            const msgRect = responseMsg.getBoundingClientRect();
-                                            if (msgRect.bottom > chatRect.bottom) {
-                                                chatWindow.scrollTop = chatWindow.scrollTop + (msgRect.bottom - chatRect.bottom) + 20;
-                                            }
-                                        }, 100));
-                                        
-                                        nextIndex++;
-                                        animationTimeouts.push(setTimeout(showResponses, 500));
-                                    } else {
-                                        // All responses shown, move to next user message
-                                        messageIndex = nextIndex;
-                                        animationTimeouts.push(setTimeout(showNextPair, 2000));
-                                    }
-                                }
-                                
-                                showResponses();
-                            }, 800));
-                        });
-                    }
+            ],
+            retail: [
+                {
+                    title: "Inventory Management",
+                    context: "Multi-location stock balancing across stores",
+                    command: "Balance winter coat inventory across all 12 store locations",
+                    response: "🔄 Inventory rebalancing initiated:\n📦 Metro Store: +47 units from Warehouse B\n📦 Suburban Mall: +23 units from Downtown\n📊 Optimal distribution achieved\n🚚 Transfer orders created, delivery scheduled for Thursday",
+                    breadcrumb: "Inventory / Management / Multi-Store",
+                    activeSection: "📦 Inventory",
+                    contentTitle: "Store Inventory Dashboard",
+                    suggestions: ["Balance inventory", "Check stock levels", "Transfer items", "Update forecasts"]
+                },
+                {
+                    title: "Customer Returns Processing",
+                    context: "Streamlined return authorization and restocking",
+                    command: "Process return for Order #R-89234 and update customer account",
+                    response: "✅ Return authorized for Order #R-89234\n💳 $127.50 refund processed to original payment method\n📦 Item inspection scheduled for quality check\n🔄 Restocking approved - item returned to available inventory\n📧 Customer confirmation email sent",
+                    breadcrumb: "Orders / Returns / Processing",
+                    activeSection: "🔄 Returns",
+                    contentTitle: "Return Management",
+                    suggestions: ["Process returns", "Check item condition", "Issue refunds", "Update inventory"]
+                },
+                {
+                    title: "Supplier Negotiations",
+                    context: "Vendor contract optimization and cost management",
+                    command: "Negotiate better terms with our top 5 suppliers for Q2",
+                    response: "💼 Supplier negotiations completed:\n📈 Average cost reduction: 8.5%\n📅 Extended payment terms: 30 → 45 days\n📦 Improved delivery guarantees: 95% on-time\n💰 Projected annual savings: $284,000",
+                    breadcrumb: "Suppliers / Contracts / Negotiations",
+                    activeSection: "🤝 Suppliers",
+                    contentTitle: "Supplier Management",
+                    suggestions: ["Negotiate contracts", "Review terms", "Compare suppliers", "Track performance"]
+                },
+                {
+                    title: "Seasonal Planning",
+                    context: "Data-driven seasonal inventory and staffing",
+                    command: "Prepare spring inventory plan based on last 3 years data",
+                    response: "🌸 Spring 2024 Plan Generated:\n📊 Recommended inventory increase: 35% for gardening supplies\n👥 Staffing adjustment: +4 seasonal associates needed\n📈 Projected revenue increase: 22% vs last spring\n📋 Purchase orders ready for approval - $145,000 total",
+                    breadcrumb: "Planning / Seasonal / Spring 2024",
+                    activeSection: "📅 Planning",
+                    contentTitle: "Seasonal Dashboard",
+                    suggestions: ["Plan inventory", "Forecast demand", "Schedule staff", "Review performance"]
+                },
+                {
+                    title: "Multi-Channel Operations",
+                    context: "Unified online and in-store inventory management",
+                    command: "Sync inventory between online store and physical locations for Black Friday",
+                    response: "🔄 Omnichannel sync activated:\n🌐 Online inventory updated real-time across all channels\n🏪 In-store pickup enabled for 89% of products\n📱 Mobile app inventory matches physical stores\n⚡ Real-time stock updates every 30 seconds during peak hours",
+                    breadcrumb: "Omnichannel / Sync / Black Friday",
+                    activeSection: "🌐 Omnichannel",
+                    contentTitle: "Channel Management",
+                    suggestions: ["Sync inventory", "Enable pickup", "Update channels", "Monitor performance"]
                 }
-            }
-            
-            showNextPair();
-        }
-        
-        function showSlide(n) {
-            clearAnimationTimeouts();
-            
-            const slides = document.getElementsByClassName('slide');
-            
-            if (n > totalSlides) currentSlide = 1;
-            if (n < 1) currentSlide = totalSlides;
-            
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].classList.remove('active');
-            }
-            
-            slides[currentSlide - 1].classList.add('active');
-            
-            // Update all slide counters (corner navigation)
-            const slideCounters = document.querySelectorAll('.current-slide');
-            slideCounters.forEach(counter => {
-                if (counter) counter.textContent = currentSlide;
-            });
-            
-            // Trigger animations for specific slides
-            if (currentSlide === 2) {
-                setupWatchButton('chat1', 'input1', 'watchBtn1');
-            } else if (currentSlide === 3) {
-                setupWatchButton('chat2', 'input2', 'watchBtn2');
-            } else if (currentSlide === 4) {
-                setupWatchButton('chat3', 'input3', 'watchBtn3');
-            } else if (currentSlide === 5) {
-                setupWatchButton('chat4', 'input4', 'watchBtn4');
-            } else if (currentSlide === 6) {
-                // Animate bars on savings slide
-                animationTimeouts.push(setTimeout(() => {
-                    const traditionalBar = document.getElementById('traditionalBar');
-                    const vilaraBar = document.getElementById('vilaraBar');
-                    if (traditionalBar) {
-                        traditionalBar.style.height = '170px'; // Proportional to 6 min avg (15% smaller)
-                    }
-                    if (vilaraBar) {
-                        vilaraBar.style.height = '17px'; // Small bar for Vilara (15% smaller)
-                    }
-                }, 500));
-            } else if (currentSlide === 8) {
-                animationTimeouts.push(setTimeout(() => {
-                    animateProcessChanges();
-                }, 500));
-            }
-        }
-        
-        function changeSlide(n) {
-            currentSlide += n;
-            showSlide(currentSlide);
-            
-            // Scroll to top of page when changing slides
-            window.scrollTo(0, 0);
-            
-            // Reset watch buttons visibility when changing slides
-            const watchButtons = document.querySelectorAll('.watch-demo-btn');
-            watchButtons.forEach(btn => {
-                btn.style.display = 'block';
-            });
-        }
-        
-        function startOver() {
-            // Do a hard page refresh to completely reset everything
-            window.location.reload(true);
-        }
-        
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') changeSlide(-1);
-            if (e.key === 'ArrowRight') changeSlide(1);
-            if (e.key === ' ' || e.key === 'Enter') changeSlide(1);
-        });
-        
-        function addClickableActionListener(element, chatWindow) {
-            element.addEventListener('click', function() {
-                const action = this.dataset.action;
-                
-                // Change the message to show completion
-                const actionMessages = {
-                    'email-invoices': '📧 All invoices emailed to customers ✓',
-                    'notify-acme': '📧 Confirmation sent to Acme Corp ✓',
-                    'email-report': '📧 Report emailed to stakeholders ✓',
-                    'send-welcome': '📧 Welcome email sent to customer ✓'
-                };
-                
-                if (actionMessages[action]) {
-                    // Add click animation
-                    this.style.transform = 'scale(0.95)';
-                    this.style.opacity = '0.7';
-                    
-                    setTimeout(() => {
-                        this.textContent = actionMessages[action];
-                        this.style.backgroundColor = '#22c55e'; // Success green
-                        this.style.border = '1px solid rgba(34, 197, 94, 0.5)';
-                        this.style.transform = 'scale(1)';
-                        this.style.opacity = '1';
-                        this.style.cursor = 'default';
-                        this.classList.remove('clickable-action');
-                        
-                        // Auto-scroll to show the updated message
-                        chatWindow.scrollTop = chatWindow.scrollHeight;
-                    }, 150);
+            ],
+            services: [
+                {
+                    title: "Project Management",
+                    context: "Resource allocation and timeline optimization",
+                    command: "Reallocate developers from Project Alpha to urgent Project Beta",
+                    response: "👥 Resource reallocation complete:\n🔄 3 senior developers moved to Project Beta\n📅 Project Alpha timeline extended by 5 days\n⚠️ Client notifications sent for both projects\n📊 New delivery dates: Alpha (March 15), Beta (February 28)",
+                    breadcrumb: "Projects / Resources / Allocation",
+                    activeSection: "👥 Projects",
+                    contentTitle: "Project Dashboard",
+                    suggestions: ["Allocate resources", "Update timelines", "Notify clients", "Track progress"]
+                },
+                {
+                    title: "Client Billing Automation",
+                    context: "Automated invoice generation and time tracking",
+                    command: "Generate invoices for all January consulting work",
+                    response: "💰 January billing completed:\n📋 47 invoices generated across 23 clients\n⏱️ Total billable hours: 1,847 hours\n💵 Total invoiced amount: $423,150\n📧 All invoices sent via email with payment links",
+                    breadcrumb: "Billing / Invoices / January 2024",
+                    activeSection: "💰 Billing",
+                    contentTitle: "Billing Dashboard",
+                    suggestions: ["Generate invoices", "Track time", "Process payments", "Review billing"]
+                },
+                {
+                    title: "Resource Allocation",
+                    context: "Skills-based project staffing optimization",
+                    command: "Staff the new blockchain project with available consultants",
+                    response: "🎯 Optimal team assembled:\n👨‍💻 Lead: Sarah Kim (Blockchain expert, available March 1)\n👩‍💻 Developer: Mike Chen (Smart contracts, available now)\n👨‍💼 Analyst: John Davis (DeFi experience, 80% available)\n📊 Team capacity: 2.8 FTE for 12-week project",
+                    breadcrumb: "Resources / Staffing / Blockchain Project",
+                    activeSection: "👥 Resources",
+                    contentTitle: "Resource Management",
+                    suggestions: ["Staff projects", "Check availability", "Match skills", "Plan capacity"]
+                },
+                {
+                    title: "Expense Tracking",
+                    context: "Real-time expense monitoring and approval",
+                    command: "Review and approve all pending expense reports over $500",
+                    response: "✅ Expense review completed:\n📊 12 reports reviewed totaling $18,450\n✅ 10 reports approved ($16,200)\n❌ 2 reports flagged for missing receipts\n💳 Approved expenses queued for next payroll cycle",
+                    breadcrumb: "Expenses / Approval / Pending Review",
+                    activeSection: "💳 Expenses",
+                    contentTitle: "Expense Management",
+                    suggestions: ["Review expenses", "Approve reports", "Flag issues", "Process payments"]
+                },
+                {
+                    title: "Contract Management",
+                    context: "Automated contract lifecycle and renewals",
+                    command: "Check which client contracts expire in the next 90 days",
+                    response: "📋 Contract renewal pipeline:\n⚠️ 8 contracts expiring in next 90 days\n💰 Total value at risk: $1.2M annually\n📞 Renewal discussions scheduled with 6 clients\n📧 Automated renewal reminders sent to account managers",
+                    breadcrumb: "Contracts / Renewals / 90-Day Pipeline",
+                    activeSection: "📄 Contracts",
+                    contentTitle: "Contract Dashboard",
+                    suggestions: ["Check renewals", "Schedule discussions", "Review terms", "Track progress"]
                 }
-            });
-        }
-        
-        
-        // Add navigation to all slides (both desktop and mobile)
-        function addNavigationToSlides() {
-            const slides = document.querySelectorAll('.slide');
-            const totalSlides = slides.length;
-            
-            slides.forEach((slide, index) => {
-                const slideNum = index + 1;
-                
-                // Don't add navigation if it already exists
-                if (slide.querySelector('.slide-progress')) {
-                    return;
+            ],
+            finance: [
+                {
+                    title: "Budget Approvals",
+                    context: "Multi-level approval workflow automation",
+                    command: "Route the $75k marketing budget request through approval chain",
+                    response: "📝 Budget approval initiated:\n✅ Department head approved ($75,000)\n⏳ CFO review pending (auto-escalated due to amount)\n📧 Notification sent to executive committee\n📊 Current budget utilization: 67% of annual allocation",
+                    breadcrumb: "Budget / Approvals / Marketing Request",
+                    activeSection: "💰 Budget",
+                    contentTitle: "Budget Management",
+                    suggestions: ["Route approvals", "Check utilization", "Review requests", "Track spending"]
+                },
+                {
+                    title: "Financial Reporting",
+                    context: "Automated financial statement generation",
+                    command: "Generate Q1 financial statements with variance analysis",
+                    response: "📊 Q1 Financial Package Complete:\n📈 Revenue: $2.8M (+12% vs budget)\n📉 Expenses: $2.1M (-3% vs budget)\n💰 Net Income: $700K (+28% vs budget)\n📋 Variance analysis highlights: Strong sales performance, controlled costs",
+                    breadcrumb: "Reports / Financial / Q1 2024",
+                    activeSection: "📊 Reports",
+                    contentTitle: "Financial Reporting",
+                    suggestions: ["Generate reports", "Analyze variances", "Review performance", "Create summaries"]
+                },
+                {
+                    title: "Vendor Payments",
+                    context: "Automated payment processing and approvals",
+                    command: "Process all approved vendor payments due this week",
+                    response: "💳 Payment batch processed:\n✅ 34 vendor payments totaling $187,500\n🏦 ACH transfers scheduled for Wednesday\n📧 Payment confirmations sent to vendors\n📋 Cash flow impact: Updated treasury forecast shows healthy liquidity",
+                    breadcrumb: "Payments / Vendors / Weekly Batch",
+                    activeSection: "💳 Payments",
+                    contentTitle: "Payment Processing",
+                    suggestions: ["Process payments", "Schedule transfers", "Update forecasts", "Confirm vendors"]
+                },
+                {
+                    title: "Reconciliation Automation",
+                    context: "Bank and account reconciliation with AI matching",
+                    command: "Reconcile February bank statements across all accounts",
+                    response: "🔍 Bank reconciliation complete:\n✅ 3 accounts reconciled automatically (99.2% match rate)\n⚠️ 4 discrepancies identified totaling $2,340\n📋 Journal entries created for timing differences\n👨‍💼 Accounting manager notified of items requiring review",
+                    breadcrumb: "Reconciliation / Bank / February 2024",
+                    activeSection: "🔍 Reconciliation",
+                    contentTitle: "Account Reconciliation",
+                    suggestions: ["Reconcile accounts", "Review discrepancies", "Create entries", "Update records"]
+                },
+                {
+                    title: "Audit Preparation",
+                    context: "Automated audit trail and documentation",
+                    command: "Prepare audit documentation for revenue recognition review",
+                    response: "📁 Audit package prepared:\n📊 Revenue transactions: 2,847 items documented\n📋 Supporting contracts: 156 agreements compiled\n🔍 Internal controls testing: 12 processes documented\n📧 Audit firm portal updated with all documentation ready for review",
+                    breadcrumb: "Audit / Revenue / Documentation",
+                    activeSection: "🔍 Audit",
+                    contentTitle: "Audit Preparation",
+                    suggestions: ["Prepare documentation", "Test controls", "Compile agreements", "Update portal"]
                 }
-                
-                // Create navigation HTML
-                const navHTML = `
-                    <div class="slide-progress">
-                        <span class="current-slide">${slideNum}</span> / <span class="total-slides">${totalSlides}</span>
-                    </div>
-                    <div class="slide-nav-top">
-                        <button class="nav-btn exit" onclick="window.location.href='/'" title="Exit Demo">✕</button>
-                    </div>
-                    <div class="slide-nav">
-                        ${slideNum > 1 ? `<button class="nav-btn" onclick="changeSlide(-1)" title="Previous">←</button>` : ''}
-                        ${slideNum < totalSlides ? `<button class="nav-btn" onclick="changeSlide(1)" title="Next">→</button>` : ''}
-                        ${slideNum === totalSlides ? `<button class="nav-btn" onclick="startOver()" title="Start Over">↻</button>` : ''}
-                    </div>
-                `;
-                
-                // Insert at the beginning of the slide
-                slide.insertAdjacentHTML('afterbegin', navHTML);
-            });
-        }
-        
-        // Initialize
+            ]
+        };
+
+        let currentIndustry = null;
+        let currentScenarioIndex = 0;
+        let userInteractions = 0;
+        let showedCTA = false;
+
+        // Initialize demo
         document.addEventListener('DOMContentLoaded', function() {
-            addNavigationToSlides();  // Add navigation first
-            showSlide(1);
+            setupIndustrySelector();
         });
-        
-        // Also run immediately if DOM is already loaded
-        if (document.readyState === 'loading') {
-            // Still loading, wait for DOMContentLoaded
-        } else {
-            // DOM is already loaded
-            addNavigationToSlides();  // Add navigation first
-            showSlide(1);
+
+        function setupIndustrySelector() {
+            const industryCards = document.querySelectorAll('.industry-card');
+            industryCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const industry = this.dataset.industry;
+                    showIndustryDemo(industry);
+                });
+            });
+        }
+
+        function showIndustryDemo(industry) {
+            currentIndustry = industry;
+            currentScenarioIndex = 0;
+
+            // Hide industry selector, show UI demo
+            document.getElementById('industry-selector').style.display = 'none';
+            document.getElementById('ui-demo').classList.add('active');
+
+            // Update industry title
+            const industryNames = {
+                manufacturing: 'Manufacturing',
+                retail: 'Retail & E-commerce',
+                services: 'Professional Services',
+                finance: 'Finance & Operations'
+            };
+            document.getElementById('current-industry-title').textContent = industryNames[industry] + ' Scenarios';
+
+            // Setup scenario buttons
+            setupScenarioButtons(industry);
+
+            // Load first scenario
+            loadScenario(industry, 0);
+        }
+
+        function setupScenarioButtons(industry) {
+            const scenarios = industryScenarios[industry];
+            const container = document.getElementById('scenario-buttons');
+            container.innerHTML = '';
+
+            scenarios.forEach((scenario, index) => {
+                const button = document.createElement('div');
+                button.className = 'scenario-btn' + (index === 0 ? ' active' : '');
+                button.textContent = scenario.title;
+                button.onclick = () => {
+                    currentScenarioIndex = index;
+                    loadScenario(industry, index);
+                    // Update active button
+                    container.querySelectorAll('.scenario-btn').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                };
+                container.appendChild(button);
+            });
+        }
+
+        function loadScenario(industry, scenarioIndex) {
+            const scenario = industryScenarios[industry][scenarioIndex];
+
+            // Update UI elements
+            document.getElementById('ui-breadcrumb-text').textContent = scenario.breadcrumb;
+            document.getElementById('ui-active-section').innerHTML = scenario.activeSection;
+            document.getElementById('ui-content-title').textContent = scenario.contentTitle;
+
+            // Update suggestions
+            const suggestionsContainer = document.getElementById('ui-suggestion-chips');
+            suggestionsContainer.innerHTML = '';
+            scenario.suggestions.forEach(suggestion => {
+                const chip = document.createElement('div');
+                chip.className = 'ui-suggestion-chip';
+                chip.textContent = suggestion;
+                suggestionsContainer.appendChild(chip);
+            });
+
+            // Clear and setup AI chat
+            const chatContainer = document.getElementById('ui-ai-chat');
+            chatContainer.innerHTML = `
+                <div class="ui-ai-message assistant">
+                    🎯 <strong>Context:</strong> ${scenario.context}<br><br>
+                    Try the command: "<em>${scenario.command}</em>"
+                </div>
+            `;
+
+            // Setup input functionality
+            const input = document.getElementById('ui-ai-input');
+            const sendBtn = document.querySelector('.ui-ai-send');
+
+            input.value = '';
+            input.placeholder = `Try: ${scenario.command}`;
+
+            function handleSend() {
+                const message = input.value.trim();
+                if (message) {
+                    // Track user interaction
+                    userInteractions++;
+
+                    // Add user message
+                    const userMsg = document.createElement('div');
+                    userMsg.className = 'ui-ai-message user';
+                    userMsg.textContent = message;
+                    chatContainer.appendChild(userMsg);
+
+                    // Add AI response
+                    setTimeout(() => {
+                        const aiMsg = document.createElement('div');
+                        aiMsg.className = 'ui-ai-message assistant';
+                        aiMsg.innerHTML = `🤖 ${scenario.response.replace(/\n/g, '<br>')}`;
+                        chatContainer.appendChild(aiMsg);
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+                        // Show CTA after user has interacted with scenarios
+                        if (userInteractions >= 2 && !showedCTA) {
+                            showedCTA = true;
+                            setTimeout(() => {
+                                document.getElementById('post-demo-cta').style.display = 'block';
+                                document.getElementById('post-demo-cta').scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'center'
+                                });
+                            }, 2000);
+                        }
+                    }, 1000);
+
+                    input.value = '';
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }
+            }
+
+            sendBtn.onclick = handleSend;
+            input.onkeypress = function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend();
+                }
+            };
+        }
+
+        function showIndustrySelector() {
+            document.getElementById('industry-selector').style.display = 'block';
+            document.getElementById('ui-demo').classList.remove('active');
+            currentIndustry = null;
         }
     </script>
 </body>
