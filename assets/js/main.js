@@ -569,22 +569,22 @@ function initializeUIShowcase() {
                         <div>Status</div>
                     </div>
                     <div class="ui-table-row">
-                        <div>INV-2024-1247</div>
-                        <div>Acme Corporation</div>
-                        <div>$4,250</div>
-                        <div><span class="ui-status-new">Just Created</span></div>
+                        <div data-label="Invoice #">INV-2024-1247</div>
+                        <div data-label="Customer">Acme Corporation</div>
+                        <div data-label="Amount">$4,250</div>
+                        <div data-label="Status"><span class="ui-status-new">Just Created</span></div>
                     </div>
                     <div class="ui-table-row">
-                        <div>INV-2024-1246</div>
-                        <div>Tech Solutions Inc</div>
-                        <div>$2,150</div>
-                        <div><span class="ui-status-new">Just Created</span></div>
+                        <div data-label="Invoice #">INV-2024-1246</div>
+                        <div data-label="Customer">Tech Solutions Inc</div>
+                        <div data-label="Amount">$2,150</div>
+                        <div data-label="Status"><span class="ui-status-new">Just Created</span></div>
                     </div>
                     <div class="ui-table-row">
-                        <div>INV-2024-1245</div>
-                        <div>Global Traders</div>
-                        <div>$1,890</div>
-                        <div><span class="ui-status-new">Just Created</span></div>
+                        <div data-label="Invoice #">INV-2024-1245</div>
+                        <div data-label="Customer">Global Traders</div>
+                        <div data-label="Amount">$1,890</div>
+                        <div data-label="Status"><span class="ui-status-new">Just Created</span></div>
                     </div>
                 </div>
             `
@@ -606,22 +606,22 @@ function initializeUIShowcase() {
                         <div>Status</div>
                     </div>
                     <div class="ui-table-row">
-                        <div>PO-2024-0891</div>
-                        <div>Acme Corporation</div>
-                        <div>$3,200</div>
-                        <div><span class="ui-status-approved">Just Approved</span></div>
+                        <div data-label="PO #">PO-2024-0891</div>
+                        <div data-label="Vendor">Acme Corporation</div>
+                        <div data-label="Amount">$3,200</div>
+                        <div data-label="Status"><span class="ui-status-approved">Just Approved</span></div>
                     </div>
                     <div class="ui-table-row">
-                        <div>PO-2024-0889</div>
-                        <div>Acme Corporation</div>
-                        <div>$4,750</div>
-                        <div><span class="ui-status-approved">Just Approved</span></div>
+                        <div data-label="PO #">PO-2024-0889</div>
+                        <div data-label="Vendor">Acme Corporation</div>
+                        <div data-label="Amount">$4,750</div>
+                        <div data-label="Status"><span class="ui-status-approved">Just Approved</span></div>
                     </div>
                     <div class="ui-table-row">
-                        <div>PO-2024-0887</div>
-                        <div>Acme Corporation</div>
-                        <div>$1,450</div>
-                        <div><span class="ui-status-approved">Just Approved</span></div>
+                        <div data-label="PO #">PO-2024-0887</div>
+                        <div data-label="Vendor">Acme Corporation</div>
+                        <div data-label="Amount">$1,450</div>
+                        <div data-label="Status"><span class="ui-status-approved">Just Approved</span></div>
                     </div>
                 </div>
             `
