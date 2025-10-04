@@ -669,33 +669,6 @@ footer {
     margin: 0 auto;
  }
 
- .example-item{
-    grid-template-columns: 1fr;
-    row-gap:6px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* Command: allow wrapping; never cut off */
-  .example-command{
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-    word-break: break-word;       /* break long tokens if needed */
-    overflow-wrap: anywhere;      /* extra safety for small screens */
-    min-width: 0;
-  }
-
-  /* Time: on its own line, right-aligned, no badge bg */
-  .example-time{
-    justify-self: end;
-    align-self: start;
-    text-align: right;
-    white-space: nowrap;          /* keep as one line */
-    background: none !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-  }
 }
 
 @media (max-width: 768px) {
@@ -1780,7 +1753,7 @@ footer {
         border-left: none;
         border-top: 1px solid #e5e7eb;
         order: 2;
-        max-height: 400px;
+        max-height: 500px;
     }
 
     .ui-ai-header {
@@ -1790,8 +1763,8 @@ footer {
 
     .ui-ai-chat {
         padding: 0.75rem;
-        max-height: 200px;
-        min-height: 150px;
+        max-height: 300px;
+        min-height: 220px;
     }
 
     .ui-ai-message {
@@ -1968,12 +1941,12 @@ footer {
     }
 
     .ui-ai-panel {
-        max-height: 350px;
+        max-height: 450px;
     }
 
     .ui-ai-chat {
-        max-height: 160px;
-        min-height: 120px;
+        max-height: 280px;
+        min-height: 200px;
         padding: 0.5rem;
     }
 
